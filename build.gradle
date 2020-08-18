@@ -1,0 +1,41 @@
+plugins {
+    id "org.jetbrains.intellij" version "0.4.21"
+    id 'java'
+    id "idea"
+}
+
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'java'
+
+dependencies {
+    implementation(
+            "com.redhat.devtools.intellij:intellij-common:0.0.1-SNAPSHOT"
+    )
+}
+
+group 'org.jboss.tools.intellij'
+version projectVersion
+
+intellij {
+    version ideaVersion
+    pluginName 'org.jboss.tools.intellij.mta'
+    updateSinceUntilBuild false
+}
+
+publishPlugin {
+    token    jetBrainsToken
+    channels jetBrainsChannel
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url 'https://repository.jboss.org'
+    }
+}
+
+// dependencies {
+//     testCompile group: 'junit', name: 'junit', version: '4.12'
+// }

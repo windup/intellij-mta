@@ -1,0 +1,5 @@
+<idea-plugin>
+    <id>org.jboss.tools.intellij.mta</id>
+    <name>Migration Toolkit for Applications (MTA) by Red Hat</name>
+    <vendor email="support@redhat.com" url="http://www.redhat.com">Red Hat</vendor>
+</idea-plugin>
