@@ -1,0 +1,37 @@
+#################################
+# Compiled source               #
+#################################
+build/
+out/
+
+#################################
+# Gradle files                  #
+#################################
+.gradle/
+!gradle-wrapper.jar
+gradle-app.setting
+
+#################################
+# IDE generated files           #
+#################################
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+*.ipr
+*.iws
+
+#################################
+# Logs and temp files           #
+#################################
+*.log
+*.tmp
+*~
+
+#################################
+# OS generated files            #
+#################################
+Thumbs.db
+.directory
+.DS_Store
