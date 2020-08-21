@@ -5,14 +5,7 @@ plugins {
 }
 
 apply plugin: 'idea'
-apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
-
-dependencies {
-    implementation(
-            "com.redhat.devtools.intellij:intellij-common:0.0.1-SNAPSHOT"
-    )
-}
 
 group 'org.jboss.tools.intellij'
 version projectVersion
@@ -26,7 +19,7 @@ intellij {
 publishPlugin {
     token    jetBrainsToken
     channels jetBrainsChannel
-}
+} 
 
 repositories {
     mavenLocal()
