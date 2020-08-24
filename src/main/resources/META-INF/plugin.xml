@@ -2,4 +2,11 @@
     <id>org.jboss.tools.intellij.mta</id>
     <name>Migration Toolkit for Applications (MTA) by Red Hat</name>
     <vendor email="support@redhat.com" url="http://www.redhat.com">Red Hat</vendor>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Migration Toolkit for Applications"
+                    anchor="left"
+                    factoryClass="org.jboss.tools.intellij.mta.explorer.MtaExplorerFactory"
+                    icon="/META-INF/pluginIcon13x13.svg"/>
+    </extensions>
 </idea-plugin>
