@@ -6,7 +6,16 @@
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Migration Toolkit for Applications"
                     anchor="left"
-                    factoryClass="org.jboss.tools.intellij.mta.explorer.MtaExplorerFactory"
-                    icon="/META-INF/pluginIcon13x13.svg"/>
+                    factoryClass="org.jboss.tools.intellij.mta.explorer.MtaExplorerFactory"/>
     </extensions>
+
+    <actions>
+        <group id="org.jboss.tools.intellij.mta.explorer" popup="true" compact="false">
+            <action class="org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction"
+                    id="org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction"
+                    text="Run Configuration"
+                    icon="AllIcons.General.Run">
+            </action>
+        </group>
+    </actions>
 </idea-plugin>

@@ -8,6 +8,7 @@ import com.intellij.ui.components.panels.NonOpaquePanel;
 import com.intellij.ui.tree.AsyncTreeModel;
 import com.intellij.ui.tree.StructureTreeModel;
 import com.intellij.ui.treeStructure.Tree;
+import org.jboss.tools.intellij.mta.cli.MtaCliRunner;
 import org.jboss.tools.intellij.mta.explorer.nodes.MtaExplorerNode;
 import org.jboss.tools.intellij.mta.explorer.nodes.MtaExplorerRootNode;
 import org.jboss.tools.intellij.mta.explorer.nodes.MtaNodeModel;
@@ -21,11 +22,13 @@ import java.awt.event.MouseEvent;
 public class MtaToolWindow extends SimpleToolWindowPanel {
 
     private MtaModel mtaModel;
+    private MtaCliRunner cliRunner;
 
     public MtaToolWindow(MtaModel mtaModel) {
         super(true, true);
         this.mtaModel = mtaModel;
         this.init();
+        this.cliRunner = new MtaCliRunner();
     }
 
     private void init() {
