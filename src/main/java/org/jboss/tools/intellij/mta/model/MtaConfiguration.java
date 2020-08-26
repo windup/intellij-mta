@@ -18,6 +18,10 @@ public class MtaConfiguration {
         return this.options;
     }
 
+    public void addOption(String option, String value) {
+        this.options.put(option, value);
+    }
+
     public AnalysisResults getAnalysisRestuls() {
         return this.analysisResults;
     }

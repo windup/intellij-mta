@@ -4,6 +4,7 @@
 build/
 out/
 bin
+.bin
 
 #################################
 # Gradle files                  #

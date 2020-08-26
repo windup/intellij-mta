@@ -1,7 +1,9 @@
 package org.jboss.tools.intellij.mta.explorer;
 
+import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.ui.DoubleClickListener;
+import com.intellij.ui.PopupHandler;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.TreeUIHelper;
 import com.intellij.ui.components.panels.NonOpaquePanel;
@@ -44,6 +46,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
         JScrollPane mtaTreePanel = ScrollPaneFactory.createScrollPane(mtaTree);
         NonOpaquePanel treePanelWrapper = new NonOpaquePanel();
         treePanelWrapper.setContent(mtaTreePanel);
+        PopupHandler.installPopupHandler(mtaTree, "org.jboss.tools.intellij.mta.explorer", ActionPlaces.UNKNOWN);
         super.setContent(treePanelWrapper);
     }
 
