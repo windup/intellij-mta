@@ -26,7 +26,13 @@ public class MtaNodeModel {
         });
     }
 
+    public MtaModel getModel() {
+        return this.mtaModel;
+    }
+
     public List<ConfigurationNode> getConfigurationNodes() {
+        this.configurationNodes.clear();
+        this.buildModel();
         return this.configurationNodes;
     }
 }
