@@ -1,5 +1,9 @@
 package org.jboss.tools.intellij.mta.cli;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
 public class ProgressMonitor {
 
     public static interface IProgressListener {
@@ -133,5 +137,21 @@ public class ProgressMonitor {
         System.out.println("analysis complete...");
         this.finalizing = true;
         this.progressListener.onComplete();
+    }
+
+    public static ProgressMessage parse(JsonParser jsonParser, String line) throws JsonSyntaxException {
+        JsonObject json = jsonParser.parse(line).getAsJsonObject();
+        ProgressMonitor.ProgressMessage msg = new ProgressMonitor.ProgressMessage();
+        msg.op = json.get("op").getAsString();
+        if (json.has("value")) {
+            msg.value = json.get("value").getAsString();
+        }
+        if (json.has("task")) {
+            msg.task = json.get("task").getAsString();
+        }
+        if (json.has("totalWork")) {
+            msg.totalWork = json.get("totalWork").getAsInt();
+        }
+        return msg;
     }
 }
