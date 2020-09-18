@@ -16,6 +16,16 @@
                     text="Run Configuration"
                     icon="AllIcons.General.Run">
             </action>
+            <action class="org.jboss.tools.intellij.mta.explorer.actions.NewConfigurationAction"
+                    id="org.jboss.tools.intellij.mta.explorer.actions.NewConfigurationAction"
+                    text="New Configuration"
+                    icon="AllIcons.Welcome.CreateNewProject">
+            </action>
+            <action class="org.jboss.tools.intellij.mta.explorer.actions.DeleteConfigurationAction"
+                    id="org.jboss.tools.intellij.mta.explorer.actions.DeleteConfigurationAction"
+                    text="Delete Configuration"
+                    icon="AllIcons.Actions.Delete">
+            </action>
         </group>
     </actions>
 </idea-plugin>
