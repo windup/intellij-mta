@@ -1,7 +1,5 @@
 package org.jboss.tools.intellij.mta.model;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -14,26 +12,17 @@ import java.util.UUID;
 
 public class MtaConfiguration {
 
-    private ListMultimap<String, String> options = ArrayListMultimap.create();
+    private Map<String, Object> options = Maps.newHashMap();
     private String name;
     private String id;
-    private AnalysisResults analysisResults;
     private AnalysisResultsSummary summary;
 
-    public ListMultimap<String, String> getOptions() {
+    public Map<String, Object> getOptions() {
         return this.options;
     }
 
-    public void addOption(String option, String value) {
+    public void addOption(String option, Object value) {
         this.options.put(option, value);
-    }
-
-    public AnalysisResults getAnalysisRestuls() {
-        return this.analysisResults;
-    }
-
-    public void setAnalysisResults(AnalysisResults analysisResults) {
-        this.analysisResults = analysisResults;
     }
 
     public AnalysisResultsSummary getSummary() {
@@ -44,16 +33,16 @@ public class MtaConfiguration {
         this.summary = summary;
     }
     public String getReportLocation() {
-        List<String> output = this.options.get("output");
-        if (output.isEmpty()) return null;
-        Path location = Paths.get(output.get(0), "index.html");
+        String output = (String)this.options.get("output");
+        if (output == null || output.isEmpty()) return null;
+        Path location = Paths.get(output, "index.html");
         return location.toAbsolutePath().toString();
     }
 
     public String getResultsLocation() {
-        List<String> output = this.options.get("output");
-        if (output.isEmpty()) return null;
-        Path location = Paths.get(output.get(0), "results.xml");
+        String output = (String)this.options.get("output");
+        if (output == null || output.isEmpty()) return null;
+        Path location = Paths.get(output, "results.xml");
         return location.toAbsolutePath().toString();
     }
 
@@ -74,12 +63,7 @@ public class MtaConfiguration {
     }
 
     public static class UniqueElement {
-        String id;
-    }
-
-    public static enum IssueType {
-        Hint,
-        Classification
+        public String id;
     }
 
     public static enum QuickFixType {
@@ -94,59 +78,81 @@ public class MtaConfiguration {
     }
 
     public static class Link extends UniqueElement {
-        String title;
-        String url;
+        public String title;
+        public String url;
     }
 
     public static class Issue extends UniqueElement {
-        IssueType type;
-        String title;
-        ArrayList<QuickFix> quickfixes = Lists.newArrayList();
-        Map<String, String> quickfixedLines = Maps.newHashMap();
-        String originalLineSource;
-        String file;
-        String severity;
-        String ruleId;
-        String effort;
-        ArrayList<Link> links = Lists.newArrayList();
-        String report;
-        String category;
-        MtaConfiguration configuration;
-        Object dom;
-        boolean complete;
+        public String title;
+        public ArrayList<QuickFix> quickfixes = Lists.newArrayList();
+        public Map<String, String> quickfixedLines = Maps.newHashMap();
+        public String originalLineSource;
+        public String file;
+        public String severity;
+        public String ruleId;
+        public String effort;
+        public ArrayList<Link> links = Lists.newArrayList();
+        public String report;
+        public String category;
+        public MtaConfiguration configuration;
+        public Object dom;
+        public boolean complete;
     }
 
     public static class QuickFix extends UniqueElement {
-        Issue issue;
-        QuickFixType type;
-        String searchString;
-        String replacementString;
-        String newLine;
-        String transformationId;
-        String name;
-        String file;
+        public Issue issue;
+        public QuickFixType type;
+        public String searchString;
+        public String replacementString;
+        public String newLine;
+        public String transformationId;
+        public String name;
+        public String file;
     }
 
     public static class AnalysisResultsSummary {
-        Boolean skippedReports;
-        String executedTimestamp;
-        String executionDuration;
-        String outputLocation;
-        String executable;
-        List<QuickFix> quickfixes = Lists.newArrayList();
-        ParsedQuickfixData parsedQuickfixData;
+        public Boolean skippedReports;
+        public String executedTimestamp;
+        public String executionDuration;
+        public String outputLocation;
+        public String executable;
+        public QuickfixData quickfixData;
+        public Map<String, String> reports = Maps.newHashMap();
+        public List<Hint> hints = Lists.newArrayList();
+        public List<Classification> classifications = Lists.newArrayList();
+    }
+
+    public static interface ReportHolder {
+        public String getReport();
+    }
+
+    public static interface IssueContainer {
+        public Issue getIssue();
+        public void setComplete();
+    }
+
+    public static class Hint extends Issue {
+        public int lineNumber;
+        public int column;
+        public int length;
+        public String sourceSnippet;
+        public String hint;
+    }
+
+    public static class Classification extends Issue {
+        public String description;
     }
 
     public static String generateUniqueId() {
         return UUID.randomUUID().toString();
     }
 
-    public static class ParsedQuickfixData {
-        Map<String, ParsedQuickfixEntry> entries = Maps.newHashMap();
+    public static class QuickfixData {
+        public Map<String, QuickfixEntry> entries = Maps.newHashMap();
     }
 
-    public static class ParsedQuickfixEntry {
-        String originalLineSource;
-        Map<String, String> quickfixes = Maps.newHashMap();
+    public static class QuickfixEntry {
+        public String originalLineSource;
+        public Map<String, String> quickfixes = Maps.newHashMap();
     }
 }
