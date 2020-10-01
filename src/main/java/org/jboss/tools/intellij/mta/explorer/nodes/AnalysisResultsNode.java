@@ -7,6 +7,8 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AnalysisResultsNode extends MtaExplorerNode<AnalysisResultsSummary> {
 
@@ -16,8 +18,11 @@ public class AnalysisResultsNode extends MtaExplorerNode<AnalysisResultsSummary>
 
     @NotNull
     @Override
-    public Collection<? extends AbstractTreeNode> getChildren() {
-        return Lists.newArrayList();
+    public Collection<MtaExplorerNode> getChildren() {
+        List<MtaExplorerNode> children = Lists.newArrayList();
+        children.addAll(super.getValue().hints.stream().map(hint -> new HintNode(hint)).collect(Collectors.toList()));
+        children.addAll(super.getValue().classifications.stream().map(classification -> new ClassificationNode(classification)).collect(Collectors.toList()));
+        return children;
     }
 
     @Override
