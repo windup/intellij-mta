@@ -3,14 +3,13 @@ package org.jboss.tools.intellij.mta.explorer.nodes;
 import com.google.common.collect.Lists;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
-import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.List;
 
-public class ClassificationNode extends MtaExplorerNode<Classification> {
+public class ClassificationNode extends IssueNode<Classification> {
 
     public ClassificationNode(Classification classification) {
         super(classification);

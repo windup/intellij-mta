@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.List;
 
-public class HintNode extends MtaExplorerNode<Hint> {
+public class HintNode extends IssueNode<Hint> {
 
     public HintNode(Hint hint) {
         super(hint);
@@ -30,5 +30,10 @@ public class HintNode extends MtaExplorerNode<Hint> {
     @Override
     protected boolean shouldUpdateData() {
         return true;
+    }
+
+    @Override
+    public void onClick() {
+
     }
 }
