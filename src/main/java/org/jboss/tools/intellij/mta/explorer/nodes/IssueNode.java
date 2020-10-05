@@ -19,34 +19,26 @@ public abstract class IssueNode<T extends Issue> extends MtaExplorerNode<T> {
     }
 
     @Override
-    public void onClick() {
+    public void onClick(Project project) {
         String filePath = this.getValue().file;
-        Project project = this.get.getProject();
         if (project != null) {
             String name = new File(filePath).getName();
             Collection<VirtualFile> vFiles = FilenameIndex.getVirtualFilesByName(project, name,
                     GlobalSearchScope.allScope(project));
+            boolean found = false;
             for (VirtualFile vFile : vFiles) {
                 String vFilePath = vFile.getCanonicalPath();
                 if (vFilePath.equals(filePath)) {
+                    found = true;
                     new OpenFileDescriptor(project, vFile, 0).navigate(true);
                 }
             }
 
-            Collection<VirtualFile> foundFiles = FileBasedIndex.getInstance().getContainingFiles(FilenameIndex.NAME, filePath, GlobalSearchScope.allScope(project));
-            VirtualFile dFile = ContainerUtil.getFirstItem(foundFiles);
-
-            String[] files = FilenameIndex.getAllFilenames(project);
-
-            if (!vFiles.isEmpty()) {
-                VirtualFile vFile = ContainerUtil.getFirstItem(vFiles);
-                new OpenFileDescriptor(project, vFile, 0).navigate(true);
-            }
-            else {
+            if (!found) {
                 System.out.println("" +
-                        "Error - Cannot open source editor. " +
-                        "Unable to find project virtual file corresponding to file: " +
-                        filePath);
+                    "Error - Cannot open source editor. " +
+                    "Unable to find project virtual file corresponding to file: " +
+                    filePath);
             }
         }
         else {

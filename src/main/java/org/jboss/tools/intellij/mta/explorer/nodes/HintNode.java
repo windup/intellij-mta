@@ -3,6 +3,7 @@ package org.jboss.tools.intellij.mta.explorer.nodes;
 import com.google.common.collect.Lists;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
+import com.intellij.openapi.project.Project;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,10 +31,5 @@ public class HintNode extends IssueNode<Hint> {
     @Override
     protected boolean shouldUpdateData() {
         return true;
-    }
-
-    @Override
-    public void onClick() {
-
     }
 }
