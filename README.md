@@ -1,5 +1,5 @@
 # Migration Toolkit for Applications (MTA) for IntelliJ
-![Validate against IJ versions](https://github.com/redhat-developer/intellij-mta/workflows/Validate%20against%20IJ%20versions/badge.svg)
+
 
 ## Description
 
