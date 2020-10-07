@@ -2,7 +2,6 @@
 
 ![Java CI with Gradle](https://github.com/windup/intellij-mta/workflows/Java%20CI%20with%20Gradle/badge.svg)
 ![Validate against IJ versions](https://github.com/redhat-developer/intellij-quarkus/workflows/Validate%20against%20IJ%20versions/badge.svg)
-[![codecov](https://codecov.io/gh/windup/intellij-mta/branch/master/graph/badge.svg)](https://codecov.io/gh/widup/intellij-mta)
 
 ## Description
 
