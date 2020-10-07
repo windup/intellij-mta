@@ -41,7 +41,7 @@ public class MtaCliParamBuilder {
 
         // windupHome
         params.add("--windupHome");
-        params.add("\""+ "/Users/johnsteele/.m2/repository/org/jboss/windup/mta-cli/5.0.1-SNAPSHOT/mta-cli-5.0.1-SNAPSHOT/" + "\"");
+        params.add(mtaHome);
 
         // source
         List<String> source = (List<String>)options.get("source");
