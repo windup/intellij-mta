@@ -22,21 +22,21 @@ public class RunConfigurationAction extends StructureTreeAction {
         ConfigurationNode node = (ConfigurationNode)super.adjust(selected);
         MtaConfiguration configuration = (MtaConfiguration)node.getValue();
         // if (this.validateConfiguration(configuration)) {
-            MtaCliRunner.run(configuration);
+            //MtaCliRunner.run(configuration);
         // }
     }
 
     private boolean validateConfiguration(MtaConfiguration configuration) {
-        boolean validInput = MtaCliRunner.validateOptionExists(configuration, "input");
-        if (!validInput) {
-            // Notify input required
-            return false;
-        }
-        boolean validOutput = MtaCliRunner.validateOptionExists(configuration, "output");
-        if (!validOutput) {
-            // Notify output required
-            return false;
-        }
+//        boolean validInput = MtaCliRunner.validateOptionExists(configuration, "input");
+//        if (!validInput) {
+//            // Notify input required
+//            return false;
+//        }
+//        boolean validOutput = MtaCliRunner.validateOptionExists(configuration, "output");
+//        if (!validOutput) {
+//            // Notify output required
+//            return false;
+//        }
         return true;
     }
 }

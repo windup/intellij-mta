@@ -11,4 +11,7 @@ public abstract class MtaExplorerNode<T> extends AbstractTreeNode<T> {
 
     public void onDoubleClick() {
     }
+
+    public void onClick(Project project) {
+    }
 }

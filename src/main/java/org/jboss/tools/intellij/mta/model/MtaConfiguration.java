@@ -35,7 +35,7 @@ public class MtaConfiguration {
     public String getReportLocation() {
         String output = (String)this.options.get("output");
         if (output == null || output.isEmpty()) return null;
-        Path location = Paths.get(output, "index.html");
+        Path location = Paths.get(output,"index.html");
         return location.toAbsolutePath().toString();
     }
 
@@ -116,6 +116,8 @@ public class MtaConfiguration {
         public String executionDuration;
         public String outputLocation;
         public String executable;
+        public int hintCount;
+        public int classificationCount;
         public QuickfixData quickfixData;
         public Map<String, String> reports = Maps.newHashMap();
         public List<Hint> hints = Lists.newArrayList();
