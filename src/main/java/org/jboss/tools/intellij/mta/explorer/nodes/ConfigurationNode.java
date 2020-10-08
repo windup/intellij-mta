@@ -17,11 +17,14 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
 
     @NotNull
     @Override
-    public Collection<AnalysisResultsNode> getChildren() {
-        List<AnalysisResultsNode> children = Lists.newArrayList();
+    public Collection<MtaExplorerNode> getChildren() {
+        List<MtaExplorerNode> children = Lists.newArrayList();
         AnalysisResultsSummary summary = this.getValue().getSummary();
         if (summary != null) {
             children.add(new AnalysisResultsNode(summary));
+            if (!summary.skippedReports) {
+                children.add(new ReportNode(this.getValue()));
+            }
         }
         return children;
     }
