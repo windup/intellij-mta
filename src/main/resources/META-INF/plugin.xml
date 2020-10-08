@@ -26,11 +26,6 @@
                     text="Delete Configuration"
                     icon="AllIcons.Actions.Delete">
             </action>
-            <action class="org.jboss.tools.intellij.mta.explorer.actions.OpenSourceAction"
-                    id="org.jboss.tools.intellij.mta.explorer.actions.OpenSourceAction"
-                    text="Open Source Code"
-                    icon="AllIcons.General.OpenDisk">
-            </action>
         </group>
     </actions>
 </idea-plugin>
