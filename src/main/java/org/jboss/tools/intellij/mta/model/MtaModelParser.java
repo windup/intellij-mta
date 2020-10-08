@@ -68,13 +68,14 @@ public class MtaModelParser {
 
     private static void parseSummary(Map optionsObject, MtaConfiguration configuration) {
         AnalysisResultsSummary summary = new AnalysisResultsSummary();
+        summary.skippedReports = false;
         configuration.setSummary(summary);
         Iterator<Map.Entry> iterator = optionsObject.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry pair = iterator.next();
             String key = (String)pair.getKey();
             Object value = pair.getValue();
-            if ("skippedReports".equals(key)) {
+            if ("skipReports".equals(key)) {
                 summary.skippedReports = (Boolean)value;
             }
             else if ("executedTimestamp".equals(key)) {
