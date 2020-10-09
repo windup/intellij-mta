@@ -18,7 +18,7 @@ public class MtaExplorerFactory implements ToolWindowFactory {
     public void createToolWindowContent(Project project, @NotNull ToolWindow toolWindow) {
         ModelService modelService = new ModelService();
         modelService.loadModel();
-        MtaToolWindow panel = new MtaToolWindow(modelService.getModel(), project);
+        MtaToolWindow panel = new MtaToolWindow(modelService, project);
         ContentManager contentManager = toolWindow.getContentManager();
         Content content = contentManager.getFactory().createContent(panel, null, false);
         contentManager.addContent(content);

@@ -11,6 +11,7 @@ import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.mta.cli.MtaCliRunner;
 import org.jboss.tools.intellij.mta.explorer.nodes.*;
 import org.jboss.tools.intellij.mta.model.MtaModel;
+import org.jboss.tools.intellij.mta.services.ModelService;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -20,20 +21,20 @@ import java.awt.event.MouseEvent;
 
 public class MtaToolWindow extends SimpleToolWindowPanel {
 
-    private MtaModel mtaModel;
+    private ModelService modelService;
     private MtaCliRunner cliRunner;
     private Project project;
 
-    public MtaToolWindow(MtaModel mtaModel, Project project) {
+    public MtaToolWindow(ModelService modelService, Project project) {
         super(true, true);
-        this.mtaModel = mtaModel;
+        this.modelService = modelService;
         this.project = project;
         this.init();
         this.cliRunner = new MtaCliRunner();
     }
 
     private void init() {
-        MtaNodeModel nodeModel = new MtaNodeModel(this.mtaModel);
+        MtaNodeModel nodeModel = new MtaNodeModel(this.modelService);
         MtaExplorerRootNode rootNode = new MtaExplorerRootNode(nodeModel);
         MtaExplorerTreeStructure treeStructure = new MtaExplorerTreeStructure(rootNode);
         //noinspection UnstableApiUsage
@@ -41,7 +42,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
         //noinspection UnstableApiUsage
         structureTreeModel.setStructure(treeStructure);
         AsyncTreeModel asyncTreeModelModel = new AsyncTreeModel(structureTreeModel, true);
-        Tree mtaTree = this.createTree(asyncTreeModelModel, this.mtaModel, structureTreeModel);
+        Tree mtaTree = this.createTree(asyncTreeModelModel, this.modelService.getModel(), structureTreeModel);
         JScrollPane mtaTreePanel = ScrollPaneFactory.createScrollPane(mtaTree);
         NonOpaquePanel treePanelWrapper = new NonOpaquePanel();
         treePanelWrapper.setContent(mtaTreePanel);
@@ -54,7 +55,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
         TreeUIHelper.getInstance().installTreeSpeedSearch(mtaTree);
         mtaTree.setRootVisible(false);
         mtaTree.setAutoscrolls(true);
-        mtaTree.setCellRenderer(new MtaTreeCellRenderer(model, treeModel));
+        mtaTree.setCellRenderer(new MtaTreeCellRenderer(this.modelService, treeModel));
         new DoubleClickListener() {
             @Override
             protected boolean onDoubleClick(MouseEvent event) {
@@ -63,7 +64,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
                     DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
                     if (treeNode.getUserObject() instanceof MtaExplorerNode) {
                         MtaExplorerNode mtaNode = (MtaExplorerNode) treeNode.getUserObject();
-                        mtaNode.onDoubleClick();
+                        mtaNode.onDoubleClick(MtaToolWindow.this.project, treeModel);
                     }
                 }
                 return true;

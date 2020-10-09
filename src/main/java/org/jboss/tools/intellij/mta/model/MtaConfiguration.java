@@ -46,6 +46,11 @@ public class MtaConfiguration {
         return location.toAbsolutePath().toString();
     }
 
+    public boolean skippedReports() {
+        String skippedReports = (String) this.getOptions().get("skipReports");
+        return skippedReports != null ? Boolean.valueOf(skippedReports) : false;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -111,7 +116,6 @@ public class MtaConfiguration {
     }
 
     public static class AnalysisResultsSummary {
-        public Boolean skippedReports;
         public String executedTimestamp;
         public String executionDuration;
         public String outputLocation;

@@ -1,5 +1,6 @@
 package org.jboss.tools.intellij.mta.model;
 
+import com.google.common.collect.Lists;
 import org.jboss.tools.intellij.mta.cli.MtaResultsParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,6 +9,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
@@ -68,17 +70,13 @@ public class MtaModelParser {
 
     private static void parseSummary(Map optionsObject, MtaConfiguration configuration) {
         AnalysisResultsSummary summary = new AnalysisResultsSummary();
-        summary.skippedReports = false;
         configuration.setSummary(summary);
         Iterator<Map.Entry> iterator = optionsObject.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry pair = iterator.next();
             String key = (String)pair.getKey();
             Object value = pair.getValue();
-            if ("skipReports".equals(key)) {
-                summary.skippedReports = (Boolean)value;
-            }
-            else if ("executedTimestamp".equals(key)) {
+            if ("executedTimestamp".equals(key)) {
                 summary.executedTimestamp = (String)value;
             }
             else if ("executionDuration".equals(key)) {

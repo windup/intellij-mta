@@ -18,11 +18,12 @@ public class DeleteConfigurationAction extends StructureTreeAction {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent, TreePath path, Object selected) {
         ConfigurationNode node = (ConfigurationNode)super.adjust(selected);
-        MtaConfiguration configuration = (MtaConfiguration)node.getValue();
+        MtaConfiguration configuration = node.getValue();
         Tree tree = super.getTree(anActionEvent);
         MtaTreeCellRenderer renderer = (MtaTreeCellRenderer) tree.getCellRenderer();
-        MtaModel model = renderer.getModel();
+        MtaModel model = renderer.getModelService().getModel();
         model.deleteConfiguration(configuration);
+        renderer.getModelService().saveModel();
         //noinspection UnstableApiUsage
         renderer.getTreeModel().invalidate(new Runnable() {
             @Override

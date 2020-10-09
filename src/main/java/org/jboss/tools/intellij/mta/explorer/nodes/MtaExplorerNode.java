@@ -2,6 +2,7 @@ package org.jboss.tools.intellij.mta.explorer.nodes;
 
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.project.Project;
+import com.intellij.ui.tree.StructureTreeModel;
 
 public abstract class MtaExplorerNode<T> extends AbstractTreeNode<T> {
 
@@ -9,7 +10,7 @@ public abstract class MtaExplorerNode<T> extends AbstractTreeNode<T> {
         super(null, value);
     }
 
-    public void onDoubleClick() {
+    public void onDoubleClick(Project project, StructureTreeModel treeModel) {
     }
 
     public void onClick(Project project) {

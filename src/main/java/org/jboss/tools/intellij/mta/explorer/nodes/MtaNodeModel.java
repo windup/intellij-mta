@@ -1,33 +1,24 @@
 package org.jboss.tools.intellij.mta.explorer.nodes;
 
-import com.intellij.ide.projectView.PresentationData;
-import com.intellij.ide.util.treeView.AbstractTreeNode;
-import org.jboss.tools.intellij.mta.model.MtaModel;
-import org.jetbrains.annotations.NotNull;
+import org.jboss.tools.intellij.mta.services.ModelService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class MtaNodeModel {
 
-    private MtaModel mtaModel;
-    private List<ConfigurationNode> configurationNodes = new ArrayList<ConfigurationNode>();
+    private final ModelService modelService;
+    private final List<ConfigurationNode> configurationNodes = new ArrayList<>();
 
-    public MtaNodeModel(MtaModel mtaModel) {
-        this.mtaModel = mtaModel;
+    public MtaNodeModel(ModelService modelService) {
+        this.modelService = modelService;
         this.buildModel();
     }
 
     private void buildModel() {
-        this.mtaModel.getConfigurations().forEach(configuration -> {
-            ConfigurationNode node = new ConfigurationNode(configuration);
+        this.modelService.getModel().getConfigurations().forEach(configuration -> {
+            ConfigurationNode node = new ConfigurationNode(configuration, this.modelService);
             this.configurationNodes.add(node);
         });
-    }
-
-    public MtaModel getModel() {
-        return this.mtaModel;
     }
 
     public List<ConfigurationNode> getConfigurationNodes() {
