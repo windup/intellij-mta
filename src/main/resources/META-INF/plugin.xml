@@ -14,7 +14,7 @@
             <action class="org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction"
                     id="org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction"
                     text="Run Configuration"
-                    icon="AllIcons.General.Run">
+                    icon="AllIcons.Actions.Run_anything">
             </action>
             <action class="org.jboss.tools.intellij.mta.explorer.actions.NewConfigurationAction"
                     id="org.jboss.tools.intellij.mta.explorer.actions.NewConfigurationAction"
@@ -24,7 +24,7 @@
             <action class="org.jboss.tools.intellij.mta.explorer.actions.DeleteConfigurationAction"
                     id="org.jboss.tools.intellij.mta.explorer.actions.DeleteConfigurationAction"
                     text="Delete Configuration"
-                    icon="AllIcons.Actions.Delete">
+                    icon="AllIcons.Diff.Remove">
             </action>
         </group>
     </actions>
