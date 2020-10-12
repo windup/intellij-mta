@@ -30,12 +30,7 @@ public class NewConfigurationAction extends StructureTreeAction {
         configuration.setName(NameUtil.generateUniqueConfigurationName(model));
         model.addConfiguration(configuration);
         renderer.getModelService().saveModel();
-        //noinspection UnstableApiUsage
-        renderer.getTreeModel().invalidate(new Runnable() {
-            @Override
-            public void run() {
-            }
-        });
+        renderer.getTreeModel().invalidate();
     }
 
     @Override

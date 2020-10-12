@@ -24,12 +24,7 @@ public class DeleteConfigurationAction extends StructureTreeAction {
         MtaModel model = renderer.getModelService().getModel();
         model.deleteConfiguration(configuration);
         renderer.getModelService().saveModel();
-        //noinspection UnstableApiUsage
-        renderer.getTreeModel().invalidate(new Runnable() {
-            @Override
-            public void run() {
-            }
-        });
+        renderer.getTreeModel().invalidate();
     }
 
     @Override

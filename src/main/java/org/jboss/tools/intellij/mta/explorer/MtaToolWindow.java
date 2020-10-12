@@ -37,10 +37,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
         MtaNodeModel nodeModel = new MtaNodeModel(this.modelService);
         MtaExplorerRootNode rootNode = new MtaExplorerRootNode(nodeModel);
         MtaExplorerTreeStructure treeStructure = new MtaExplorerTreeStructure(rootNode);
-        //noinspection UnstableApiUsage
-        StructureTreeModel structureTreeModel = new StructureTreeModel(true);
-        //noinspection UnstableApiUsage
-        structureTreeModel.setStructure(treeStructure);
+        StructureTreeModel structureTreeModel = new StructureTreeModel(treeStructure, modelService);
         AsyncTreeModel asyncTreeModelModel = new AsyncTreeModel(structureTreeModel, true);
         Tree mtaTree = this.createTree(asyncTreeModelModel, this.modelService.getModel(), structureTreeModel);
         JScrollPane mtaTreePanel = ScrollPaneFactory.createScrollPane(mtaTree);
@@ -55,7 +52,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
         TreeUIHelper.getInstance().installTreeSpeedSearch(mtaTree);
         mtaTree.setRootVisible(false);
         mtaTree.setAutoscrolls(true);
-        mtaTree.setCellRenderer(new MtaTreeCellRenderer(this.modelService, treeModel));
+        mtaTree.setCellRenderer(new MtaTreeCellRenderer(modelService, treeModel));
         new DoubleClickListener() {
             @Override
             protected boolean onDoubleClick(MouseEvent event) {
