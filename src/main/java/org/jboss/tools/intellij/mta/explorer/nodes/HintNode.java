@@ -18,9 +18,8 @@ public class HintNode extends IssueNode<Hint> {
 
     @NotNull
     @Override
-    public Collection<? extends AbstractTreeNode> getChildren() {
-        List<AnalysisResultsNode> children = Lists.newArrayList();
-        return children;
+    public Collection<MtaExplorerNode<?>> getChildren() {
+        return Lists.newArrayList();
     }
 
     @Override

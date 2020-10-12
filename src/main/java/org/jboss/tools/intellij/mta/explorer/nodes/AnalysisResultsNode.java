@@ -18,10 +18,10 @@ public class AnalysisResultsNode extends MtaExplorerNode<AnalysisResultsSummary>
 
     @NotNull
     @Override
-    public Collection<MtaExplorerNode> getChildren() {
-        List<MtaExplorerNode> children = Lists.newArrayList();
-        children.addAll(super.getValue().hints.stream().map(hint -> new HintNode(hint)).collect(Collectors.toList()));
-        children.addAll(super.getValue().classifications.stream().map(classification -> new ClassificationNode(classification)).collect(Collectors.toList()));
+    public Collection<? extends AbstractTreeNode<?>> getChildren() {
+        List<MtaExplorerNode<?>> children = Lists.newArrayList();
+        children.addAll(super.getValue().hints.stream().map(HintNode::new).collect(Collectors.toList()));
+        children.addAll(super.getValue().classifications.stream().map(ClassificationNode::new).collect(Collectors.toList()));
         return children;
     }
 

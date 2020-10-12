@@ -21,9 +21,8 @@ public class ReportNode extends MtaExplorerNode<MtaConfiguration> {
 
     @NotNull
     @Override
-    public Collection<? extends AbstractTreeNode> getChildren() {
-        List<AnalysisResultsNode> children = Lists.newArrayList();
-        return children;
+    public Collection<? extends AbstractTreeNode<?>> getChildren() {
+        return Lists.newArrayList();
     }
 
     @Override

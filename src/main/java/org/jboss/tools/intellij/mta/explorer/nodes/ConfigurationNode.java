@@ -2,9 +2,9 @@ package org.jboss.tools.intellij.mta.explorer.nodes;
 
 import com.google.common.collect.Lists;
 import com.intellij.ide.projectView.PresentationData;
+import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.tree.StructureTreeModel;
-import org.apache.maven.model.Model;
 import org.jboss.tools.intellij.mta.cli.MtaResultsParser;
 import org.jboss.tools.intellij.mta.explorer.dialog.SetOutputLocationDialog;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
@@ -24,10 +24,14 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
         this.modelService = modelService;
     }
 
-    @NotNull
     @Override
-    public Collection<MtaExplorerNode> getChildren() {
-        List<MtaExplorerNode> children = Lists.newArrayList();
+    protected void update(PresentationData presentation) {
+        presentation.setPresentableText(this.getText());
+    }
+
+    @Override
+    public @NotNull Collection<? extends AbstractTreeNode<?>> getChildren() {
+        List<MtaExplorerNode<?>> children = Lists.newArrayList();
         AnalysisResultsSummary summary = this.getValue().getSummary();
         if (summary != null) {
             children.add(new AnalysisResultsNode(summary));
@@ -36,11 +40,6 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
             }
         }
         return children;
-    }
-
-    @Override
-    protected void update(PresentationData presentation) {
-        presentation.setPresentableText(this.getText());
     }
 
     @Override
@@ -65,12 +64,7 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
             this.getValue().setSummary(summary);
             MtaResultsParser.parseResults(this.getValue(), true);
             this.modelService.saveModel();
-            //noinspection UnstableApiUsage
-            treeModel.invalidate(new Runnable() {
-                @Override
-                public void run() {
-                }
-            });
+            treeModel.invalidate();
         }
     }
 }

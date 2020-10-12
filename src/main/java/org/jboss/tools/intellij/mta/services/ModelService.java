@@ -14,7 +14,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ModelService implements Disposable {
 
@@ -24,6 +23,10 @@ public class ModelService implements Disposable {
 
     public MtaModel getModel() {
         return this.mtaModel;
+    }
+
+    public void forceReload() {
+        this.mtaModel = MtaModelParser.parseModel(STATE_LOCATION);
     }
 
     public MtaModel loadModel() {
@@ -61,6 +64,9 @@ public class ModelService implements Disposable {
             if (resultsSummary != null) {
                 JSONObject summary = new JSONObject();
                 configObject.put("summary", summary);
+                String skippedReports = (String) configuration.getOptions().get("skipReports");
+                boolean skipReports = skippedReports != null ? Boolean.valueOf(skippedReports) : false;
+                summary.put("skipReports", skipReports);
                 summary.put("outputLocation", resultsSummary.outputLocation);
                 summary.put("executedTimestamp", resultsSummary.executedTimestamp);
                 summary.put("executable", resultsSummary.executable);
