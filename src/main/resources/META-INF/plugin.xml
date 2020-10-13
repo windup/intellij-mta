@@ -11,11 +11,6 @@
 
     <actions>
         <group id="org.jboss.tools.intellij.mta.explorer" popup="true" compact="false">
-            <action class="org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction"
-                    id="org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction"
-                    text="Run Configuration"
-                    icon="AllIcons.Actions.Run_anything">
-            </action>
             <action class="org.jboss.tools.intellij.mta.explorer.actions.NewConfigurationAction"
                     id="org.jboss.tools.intellij.mta.explorer.actions.NewConfigurationAction"
                     text="New Configuration"
