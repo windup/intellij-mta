@@ -1,9 +1,11 @@
 package org.jboss.tools.intellij.mta.explorer.nodes;
 
 import com.google.common.collect.Lists;
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.tree.StructureTreeModel;
 import org.jboss.tools.intellij.mta.cli.MtaResultsParser;
 import org.jboss.tools.intellij.mta.explorer.dialog.SetOutputLocationDialog;
@@ -27,6 +29,7 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
     @Override
     protected void update(PresentationData presentation) {
         presentation.setPresentableText(this.getText());
+        presentation.setIcon(IconLoader.getIcon("/icons/configuration/configuration.svg"));
     }
 
     @Override
