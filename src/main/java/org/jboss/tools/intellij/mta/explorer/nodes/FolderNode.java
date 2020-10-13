@@ -1,6 +1,7 @@
 package org.jboss.tools.intellij.mta.explorer.nodes;
 
 import com.google.common.collect.Lists;
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
@@ -23,6 +24,7 @@ public class FolderNode extends MtaExplorerNode<AnalysisResultsSummary> {
     @Override
     protected void update(PresentationData presentation) {
         presentation.setPresentableText("Results");
+        presentation.setIcon(AllIcons.Nodes.Folder);
     }
 
     @Override

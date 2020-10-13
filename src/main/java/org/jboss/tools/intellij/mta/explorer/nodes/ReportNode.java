@@ -1,6 +1,7 @@
 package org.jboss.tools.intellij.mta.explorer.nodes;
 
 import com.google.common.collect.Lists;
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
@@ -28,6 +29,7 @@ public class ReportNode extends MtaExplorerNode<MtaConfiguration> {
     @Override
     protected void update(PresentationData presentation) {
         presentation.setPresentableText("Report");
+        presentation.setIcon(AllIcons.General.Web);
     }
 
     @Override
