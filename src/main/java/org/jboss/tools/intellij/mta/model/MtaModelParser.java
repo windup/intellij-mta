@@ -2,6 +2,7 @@ package org.jboss.tools.intellij.mta.model;
 
 import com.google.common.collect.Lists;
 import org.jboss.tools.intellij.mta.cli.MtaResultsParser;
+import org.jboss.tools.intellij.mta.services.ModelService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,7 +17,7 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 
 public class MtaModelParser {
 
-    public static MtaModel parseModel(String fileName) {
+    public static MtaModel parseModel(String fileName, ModelService modelService) {
         MtaModel mtaModel = new MtaModel();
         JSONParser parser = new JSONParser();
         if (new File(fileName).exists()) {
@@ -27,7 +28,7 @@ public class MtaModelParser {
                 Iterator iterator = configurations.iterator();
                 while (iterator.hasNext()) {
                     JSONObject config = (JSONObject) iterator.next();
-                    MtaConfiguration configuration = MtaModelParser.parseConfigurationObject(config);
+                    MtaConfiguration configuration = MtaModelParser.parseConfigurationObject(config, modelService);
                     mtaModel.addConfiguration(configuration);
                     MtaResultsParser.parseResults(configuration, false);
                 }
@@ -38,7 +39,7 @@ public class MtaModelParser {
         return mtaModel;
     }
 
-    private static MtaConfiguration parseConfigurationObject(JSONObject configurationObjects) {
+    private static MtaConfiguration parseConfigurationObject(JSONObject configurationObjects, ModelService modelService) {
         MtaConfiguration mtaConfiguration = new MtaConfiguration();
         mtaConfiguration.setId((String) configurationObjects.get("id"));
         mtaConfiguration.setName((String) configurationObjects.get("name"));
@@ -47,7 +48,7 @@ public class MtaModelParser {
                 mtaConfiguration);
         Map summary = (Map) configurationObjects.get("summary");
         if (summary != null) {
-            MtaModelParser.parseSummary(summary, mtaConfiguration);
+            MtaModelParser.parseSummary(summary, mtaConfiguration, modelService);
         }
         return mtaConfiguration;
     }
@@ -68,8 +69,8 @@ public class MtaModelParser {
         }
     }
 
-    private static void parseSummary(Map optionsObject, MtaConfiguration configuration) {
-        AnalysisResultsSummary summary = new AnalysisResultsSummary();
+    private static void parseSummary(Map optionsObject, MtaConfiguration configuration, ModelService modelService) {
+        AnalysisResultsSummary summary = new AnalysisResultsSummary(modelService);
         configuration.setSummary(summary);
         Iterator<Map.Entry> iterator = optionsObject.entrySet().iterator();
         while (iterator.hasNext()) {

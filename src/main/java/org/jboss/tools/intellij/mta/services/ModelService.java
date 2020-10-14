@@ -2,6 +2,7 @@ package org.jboss.tools.intellij.mta.services;
 
 import com.google.common.collect.Lists;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.project.Project;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jboss.tools.intellij.mta.model.MtaModel;
@@ -18,22 +19,31 @@ import java.util.Map;
 public class ModelService implements Disposable {
 
     private MtaModel mtaModel;
+    private Project project;
 
     private static final String STATE_LOCATION = ModelService.getStateLocation();
+
+    public ModelService(Project project) {
+        this.project = project;
+    }
 
     public MtaModel getModel() {
         return this.mtaModel;
     }
 
+    public Project getProject() {
+        return this.project;
+    }
+
     public void forceReload() {
-        this.mtaModel = MtaModelParser.parseModel(STATE_LOCATION);
+        this.mtaModel = MtaModelParser.parseModel(STATE_LOCATION, this);
     }
 
     public MtaModel loadModel() {
         if (this.mtaModel != null) {
             return this.mtaModel;
         }
-        this.mtaModel = MtaModelParser.parseModel(STATE_LOCATION);
+        this.mtaModel = MtaModelParser.parseModel(STATE_LOCATION, this);
         return this.mtaModel;
     }
 

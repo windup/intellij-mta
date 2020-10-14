@@ -62,7 +62,7 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
         if (dialog.showAndGet()) {
             String output = dialog.getOutputLocation();
             this.getValue().getOptions().put("output", output);
-            MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary();
+            MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary(this.modelService);
             summary.outputLocation = output;
             this.getValue().setSummary(summary);
             MtaResultsParser.parseResults(this.getValue(), true);

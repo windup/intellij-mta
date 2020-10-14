@@ -2,6 +2,7 @@ package org.jboss.tools.intellij.mta.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.jboss.tools.intellij.mta.services.ModelService;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -126,6 +127,16 @@ public class MtaConfiguration {
         public Map<String, String> reports = Maps.newHashMap();
         public List<Hint> hints = Lists.newArrayList();
         public List<Classification> classifications = Lists.newArrayList();
+
+        private ModelService modelService;
+
+        public AnalysisResultsSummary(ModelService modelService) {
+            this.modelService = modelService;
+        }
+
+        public ModelService getModelService() {
+            return this.modelService;
+        }
     }
 
     public static interface ReportHolder {
