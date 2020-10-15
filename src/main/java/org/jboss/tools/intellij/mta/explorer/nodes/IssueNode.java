@@ -48,4 +48,9 @@ public abstract class IssueNode<T extends Issue> extends MtaExplorerNode<T> {
                     filePath);
         }
     }
+
+    @Override
+    public boolean isAlwaysLeaf() {
+        return true;
+    }
 }

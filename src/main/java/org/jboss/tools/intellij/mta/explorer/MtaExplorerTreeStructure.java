@@ -6,17 +6,18 @@ import com.intellij.openapi.project.Project;
 import org.jboss.tools.intellij.mta.explorer.nodes.MtaExplorerRootNode;
 import org.jboss.tools.intellij.mta.explorer.nodes.MtaNodeModel;
 import org.jboss.tools.intellij.mta.model.MtaModel;
+import org.jboss.tools.intellij.mta.services.ModelService;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class MtaExplorerTreeStructure extends AbstractTreeStructureBase {
 
-    private MtaExplorerRootNode rootNode;
+    private ModelService modelService;
 
-    protected MtaExplorerTreeStructure(MtaExplorerRootNode rootNode) {
+    protected MtaExplorerTreeStructure(ModelService modelService) {
         super(null);
-        this.rootNode = rootNode;
+        this.modelService = modelService;
     }
 
     @Nullable
@@ -27,7 +28,7 @@ public class MtaExplorerTreeStructure extends AbstractTreeStructureBase {
 
     @Override
     public Object getRootElement() {
-        return this.rootNode;
+        return new MtaExplorerRootNode(new MtaNodeModel(this.modelService));
     }
 
     @Override

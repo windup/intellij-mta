@@ -5,14 +5,20 @@ import com.google.common.collect.Maps;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.apache.commons.io.comparator.NameFileComparator;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
+import org.jboss.tools.intellij.mta.services.ModelService;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class AnalysisResultsNode extends MtaExplorerNode<AnalysisResultsSummary> {
+
+    private Map<String, ? extends AbstractTreeNode<?>> resourceNodes = Maps.newHashMap();
 
     public AnalysisResultsNode(AnalysisResultsSummary summary) {
         super(summary);
@@ -21,26 +27,13 @@ public class AnalysisResultsNode extends MtaExplorerNode<AnalysisResultsSummary>
     @NotNull
     @Override
     public Collection<? extends AbstractTreeNode<?>> getChildren() {
-        List<Issue> issues = Lists.newArrayList();
-        issues.addAll(super.getValue().hints);
-        issues.addAll(super.getValue().classifications);
-
-        Map<String, FileNode> fileMap = Maps.newHashMap();
-        issues.forEach(issue -> {
-            FileNode fileNode = fileMap.get(issue.file);
-            if (fileNode == null) {
-                fileNode = new FileNode(super.getValue(), issue.file);
-                fileMap.put(issue.file, fileNode);
-            }
-            fileNode.addIssue(issue);
-        });
-
-        List<FileNode> children = new ArrayList<>(fileMap.values());
-        children.sort((o1, o2) -> {
-            NameFileComparator comparator = new NameFileComparator();
-            return comparator.compare(o1.getFile(), o2.getFile());
-        });
-
+        List<FolderNode> children = Lists.newArrayList();
+        ModelService modelService = super.getValue().getModelService();
+        Project project = modelService.getProject();
+        String root = project.getBasePath();
+        if (root != null) {
+            children.add(new FolderNode(super.getValue(), root));
+        }
         return children;
     }
 

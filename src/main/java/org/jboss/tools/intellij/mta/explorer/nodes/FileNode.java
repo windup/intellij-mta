@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
-import org.apache.commons.io.comparator.NameFileComparator;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,21 +13,28 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileNode extends MtaExplorerNode<AnalysisResultsSummary> {
+public class FileNode extends ResourceNode {
 
-    private final File file;
     private List<Hint> hints = Lists.newArrayList();
     private List<Classification> classifications = Lists.newArrayList();
 
     public FileNode(AnalysisResultsSummary summary, String file) {
-        super(summary);
-        this.file = new File(file);
+        super(summary, file);
+        this.computeIssue();
+    }
+
+    private void computeIssue() {
+        for (Issue issue : super.getValue().getIssues()) {
+            if (issue.file.equals(this.file.getAbsolutePath())) {
+                this.addIssue(issue);
+            }
+        }
     }
 
     @NotNull
     @Override
     public Collection<? extends AbstractTreeNode<?>> getChildren() {
-        List<IssueNode<?>> children = Lists.newArrayList();
+        List<MtaExplorerNode<?>> children = Lists.newArrayList();
         children.addAll(this.classifications.stream().map(ClassificationNode::new).collect(Collectors.toList()));
         this.hints.sort(Comparator.comparingInt(o -> o.lineNumber));
         children.addAll(this.hints.stream().map(HintNode::new).collect(Collectors.toList()));
@@ -47,7 +53,7 @@ public class FileNode extends MtaExplorerNode<AnalysisResultsSummary> {
         return true;
     }
 
-    public void addIssue(Issue issue) {
+    private void addIssue(Issue issue) {
         if (issue instanceof  Hint) {
             this.hints.add((Hint)issue);
         }

@@ -34,9 +34,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
     }
 
     private void init() {
-        MtaNodeModel nodeModel = new MtaNodeModel(this.modelService);
-        MtaExplorerRootNode rootNode = new MtaExplorerRootNode(nodeModel);
-        MtaExplorerTreeStructure treeStructure = new MtaExplorerTreeStructure(rootNode);
+        MtaExplorerTreeStructure treeStructure = new MtaExplorerTreeStructure(modelService);
         StructureTreeModel structureTreeModel = new StructureTreeModel(treeStructure, modelService);
         AsyncTreeModel asyncTreeModelModel = new AsyncTreeModel(structureTreeModel, true);
         Tree mtaTree = this.createTree(asyncTreeModelModel, this.modelService.getModel(), structureTreeModel);

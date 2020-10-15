@@ -125,6 +125,7 @@ public class MtaConfiguration {
         public int classificationCount;
         public QuickfixData quickfixData;
         public Map<String, String> reports = Maps.newHashMap();
+
         public List<Hint> hints = Lists.newArrayList();
         public List<Classification> classifications = Lists.newArrayList();
 
@@ -136,6 +137,12 @@ public class MtaConfiguration {
 
         public ModelService getModelService() {
             return this.modelService;
+        }
+
+        public List<Issue> getIssues() {
+            List<Issue> issues = Lists.newArrayList(this.hints);
+            issues.addAll(this.classifications);
+            return issues;
         }
     }
 
