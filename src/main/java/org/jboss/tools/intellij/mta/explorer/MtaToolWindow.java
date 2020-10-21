@@ -36,7 +36,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
     private void init() {
         MtaExplorerTreeStructure treeStructure = new MtaExplorerTreeStructure(modelService);
         StructureTreeModel structureTreeModel = new StructureTreeModel(treeStructure, modelService);
-        AsyncTreeModel asyncTreeModelModel = new AsyncTreeModel(structureTreeModel, true);
+        AsyncTreeModel asyncTreeModelModel = new AsyncTreeModel(structureTreeModel, true, project);
         Tree mtaTree = this.createTree(asyncTreeModelModel, this.modelService.getModel(), structureTreeModel);
         JScrollPane mtaTreePanel = ScrollPaneFactory.createScrollPane(mtaTree);
         NonOpaquePanel treePanelWrapper = new NonOpaquePanel();
