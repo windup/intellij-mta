@@ -21,12 +21,14 @@ dependencies {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'org.eclipse.text:org.eclipse.text:3.5.101'
     implementation 'commons-io:commons-io:2.6'
+    implementation 'io.vertx:vertx-core:3.9.4'
+    implementation 'io.vertx:vertx-web:3.9.4'
 }
 
 publishPlugin {
     token    jetBrainsToken
     channels jetBrainsChannel
-} 
+}
 
 repositories {
     mavenLocal()
