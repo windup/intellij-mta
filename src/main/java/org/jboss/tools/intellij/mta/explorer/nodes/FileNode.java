@@ -9,14 +9,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FileNode extends ResourceNode {
 
-    private List<Hint> hints = Lists.newArrayList();
-    private List<Classification> classifications = Lists.newArrayList();
+    private HintsGroupNode hintsGroupNode;
+    private ClassificationsGroupNode classificationsGroupNode;
 
     public FileNode(AnalysisResultsSummary summary, String file) {
         super(summary, file);
@@ -24,10 +22,24 @@ public class FileNode extends ResourceNode {
     }
 
     private void computeIssue() {
+        boolean containsHints = false;
+        boolean containsClassifications = false;
         for (Issue issue : super.getValue().getIssues()) {
             if (issue.file.equals(this.file.getAbsolutePath())) {
-                this.addIssue(issue);
+                if (issue instanceof Hint) {
+                    containsHints = true;
+                }
+                else {
+                    containsClassifications = true;
+                }
             }
+        }
+        String file = this.getFile().getAbsolutePath();
+        if (containsHints) {
+            this.hintsGroupNode = new HintsGroupNode(super.getValue(), file);
+        }
+        if (containsClassifications) {
+            this.classificationsGroupNode = new ClassificationsGroupNode(this.getValue(), file);
         }
     }
 
@@ -35,31 +47,24 @@ public class FileNode extends ResourceNode {
     @Override
     public Collection<? extends AbstractTreeNode<?>> getChildren() {
         List<MtaExplorerNode<?>> children = Lists.newArrayList();
-        children.addAll(this.classifications.stream().map(ClassificationNode::new).collect(Collectors.toList()));
-        this.hints.sort(Comparator.comparingInt(o -> o.lineNumber));
-        children.addAll(this.hints.stream().map(HintNode::new).collect(Collectors.toList()));
+        if (this.hintsGroupNode != null) {
+            children.add(this.hintsGroupNode);
+        }
+        if (this.classificationsGroupNode != null) {
+            children.add(this.classificationsGroupNode);
+        }
         return children;
     }
 
     @Override
     protected void update(PresentationData presentation) {
-        presentation.setPresentableText(this.getFile().getName() +
-                " (" + (this.hints.size() + this.classifications.size()) + ")");
+        presentation.setPresentableText(this.getFile().getName());
         presentation.setIcon(AllIcons.FileTypes.Any_type);
     }
 
     @Override
     protected boolean shouldUpdateData() {
         return true;
-    }
-
-    private void addIssue(Issue issue) {
-        if (issue instanceof  Hint) {
-            this.hints.add((Hint)issue);
-        }
-        else {
-            this.classifications.add((Classification)issue);
-        }
     }
 
     public File getFile() {
