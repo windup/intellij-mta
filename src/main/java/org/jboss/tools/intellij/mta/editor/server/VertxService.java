@@ -23,6 +23,7 @@ public class VertxService {
         this.vertx = Vertx.vertx();
         this.eventBus = vertx.eventBus();
         this.router = Router.router(this.vertx);
+        this.startServer();
     }
 
     private void startServer() {
@@ -30,7 +31,8 @@ public class VertxService {
                 .addInboundPermitted(new PermittedOptions().setAddressRegex("to.server.*"))
                 .addOutboundPermitted(new PermittedOptions().setAddressRegex("to.client.*"));
         Router ebHandler = SockJSHandler.create(this.vertx).bridge(opts);
-        this.router.mountSubRouter("/bus/*", ebHandler);
+//        this.router.mountSubRouter("/bus/*", ebHandler);
+        this.router.mountSubRouter("/bus/", ebHandler);
         this.server = this.vertx.createHttpServer().requestHandler(this.router).listen(8077);
     }
 

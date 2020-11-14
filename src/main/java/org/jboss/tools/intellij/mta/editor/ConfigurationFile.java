@@ -1,15 +1,50 @@
 package org.jboss.tools.intellij.mta.editor;
 
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.LightVirtualFile;
+import org.jboss.tools.intellij.mta.editor.server.VertxService;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public class ConfigurationFile extends LightVirtualFile {
 
     private MtaConfiguration configuration;
+    private VertxService vertxService;
 
-    public ConfigurationFile(MtaConfiguration configuration) {
-        super(configuration.getId());
+    public ConfigurationFile(MtaConfiguration configuration, VertxService vertxService) {
+        super(configuration.getName());
         this.configuration = configuration;
+        this.vertxService = vertxService;
+    }
+
+    @Override
+    public boolean isDirectory() {
+        return false;
+    }
+
+    @Override
+    public boolean isWritable() {
+        return false;
+    }
+
+    @Override
+    public boolean isValid() {
+        return true;
+    }
+
+    @Override
+    public VirtualFile getParent() {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return this.configuration.getId();
+    }
+
+    @Override
+    public @NotNull String getPath() {
+        return this.configuration.getId();
     }
 
     @Override
@@ -17,11 +52,19 @@ public class ConfigurationFile extends LightVirtualFile {
         if (!(o instanceof ConfigurationFile)) {
             return false;
         }
-        return this.configuration.getId() == ((ConfigurationFile)o).configuration.getId();
+        return this.configuration.getId().equals(((ConfigurationFile) o).configuration.getId());
     }
 
     @Override
     public int hashCode() {
         return configuration.getId().hashCode();
+    }
+
+    public MtaConfiguration getConfiguration() {
+        return this.configuration;
+    }
+
+    public VertxService getVertxService() {
+        return this.vertxService;
     }
 }
