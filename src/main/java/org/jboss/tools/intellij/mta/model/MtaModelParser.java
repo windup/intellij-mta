@@ -9,6 +9,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,11 @@ public class MtaModelParser {
             Object value = pair.getValue();
             if (value instanceof JSONArray) {
                 JSONArray optionValues = (JSONArray)value;
-                configuration.addOption((String)key, optionValues);
+                ArrayList<String> values = Lists.newArrayList();
+                for (Object v : optionValues) {
+                    values.add((String)v);
+                }
+                configuration.addOption((String)key, values);
             }
             else {
                 configuration.addOption((String)key, String.valueOf(value));
