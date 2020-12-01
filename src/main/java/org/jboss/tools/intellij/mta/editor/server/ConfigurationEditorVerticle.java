@@ -5,7 +5,6 @@ import com.intellij.openapi.Disposable;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpMethod;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
@@ -30,8 +29,6 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
         this.configuration = configuration;
         this.vertxService = vertxService;
         this.router = vertxService.getRouter();
-        this.editorPath = VIEW_PATH + "." + this.configuration.getId();
-        this.serverPath = SERVER_PATH + "." + this.configuration.getId();
         this.setupRouterHeaders();
         this.createRoutes();
         this.vertxService.getVertx().deployVerticle(this);
@@ -62,7 +59,6 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
     @Override
     public void start() throws Exception {
         super.start();
-        this.vertx.eventBus().consumer(serverPath, this);
     }
 
     @Override
