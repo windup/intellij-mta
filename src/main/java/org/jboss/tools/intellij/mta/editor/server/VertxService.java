@@ -1,12 +1,20 @@
 package org.jboss.tools.intellij.mta.editor.server;
 
+import com.intellij.ide.plugins.IdeaPluginDescriptor;
+import com.intellij.ide.plugins.PluginManager;
+import com.intellij.ide.plugins.PluginManagerCore;
+import com.intellij.openapi.extensions.PluginId;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
+
+import java.io.File;
 
 public class VertxService {
 
@@ -27,13 +35,14 @@ public class VertxService {
     }
 
     private void startServer() {
-        SockJSBridgeOptions opts = new SockJSBridgeOptions()
-                .addInboundPermitted(new PermittedOptions().setAddressRegex("to.server.*"))
-                .addOutboundPermitted(new PermittedOptions().setAddressRegex("to.client.*"));
-        Router ebHandler = SockJSHandler.create(this.vertx).bridge(opts);
-//        this.router.mountSubRouter("/bus/*", ebHandler);
-        this.router.mountSubRouter("/bus/", ebHandler);
-        this.server = this.vertx.createHttpServer().requestHandler(this.router).listen(8077);
+        IdeaPluginDescriptor descriptor = PluginManagerCore.getPlugin(PluginId.getId("org.jboss.tools.intellij.mta"));
+        if (descriptor != null) {
+            this.router.route().handler(BodyHandler.create());
+            File webroot = new File(descriptor.getPluginPath().toFile(), "lib/webroot");
+            String root = webroot.getAbsolutePath();
+            this.router.route("/static/*").handler(StaticHandler.create().setAllowRootFileSystemAccess(true).setWebRoot(root));
+            this.server = this.vertx.createHttpServer().requestHandler(this.router).listen(8077);
+        }
     }
 
     public Router getRouter() {
