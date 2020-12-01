@@ -43,6 +43,19 @@ class Services {
             });
         });
     }
+    postUpdateOption(data) {
+        console.log(`updateOptions`);
+        console.log(data);
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/updateOption`,
+                method: 'POST',
+                data: data,
+                success: resolve,
+                error: reject
+            });
+        });
+    }
 }
 exports.Services = Services;
 class RhamtConfigurationStore {
@@ -56,33 +69,35 @@ class RhamtConfigurationStore {
     }
 }
 class SocketWrapper {
-    constructor(_socket) {
-        this._socket = _socket;
-    }
+    // constructor(_socket) {
+    //     this._socket = _socket;
+    // }
     onServerMessage(message, fn) {
-        return this._socket.on(message, (...args) => {
-            try {
-                fn(...args);
-            }
-            catch (err) {
-                console.log(`Error onServerMessage - ${err}`);
-            }
-        });
+        return () => {};
+        // return this._socket.on(message, (...args) => {
+        //     try {
+        //         fn(...args);
+        //     }
+        //     catch (err) {
+        //         console.log(`Error onServerMessage - ${err}`);
+        //     }
+        // });
     }
     emitToHost(message, ...args) {
-        return this._socket.emit(message, ...args);
+        return () => {};
+        // return this._socket.emit(message, ...args);
     }
 }
 exports.SocketWrapper = SocketWrapper;
 class ConfigClient {
     constructor(host, id, form) {
-        console.log(`here1`);
         const url = `${window.location.protocol}//${host}?id=${id}`;
         this.store = new RhamtConfigurationStore(host, id);
         this._services = new Services(this.store);
         // this.elementData = elementData;
         this.form = form;
-        this._socket = new SocketWrapper(io.connect(url));
+        // this._socket = new SocketWrapper(io.connect(url));
+        this._socket = new SocketWrapper();
         this._socket.onServerMessage('connect', () => {
         });
         this._socket.onServerMessage('disconnect', () => {
@@ -128,9 +143,7 @@ class ConfigClient {
             console.log(`New ruleset: ${data}`);
             
         });
-        console.log(`here2`);
         this.loadConfiguration().then(() => {
-            console.log(`here3`);
             this.renderOptions(this.store.config);
             this.bindOptions(this.elementData, this.store.config);
         });
@@ -168,11 +181,7 @@ class ConfigClient {
     loadConfiguration() {
         return __awaiter(this, void 0, void 0, function* () {
             return this._services.getConfiguration().then(data => {
-                console.log(`here4`);
-                console.log(data);
                 this.elementData = data['help'];
-                console.log(`this.elementData is:`);
-                console.log(this.elementData);
                 this.store.setConfig(data);
             }).catch(e => {
                 console.log(`exception getting configuration - ${e}`);
@@ -690,7 +699,12 @@ class ConfigClient {
         this._socket.emitToHost('addOptionValue', data);
     }
     updateOption(option) {
-        this._socket.emitToHost('updateOption', option);
+        this._services.postUpdateOption(option).then(data => {
+            console.log(`SUCCESS postUpdateOption !!! ${data}`);
+        }).catch(e => {
+            console.log(`exception posting updateOption - ${e}`);
+        });
+        // this._socket.emitToHost('updateOption', option);
     }
     promptWorkspaceFileOrFolder(option) {
         this._socket.emitToHost('promptWorkspaceFileOrFolder', option);
@@ -718,4 +732,3 @@ class ConfigClient {
     }
 }
 exports.ConfigClient = ConfigClient;
-//# sourceMappingURL=configurationFrontendClient.js.map
