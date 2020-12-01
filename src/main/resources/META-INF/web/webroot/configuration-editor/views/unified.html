@@ -7,7 +7,6 @@
 <script src="../lib/jquery-3.3.1.min.js"></script>
 <script>window.exports = {};</script>
 <script src="../lib/configurationFrontendClient.js"></script>
-<script src="../lib/socket.io.js"></script>
 <script>
     io = exports.io;
 </script>
@@ -102,10 +101,6 @@
           configId = urlParams.get('id');
 
           var configClient = new ConfigClient(window.location.host, configId, $('#elementForm'), document);
-          console.log(`config is: `);
-          console.log(configClient.store.config);
-        //   elementData = configClient.store.config.help.options;
-        //     console.log(`elementData is: ${elementData}`);
 
 
           function bindCommonElements() {
