@@ -27,13 +27,9 @@ public class ConfigurationEditor extends JFXPanel implements Disposable {
 
     private void init() {
         this.verticle = new ConfigurationEditorVerticle(this.configuration, this.vertxService);
-
         WebView webView = new WebView();
         WebEngine engine = webView.getEngine();
-
-        System.out.println("Opening editor: http://localhost:8077/mta/" + configuration.getId() + "/options");
-//        engine.load("http://localhost:61436/-zkruy21cg-4c94sgtea");
-        engine.load("http://localhost:8077/mta/" + configuration.getId() + "/options");
+        engine.load("http://localhost:8077/static/configuration-editor/views/unified.html?id=" + configuration.getId());
         webView.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.SLASH) {
                 engine.executeScript("smoothScrollToBottom()");
