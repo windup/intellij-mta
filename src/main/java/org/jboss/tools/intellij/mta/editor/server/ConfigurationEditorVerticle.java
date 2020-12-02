@@ -5,6 +5,7 @@ import com.intellij.openapi.Disposable;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
@@ -104,6 +105,23 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
     private void handleUpdateOption(RoutingContext ctx) {
         System.out.println("handleUpdateOption... ");
         JsonObject option = ctx.getBodyAsJson();
+        String name = option.getString("name");
+        Object value = option.getValue("value");
+        if (name.equals("name")) {
+            this.configuration.setName((String)value);
+        }
+        else if (value == null || value == "" || ((value instanceof Boolean && (Boolean)value == false))) {
+            this.configuration.getOptions().remove(name);
+        }
+        else {
+            if (value instanceof JsonArray) {
+                value = ((JsonArray)value).getList();
+            }
+            else if (value instanceof Boolean) {
+                value = value.toString();
+            }
+            this.configuration.getOptions().put(name, value);
+        }
         ctx.response().end();
     }
 
