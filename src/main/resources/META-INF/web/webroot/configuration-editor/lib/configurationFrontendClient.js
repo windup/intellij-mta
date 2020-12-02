@@ -50,7 +50,7 @@ class Services {
             $.ajax({
                 url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/updateOption`,
                 method: 'POST',
-                data: data,
+                data: JSON.stringify(data),
                 success: resolve,
                 error: reject
             });
