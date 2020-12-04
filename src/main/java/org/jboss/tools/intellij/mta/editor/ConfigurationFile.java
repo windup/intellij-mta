@@ -4,17 +4,24 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.LightVirtualFile;
 import org.jboss.tools.intellij.mta.editor.server.VertxService;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
+import org.jboss.tools.intellij.mta.services.ModelService;
 import org.jetbrains.annotations.NotNull;
 
 public class ConfigurationFile extends LightVirtualFile {
 
     private MtaConfiguration configuration;
     private VertxService vertxService;
+    private ModelService modelService;
 
-    public ConfigurationFile(MtaConfiguration configuration, VertxService vertxService) {
+    public ConfigurationFile(
+            MtaConfiguration configuration,
+            VertxService vertxService,
+            ModelService modelService
+    ) {
         super(configuration.getName());
         this.configuration = configuration;
         this.vertxService = vertxService;
+        this.modelService = modelService;
     }
 
     @Override
@@ -66,5 +73,9 @@ public class ConfigurationFile extends LightVirtualFile {
 
     public VertxService getVertxService() {
         return this.vertxService;
+    }
+
+    public ModelService getModelService() {
+        return this.modelService;
     }
 }

@@ -14,11 +14,13 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 
 public class ConfigurationEditor extends JFXPanel implements Disposable {
 
+    private ConfigurationFile configurationFile;
     private MtaConfiguration configuration;
     private VertxService vertxService;
     private ConfigurationEditorVerticle verticle;
 
     public ConfigurationEditor(ConfigurationFile file) {
+        this.configurationFile = file;
         this.configuration = file.getConfiguration();
         this.vertxService = file.getVertxService();
         PlatformImpl.setImplicitExit(false);
@@ -26,7 +28,10 @@ public class ConfigurationEditor extends JFXPanel implements Disposable {
     }
 
     private void init() {
-        this.verticle = new ConfigurationEditorVerticle(this.configuration, this.vertxService);
+        this.verticle = new ConfigurationEditorVerticle(
+                this.configurationFile.getModelService(),
+                this.configuration,
+                this.vertxService);
         WebView webView = new WebView();
         WebEngine engine = webView.getEngine();
         engine.load("http://localhost:8077/static/configuration-editor/views/unified.html?id=" + configuration.getId());
