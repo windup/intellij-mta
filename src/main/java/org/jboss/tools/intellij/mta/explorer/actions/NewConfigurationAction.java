@@ -28,6 +28,7 @@ public class NewConfigurationAction extends StructureTreeAction {
         MtaConfiguration configuration = new MtaConfiguration();
         configuration.setId(MtaConfiguration.generateUniqueId());
         configuration.setName(NameUtil.generateUniqueConfigurationName(model));
+        configuration.getOptions().set("mta-cli", renderer.getModelService().computeMtaCliLocation());
         model.addConfiguration(configuration);
         renderer.getModelService().saveModel();
         renderer.getTreeModel().invalidate();

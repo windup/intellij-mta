@@ -142,4 +142,8 @@ public class ModelService implements Disposable {
             + File.separator + "intellij"
             + File.separator + "model.json";
     }
+
+    public String computeMtaCliLocation() {
+        return "";
+    }
 }
