@@ -15,16 +15,16 @@ public class MtaCliRunner {
     private static final String JAVA_HOME = "JAVA_HOME";
     private static final String PROGRESS = ":progress:";
 
-    public static interface CliListener {
+    public interface CliListener {
         default void onProcessFailed(ExecuteException e) {}
         default void onProcessComplete(int exitValue) {}
     }
 
     public static void run(MtaConfiguration configuration,
                            ProgressMonitor progressMonitor,
-                           String mtaCli,
                            CliListener listener) {
         String javaHome = "";
+        String mtaCli = (String)configuration.getOptions().get("mta-cli");
         List<String> params = MtaCliParamBuilder.buildParams(configuration, mtaCli);
         MtaCliRunner.executeAnalysis(mtaCli, javaHome, params, progressMonitor, listener);
     }
