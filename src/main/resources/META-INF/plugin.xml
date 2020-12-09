@@ -25,6 +25,11 @@
                     text="Delete Configuration"
                     icon="AllIcons.Diff.Remove">
             </action>
+            <action class="org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction"
+                    id="org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction"
+                    text="Run Analysis"
+                    icon="AllIcons.Actions.Execute">
+            </action>
         </group>
     </actions>
 </idea-plugin>
