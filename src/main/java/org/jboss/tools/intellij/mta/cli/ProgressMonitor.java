@@ -63,7 +63,7 @@ public class ProgressMonitor {
                 this.subTask(value);
                 break;
             case "worked":
-                this.worked(new Integer(value));
+                this.worked(Integer.valueOf(value));
                 break;
         }
 
