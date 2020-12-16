@@ -30,7 +30,7 @@ public class MtaCliRunner {
     }
 
     private static void executeAnalysis(String cli, String javaHome, List<String> params, ProgressMonitor progressMonitor, CliListener listener) {
-        System.out.println("exucute mta-cli");
+        System.out.println("execute mta-cli");
         CommandLine cmdLine = CommandLine.parse(cli);
         Map<String, String> env = Maps.newHashMap();
         for (Map.Entry<String, String> entry : System.getenv().entrySet()) {

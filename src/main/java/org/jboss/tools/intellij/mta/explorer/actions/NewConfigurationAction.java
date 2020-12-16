@@ -1,6 +1,5 @@
 package org.jboss.tools.intellij.mta.explorer.actions;
 
-import com.google.common.collect.Lists;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
