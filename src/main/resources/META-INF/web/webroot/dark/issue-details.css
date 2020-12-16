@@ -1,0 +1,25 @@
+
+@font-face {
+    font-family: FontAwesome;
+    src: url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff');
+    format: ('embedded-opentype');
+}
+
+a {
+    text-decoration: none;
+    color: #3794FF;
+}
+
+a:after {
+    content: "\f08e";
+    font-family: FontAwesome;
+    padding-left: 5px;
+}
+
+.dark {
+    color: #cccccc;
+    font-family: -apple-system,BlinkMacSystemFont,sans-serif;
+    font-size: 13px;
+    line-height: 1.4em;
+    padding: 10px;
+}

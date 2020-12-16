@@ -56,6 +56,45 @@ class Services {
             });
         });
     }
+    promptWorkspaceFileOrFolder(data) {
+        console.log(`promptWorkspaceFileOrFolder`);
+        console.log(data);
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/promptWorkspaceFileOrFolder`,
+                method: 'POST',
+                data: JSON.stringify(data),
+                success: resolve,
+                error: reject
+            });
+        }); 
+    }
+    promptExternal(data) {
+        console.log(`promptExternal`);
+        console.log(data);
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/promptExternal`,
+                method: 'POST',
+                data: JSON.stringify(data),
+                success: resolve,
+                error: reject
+            });
+        }); 
+    }
+    addOptionValue(data) {
+        console.log(`addOptionValue`);
+        console.log(data);
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/addOptionValue`,
+                method: 'POST',
+                data: JSON.stringify(data),
+                success: resolve,
+                error: reject
+            });
+        }); 
+    }
 }
 exports.Services = Services;
 class RhamtConfigurationStore {
@@ -686,34 +725,52 @@ class ConfigClient {
             this.updateOption({ name: option.name, value: values });
         }
     }
-    updateName(name) {
-        this._socket.emitToHost('updateName', name);
-    }
-    updateJvm(jvm) {
-        this._socket.emitToHost('updateJvm', jvm);
-    }
-    updateCli(cli) {
-        this._socket.emitToHost('updateCli', cli);
-    }
-    addOptionValue(data) {
-        this._socket.emitToHost('addOptionValue', data);
+    addOptionValue(option) {
+        this._services.addOptionValue(option).then(data => {
+            console.log(`SUCCESS addOptionValue !!! ${data}`);
+            console.log(option);
+            console.log(`binding:`);
+            console.log(option.option);
+            this.store.config.options = data.options;
+            console.log('options:');
+            console.log(data.options);
+            this.bindOption(option.option, this.store.config);
+        }).catch(e => {
+            console.log(`exception addOptionValue - ${e}`);
+        });
     }
     updateOption(option) {
         this._services.postUpdateOption(option).then(data => {
             console.log(`SUCCESS postUpdateOption !!! ${data}`);
+            console.log('option:');
+            console.log(option);
+            this.store.config.options = data.options;
+            console.log('options:');
+            console.log(data.options);
+            
+            const optionMeta = this.elementData.options.find((item) => {
+                return item.name === option.name;
+            });
+            console.log('new option:');
+            console.log(optionMeta);
+            this.bindOption(optionMeta, this.store.config);
         }).catch(e => {
             console.log(`exception posting updateOption - ${e}`);
         });
-        // this._socket.emitToHost('updateOption', option);
     }
     promptWorkspaceFileOrFolder(option) {
-        this._socket.emitToHost('promptWorkspaceFileOrFolder', option);
-    }
-    promptWorkspaceFolder(option) {
-        this._socket.emitToHost('promptWorkspaceFolder', option);
+        this._services.promptWorkspaceFileOrFolder(option).then(data => {
+            console.log(`SUCCESS promptWorkspaceFileOrFolder !!! ${data}`);
+        }).catch(e => {
+            console.log(`exception promptWorkspaceFileOrFolder - ${e}`);
+        });
     }
     promptExternal(option) {
-        this._socket.emitToHost('promptExternal', option);
+        this._services.promptExternal(option).then(data => {
+            console.log(`SUCCESS promptExternal !!! ${data}`);
+        }).catch(e => {
+            console.log(`exception promptExternal - ${e}`);
+        });
     }
     openReport() {
         this._socket.emitToHost('openReport');
