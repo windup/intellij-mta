@@ -7,7 +7,7 @@ import com.google.gson.JsonSyntaxException;
 public class ProgressMonitor {
 
     public static interface IProgressListener {
-        void report(String message, int percentage);
+        void report(String message, int percentage, double fraction);
         void onComplete();
     }
 
@@ -21,9 +21,9 @@ public class ProgressMonitor {
     private IProgressListener progressListener;
 
     private boolean started = false;
-    private int preWork = 0;
+    private double preWork = 0;
     private String title = "";
-    private int totalWork = 0;
+    private double totalWork = 0;
     private boolean finalizing = false;
     private boolean done = false;
 
@@ -69,14 +69,14 @@ public class ProgressMonitor {
 
         if (!this.started) {
             this.started = true;
-            this.report("Launching analysis...", -1);
+            this.report("Starting analysis process...", -1);
         }
     }
 
     public void logMessage(String message) {
     }
 
-    public void beginTask(String task, int total) {
+    public void beginTask(String task, double total) {
         this.title = "Analysis in progress";
         this.totalWork = total;
         this.setTitle(this.title, -1);
@@ -98,20 +98,17 @@ public class ProgressMonitor {
     public void subTask(String name) {
     }
 
-    public void worked(int worked) {
+    public void worked(double worked) {
         this.preWork += worked;
-        this.setTitle(this.computeTitle(), this.getPercentangeDone());
+        this.setTitle(this.computeTitle(), this.getPercentageDone());
     }
 
-    private int getPercentangeDone() {
-        System.out.println(".1) " + (this.preWork * 100 / this.totalWork));
-        System.out.println(".2) " + Math.min((this.preWork * 100 / this.totalWork), 100));
-        System.out.println(".3) " + Math.floor(Math.min((this.preWork * 100 / this.totalWork), 100)));
+    private int getPercentageDone() {
         return (int)Math.floor(Math.min((this.preWork * 100 / this.totalWork), 100));
     }
 
     private String computeTitle() {
-        int done = this.getPercentangeDone();
+        int done = this.getPercentageDone();
         String label = this.title;
         if (done > 0) {
             label += " (" + done + " % done)";
@@ -119,19 +116,17 @@ public class ProgressMonitor {
         return label;
     }
 
-
-
     private void setTitle(String value, int percentage) {
         this.report(value, percentage);
     }
 
     public void report(String msg, int percentage) {
         if (!this.done && !this.finalizing) {
-            if (this.getPercentangeDone() == 99) {
+            if (this.getPercentageDone() == 99) {
                 this.finalizing = true;
-                msg = "Finalizing...";
+                msg = "Preparing analysis results...";
             }
-            this.progressListener.report(msg, percentage);
+            this.progressListener.report(msg, percentage, (this.preWork / this.totalWork));
         }
         else {
             System.out.println("progress done or cancelled, cannot report: " + msg);

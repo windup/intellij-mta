@@ -7,24 +7,22 @@ import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessEvent;
 import com.intellij.execution.process.ProcessListener;
 import com.intellij.execution.process.ProcessOutputTypes;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
-import com.intellij.openapi.vcs.LineHandlerHelper;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 
 import java.nio.charset.Charset;
-import java.util.Iterator;
 import java.util.List;
 
 public class RunAnalysisCommandHandler {
 
     private static final long LONG_TIME = 10 * 1000;
     private static final String PROGRESS = ":progress:";
+    private static final String STARTED = "userRulesDirectory";
 
     protected final Project project;
 
@@ -61,12 +59,15 @@ public class RunAnalysisCommandHandler {
 
     private ProgressMonitor.IProgressListener createProgressListener() {
         return new ProgressMonitor.IProgressListener() {
-            int i = 0;
-
             @Override
-            public void report(String message, int percentage) {
+            public void report(String message, int percentage, double fraction) {
+                if (progressIndicator.isCanceled() &&
+                        !handler.isProcessTerminating() &&
+                            !handler.isProcessTerminated()) {
+                    handler.destroyProcess();
+                }
                 if (percentage > 0) {
-                    progressIndicator.setFraction(percentage);
+                    progressIndicator.setFraction(fraction);
                 }
                 progressIndicator.setText(message);
             }
@@ -86,8 +87,9 @@ public class RunAnalysisCommandHandler {
                     process = commandLine.createProcess();
                     handler = new MtaCliProcessHandler(process, commandLine);
                     registerProcessListeners();
-                    progressIndicator.setText("Analysis in progress...");
+                    progressIndicator.setText("Starting mta-cli process...");
                     progressIndicator.setIndeterminate(true);
+                    progressIndicator.setFraction(0.01);
                     handler.waitFor();
                     logTime();
                 }
@@ -156,9 +158,11 @@ public class RunAnalysisCommandHandler {
 //        while (lines.hasNext()) {
 //            System.out.println("onTextAvailable: " + lines.next());
 //        }
-
         System.out.println("Message from mta-cli: " + text);
-        if (text.contains(PROGRESS)) {
+        if (text.contains(STARTED)) {
+            progressIndicator.setText("Preparing analysis configuration...");
+        }
+        else if (text.contains(PROGRESS)) {
             text = text.replace(PROGRESS, "").trim();
             if (text.contains("{\"op\":\"") && !text.contains("\"op\":\"logMessage\"")) {
                 try {
