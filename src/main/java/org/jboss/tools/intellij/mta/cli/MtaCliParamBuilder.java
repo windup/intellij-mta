@@ -53,6 +53,7 @@ public class MtaCliParamBuilder {
         // target
         List<String> target = (List<String>)options.get("target");
         if (target == null || target.isEmpty()) {
+            target = Lists.newArrayList();
             target.add("eap7");
         }
         params.add("--target");
