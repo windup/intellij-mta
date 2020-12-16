@@ -1,14 +1,10 @@
 package org.jboss.tools.intellij.mta.explorer.actions;
 
+import com.google.common.collect.Lists;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
-import com.intellij.ui.tree.AsyncTreeModel;
-import com.intellij.ui.tree.StructureTreeModel;
 import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
-import org.jboss.tools.intellij.mta.explorer.nodes.IssueNode;
 import org.jboss.tools.intellij.mta.explorer.nodes.MtaExplorerNode;
-import org.jboss.tools.intellij.mta.explorer.nodes.MtaNodeModel;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaModel;
 import org.jboss.tools.intellij.mta.model.NameUtil;
@@ -28,7 +24,7 @@ public class NewConfigurationAction extends StructureTreeAction {
         MtaConfiguration configuration = new MtaConfiguration();
         configuration.setId(MtaConfiguration.generateUniqueId());
         configuration.setName(NameUtil.generateUniqueConfigurationName(model));
-        configuration.getOptions().set("mta-cli", renderer.getModelService().computeMtaCliLocation());
+        configuration.getOptions().put("mta-cli", renderer.getModelService().computeMtaCliLocation());
         model.addConfiguration(configuration);
         renderer.getModelService().saveModel();
         renderer.getTreeModel().invalidate();
