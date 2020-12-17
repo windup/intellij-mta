@@ -55,7 +55,7 @@
       "name": "userRulesDirectory",
       "description": "User Rules Directory (Search pattern: *.windup.groovy, *.windup.xml, *.mta.groovy and *.mta.xml).",
       "type": "Path",
-      "ui-type": ["many", "file_or_directory", "text", "recent"],
+      "ui-type": ["many", "file_or_directory", "text"],
       "placeholder": "No Directories Specified",
       "required": false,
       "editable": true
