@@ -22,7 +22,6 @@ public class RunAnalysisCommandHandler {
 
     private static final long LONG_TIME = 10 * 1000;
     private static final String PROGRESS = ":progress:";
-    private static final String STARTED = "userRulesDirectory";
 
     protected final Project project;
 
@@ -159,8 +158,14 @@ public class RunAnalysisCommandHandler {
 //            System.out.println("onTextAvailable: " + lines.next());
 //        }
         System.out.println("Message from mta-cli: " + text);
-        if (text.contains(STARTED)) {
+        if (text.contains("userRulesDirectory")) {
             progressIndicator.setText("Preparing analysis configuration...");
+        }
+        else if (text.contains("Reading tags definitions")) {
+            progressIndicator.setText("Reading tags definitions...");
+        }
+        else if (text.contains("Finished provider load")) {
+            progressIndicator.setText("Loading transformation paths...");
         }
         else if (text.contains(PROGRESS)) {
             text = text.replace(PROGRESS, "").trim();

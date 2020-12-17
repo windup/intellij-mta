@@ -69,7 +69,7 @@ public class ProgressMonitor {
 
         if (!this.started) {
             this.started = true;
-            this.report("Starting analysis process...", -1);
+            this.report("Starting analysis...", -1);
         }
     }
 
