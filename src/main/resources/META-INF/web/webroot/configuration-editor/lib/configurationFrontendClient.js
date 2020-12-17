@@ -768,6 +768,18 @@ class ConfigClient {
     promptExternal(option) {
         this._services.promptExternal(option).then(data => {
             console.log(`SUCCESS promptExternal !!! ${data}`);
+            console.log(`SUCCESS promptExternal !!! ${data}`);
+            console.log('option:');
+            console.log(option);
+            this.store.config.options = data.options;
+            console.log('options:');
+            console.log(data.options);
+            const optionMeta = this.elementData.options.find((item) => {
+                return item.name === option.name;
+            });
+            console.log('new option:');
+            console.log(optionMeta);
+            this.bindOption(optionMeta, this.store.config);
         }).catch(e => {
             console.log(`exception promptExternal - ${e}`);
         });
