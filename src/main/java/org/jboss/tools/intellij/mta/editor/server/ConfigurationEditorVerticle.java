@@ -3,8 +3,12 @@ package org.jboss.tools.intellij.mta.editor.server;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDialog;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -22,6 +26,7 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.services.ModelService;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -157,33 +162,40 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
     }
 
     private void promptExternal(RoutingContext ctx) {
-        System.out.println("promptExternal... ");
+        System.out.println("promptExternal begin");
         JsonObject option = ctx.getBodyAsJson();
-        String name = option.getString("name");
-        Object value = option.getValue("value");
-
+        String optionName = option.getString("name");
+        boolean chooseFiles = !optionName.equals("userRulesDirectory");
+        boolean chooseMultiple = ((JsonArray)option.getValue("ui-type")).contains("many");
         FileChooserDescriptor descriptor = new FileChooserDescriptor(
+                chooseFiles,
                 true,
-                true,
                 false,
                 false,
                 false,
-                false);
+                chooseMultiple);
         try {
             Runnable r = ()->
             {
                 FileChooserDialog dialog = FileChooserFactory.getInstance().createFileChooser(descriptor, this.modelService.getProject(), null);
                 VirtualFile[] files = dialog.choose(this.modelService.getProject());
+                System.out.println("Selected files: ");
                 System.out.println(Arrays.toString(files));
+                if (files.length > 0) {
+                    for (VirtualFile file : files) {
+                        this.addOptionValue(optionName, file.getPath());
+                    }
+                }
+                jsonHeader(ctx);
+                end(ctx, JsonUtil.getOptions(this.configuration));
+                System.out.println("invokeLater end");
             };
-            WriteCommandAction.runWriteCommandAction(this.modelService.getProject(), r);
-//            ApplicationManager.getApplication().runWriteAction(() -> {
-//            });
+            ApplicationManager.getApplication().invokeLater(r);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        ctx.response().end();
+        System.out.println("promptExternal end");
     }
 
     private void addOptionValue(RoutingContext ctx) {
@@ -191,6 +203,12 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
         JsonObject data = (JsonObject)jsonOption.getValue("option");
         String newValue = jsonOption.getString("value");
         String optionName = data.getString("name");
+        this.addOptionValue(optionName, newValue);
+        jsonHeader(ctx);
+        end(ctx, JsonUtil.getOptions(this.configuration));
+    }
+
+    private void addOptionValue(String optionName, String newValue) {
         Map<String, Object> options = this.configuration.getOptions();
         if (options.containsKey(optionName)) {
             List<String> optionList = (List<String>)options.get(optionName);
@@ -201,8 +219,6 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
             values.add(newValue);
             options.put(optionName, values);
         }
-        jsonHeader(ctx);
-        end(ctx, JsonUtil.getOptions(this.configuration));
     }
 
     @Override
