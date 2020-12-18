@@ -53,7 +53,11 @@ public class MtaModelParser {
         }
         String mtaCli = (String)mtaConfiguration.getOptions().get("mta-cli");
         if (mtaCli == null || "".equals(mtaCli)) {
-            mtaConfiguration.getOptions().put("mta-cli", modelService.computeMtaCliLocation());
+            mtaConfiguration.getOptions().put("mta-cli", ModelService.computeMtaCliLocation());
+        }
+        String output = (String)mtaConfiguration.getOptions().get("output");
+        if (output == null || "".equals(output)) {
+            mtaConfiguration.getOptions().put("output", ModelService.getConfigurationOutputLocation(mtaConfiguration));
         }
         return mtaConfiguration;
     }
