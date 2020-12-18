@@ -7,6 +7,7 @@ import org.jboss.tools.intellij.mta.explorer.nodes.MtaExplorerNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaModel;
 import org.jboss.tools.intellij.mta.model.NameUtil;
+import org.jboss.tools.intellij.mta.services.ModelService;
 
 import javax.swing.tree.TreePath;
 
@@ -23,7 +24,8 @@ public class NewConfigurationAction extends StructureTreeAction {
         MtaConfiguration configuration = new MtaConfiguration();
         configuration.setId(MtaConfiguration.generateUniqueId());
         configuration.setName(NameUtil.generateUniqueConfigurationName(model));
-        configuration.getOptions().put("mta-cli", renderer.getModelService().computeMtaCliLocation());
+        configuration.getOptions().put("mta-cli", ModelService.computeMtaCliLocation());
+        configuration.getOptions().put("output", ModelService.getConfigurationOutputLocation(configuration));
         model.addConfiguration(configuration);
         renderer.getModelService().saveModel();
         renderer.getTreeModel().invalidate();
