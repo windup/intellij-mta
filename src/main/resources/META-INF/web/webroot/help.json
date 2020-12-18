@@ -298,6 +298,13 @@
       "type": "Boolean",
       "ui-type": ["single"],
       "required": false
+    },
+    {
+      "name": "output",
+      "description": "The analysis results output location.",
+      "type": "String",
+      "ui-type": ["single"],
+      "required": true
     }
   ]
 }
