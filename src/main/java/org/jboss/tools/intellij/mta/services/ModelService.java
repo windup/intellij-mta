@@ -136,14 +136,23 @@ public class ModelService implements Disposable {
     }
 
     private static String getStateLocation() {
-        return System.getProperty("user.home")
-            + File.separator + ".mta"
-            + File.separator +  "tooling"
-            + File.separator + "intellij"
-            + File.separator + "model.json";
+        return ModelService.getDefaultOutputLocation()
+                + File.separator + "model.json";
     }
 
-    public String computeMtaCliLocation() {
-        return "";
+    public static String computeMtaCliLocation() {
+        return ModelService.getDefaultOutputLocation();
+    }
+
+    public static String getDefaultOutputLocation() {
+        return System.getProperty("user.home")
+                + File.separator + ".mta"
+                + File.separator +  "tooling"
+                + File.separator + "intellij";
+    }
+
+    public static String getConfigurationOutputLocation(MtaConfiguration configuration) {
+        return ModelService.getDefaultOutputLocation()
+                + File.separator + configuration.getId();
     }
 }

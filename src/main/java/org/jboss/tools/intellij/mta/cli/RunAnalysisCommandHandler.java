@@ -47,16 +47,17 @@ public class RunAnalysisCommandHandler {
     public RunAnalysisCommandHandler(Project project,
                                      MtaConfiguration configuration,
                                      String executable,
-                                     List<String> params) {
+                                     List<String> params,
+                                     Runnable onComplete) {
         this.configuration = configuration;
         this.project = project;
         commandLine = new GeneralCommandLine();
         commandLine.setExePath(executable);
         commandLine.addParameters(params);
-        this.progressMonitor = new ProgressMonitor(this.createProgressListener());
+        this.progressMonitor = new ProgressMonitor(this.createProgressListener(onComplete));
     }
 
-    private ProgressMonitor.IProgressListener createProgressListener() {
+    private ProgressMonitor.IProgressListener createProgressListener(Runnable onCompleteHanlder) {
         return new ProgressMonitor.IProgressListener() {
             @Override
             public void report(String message, int percentage, double fraction) {
@@ -72,6 +73,7 @@ public class RunAnalysisCommandHandler {
             }
             @Override
             public void onComplete() {
+                onCompleteHanlder.run();
             }
         };
     }
