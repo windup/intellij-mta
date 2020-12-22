@@ -13,6 +13,7 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.CharsetToolkit;
+import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 
 import java.nio.charset.Charset;
@@ -96,6 +97,7 @@ public class RunAnalysisCommandHandler {
                 }
                 catch (Exception e) {
                     System.out.println("Error while running analysis: " + e.getMessage());
+                    MtaNotifier.notifyError("Error while running analysis: " + e.getMessage());
                 }
             }
         });
