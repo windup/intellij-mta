@@ -168,12 +168,14 @@ a {
 }
 
 .edit-action {
-    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cstyle%3E.icon-canvas-transparent{opacity:0;fill:%232d2d30}.icon-vs-out{fill:%232d2d30}.icon-vs-bg{fill:%23c5c5c5}%3C/style%3E%3Cpath class='icon-canvas-transparent' d='M16 16H0V0h16v16z' id='canvas'/%3E%3Cpath class='icon-vs-bg' d='M14.598 4.25L12.91 6l-3-3 1.688-1.75 3 3zM8.91 4l-7 7 3 3 7-7-3-3zM1 12.09V15h2.91L1 12.09z' id='iconBg'/%3E%3C/svg%3E") 50% no-repeat;
+    background-image: url("./edit.svg");
+    /* background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cstyle%3E.icon-canvas-transparent{opacity:0;fill:%232d2d30}.icon-vs-out{fill:%232d2d30}.icon-vs-bg{fill:%23c5c5c5}%3C/style%3E%3Cpath class='icon-canvas-transparent' d='M16 16H0V0h16v16z' id='canvas'/%3E%3Cpath class='icon-vs-bg' d='M14.598 4.25L12.91 6l-3-3 1.688-1.75 3 3zM8.91 4l-7 7 3 3 7-7-3-3zM1 12.09V15h2.91L1 12.09z' id='iconBg'/%3E%3C/svg%3E") 50% no-repeat; */
     margin-right: 4px;
 }
 
 .delete-action {
-    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='3 3 16 16'%3E%3Cpath fill='%23e8e8e8' d='M12.597 11.042l2.803 2.803-1.556 1.555-2.802-2.802L8.239 15.4l-1.556-1.555 2.802-2.803-2.802-2.803 1.555-1.556 2.804 2.803 2.803-2.803L15.4 8.239z'/%3E%3C/svg%3E") 50% no-repeat;
+    background-image: url("./delete.svg");
+    /* background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='3 3 16 16'%3E%3Cpath fill='%23e8e8e8' d='M12.597 11.042l2.803 2.803-1.556 1.555-2.802-2.802L8.239 15.4l-1.556-1.555 2.802-2.803-2.802-2.803 1.555-1.556 2.804 2.803 2.803-2.803L15.4 8.239z'/%3E%3C/svg%3E") 50% no-repeat; */
 }
 
 .action-label {
@@ -346,7 +348,6 @@ input {
 .monaco-shell .synthetic-focus :focus {
     outline: 0 !important
 }
-
 
 .settings-header-widget>.settings-search-container>.settings-search-input {
     vertical-align: middle;
