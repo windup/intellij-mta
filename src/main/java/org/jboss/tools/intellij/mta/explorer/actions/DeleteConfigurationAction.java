@@ -6,6 +6,7 @@ import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
 import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaModel;
+import org.jboss.tools.intellij.mta.services.ModelService;
 
 import javax.swing.tree.TreePath;
 
@@ -23,6 +24,7 @@ public class DeleteConfigurationAction extends StructureTreeAction {
         MtaTreeCellRenderer renderer = (MtaTreeCellRenderer) tree.getCellRenderer();
         MtaModel model = renderer.getModelService().getModel();
         model.deleteConfiguration(configuration);
+        ModelService.deleteOutput(configuration);
         renderer.getModelService().saveModel();
         renderer.getTreeModel().invalidate();
     }

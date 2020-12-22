@@ -3,6 +3,8 @@ package org.jboss.tools.intellij.mta.services;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
+import com.intellij.ui.tree.StructureTreeModel;
+import org.apache.commons.io.FileUtils;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jboss.tools.intellij.mta.model.MtaModel;
@@ -20,6 +22,7 @@ public class ModelService implements Disposable {
 
     private MtaModel mtaModel;
     private Project project;
+    private StructureTreeModel treeModel;
 
     private static final String STATE_LOCATION = ModelService.getStateLocation();
 
@@ -33,6 +36,14 @@ public class ModelService implements Disposable {
 
     public Project getProject() {
         return this.project;
+    }
+
+    public void setTreeModel(StructureTreeModel treeModel) {
+        this.treeModel = treeModel;
+    }
+
+    public StructureTreeModel getTreeModel() {
+        return this.treeModel;
     }
 
     public void forceReload() {
@@ -130,6 +141,21 @@ public class ModelService implements Disposable {
         }
     }
 
+    public static void deleteOutput(MtaConfiguration configuration) {
+        String output = (String)configuration.getOptions().get("output");
+        if (output != null && !"".equals(output)) {
+            try {
+                FileUtils.deleteDirectory(new File(output));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.out.println("Unable to delete output location for configuration.");
+        }
+    }
+
     @Override
     public void dispose() {
         this.saveModel();
@@ -145,7 +171,7 @@ public class ModelService implements Disposable {
     }
 
     public static String getDefaultOutputLocation() {
-        return System.getProperty("user.home")
+        return FileUtils.getUserDirectoryPath()
                 + File.separator + ".mta"
                 + File.separator +  "tooling"
                 + File.separator + "intellij";
