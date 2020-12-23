@@ -9,6 +9,7 @@ import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.tree.StructureTreeModel;
+import org.apache.maven.model.Model;
 import org.jboss.tools.intellij.mta.cli.MtaResultsParser;
 import org.jboss.tools.intellij.mta.editor.ConfigurationFile;
 import org.jboss.tools.intellij.mta.editor.server.VertxService;
@@ -77,8 +78,12 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
 //            this.modelService.saveModel();
 //            treeModel.invalidate();
 //        }
-        MtaConfiguration configuration = this.getValue();
+        ConfigurationNode.openConfigurationEditor(this.getValue(), modelService, vertxService);
+    }
+
+    public static void openConfigurationEditor(MtaConfiguration configuration, ModelService modelService, VertxService vertxService) {
         try {
+            Project project = modelService.getProject();
             FileEditorManager.getInstance(project).openTextEditor(new OpenFileDescriptor(project,
                     new ConfigurationFile(configuration, vertxService, modelService)), true);
         }
