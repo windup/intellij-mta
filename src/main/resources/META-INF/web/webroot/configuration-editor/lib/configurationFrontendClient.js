@@ -567,6 +567,9 @@ class ConfigClient {
         const top = document.createElement('dd');
         group.appendChild(top);
         const widget = document.createElement('input');
+        if (option.disabled) {
+            widget.disabled = true;
+        }
         widget.id = `${option.name}-input`;
         widget.classList.add('form-control', 'form-input', 'input-sm');
         widget.style.backgroundColor = 'hsla(0, 0%, 50%, .17)';
