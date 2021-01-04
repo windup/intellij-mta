@@ -27,6 +27,7 @@ import org.jboss.tools.intellij.mta.services.ModelService;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import javax.swing.tree.TreePath;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -150,6 +151,9 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
         }
         jsonHeader(ctx);
         end(ctx, JsonUtil.getOptions(this.configuration));
+        if (name.equals("name")) {
+            this.modelService.getTreeModel().invalidate(this.configuration.getNode(), false);
+        }
     }
 
     private void promptWorkspaceFileOrFolder(RoutingContext ctx) {
