@@ -3,6 +3,7 @@ package org.jboss.tools.intellij.mta.explorer.actions;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
+import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
 import org.jboss.tools.intellij.mta.explorer.nodes.MtaExplorerNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaModel;
@@ -29,6 +30,7 @@ public class NewConfigurationAction extends StructureTreeAction {
         model.addConfiguration(configuration);
         renderer.getModelService().saveModel();
         renderer.getTreeModel().invalidate();
+        ConfigurationNode.openConfigurationEditor(configuration, renderer.getModelService(), renderer.getVertxService());
     }
 
     @Override
