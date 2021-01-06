@@ -2,6 +2,7 @@ package org.jboss.tools.intellij.mta.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
 import org.jboss.tools.intellij.mta.services.ModelService;
 
 import java.nio.file.Path;
@@ -17,6 +18,7 @@ public class MtaConfiguration {
     private String name;
     private String id;
     private AnalysisResultsSummary summary;
+    private ConfigurationNode node;
 
     public Map<String, Object> getOptions() {
         return this.options;
@@ -66,6 +68,14 @@ public class MtaConfiguration {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public ConfigurationNode getNode() {
+        return this.node;
+    }
+
+    public void setNode(ConfigurationNode node) {
+        this.node = node;
     }
 
     public static class UniqueElement {

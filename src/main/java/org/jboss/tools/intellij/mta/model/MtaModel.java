@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MtaModel {
 
-    private List<MtaConfiguration> configurations = new ArrayList<MtaConfiguration>();
+    private List<MtaConfiguration> configurations = new ArrayList<>();
 
     public void addConfiguration(MtaConfiguration configuration) {
         this.configurations.add(configuration);
