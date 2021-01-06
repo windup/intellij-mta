@@ -6,6 +6,7 @@ import com.intellij.ide.BrowserUtil;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.project.Project;
+import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jetbrains.annotations.NotNull;
@@ -51,9 +52,12 @@ public class ReportNode extends MtaExplorerNode<MtaConfiguration> {
             }
         }
         else {
+            String output = (String)this.getValue().getOptions().get("output");
             System.out.println("" +
                     "Error - Cannot open report location for output " +
-                    this.getValue().getOptions().get("output"));
+                    output);
+            MtaNotifier.notifyError("Cannot open report using `output` location of `"
+                    + output + "`");
         }
     }
 }
