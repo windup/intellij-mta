@@ -37,7 +37,7 @@ public class VertxService {
     private void startServer() {
         IdeaPluginDescriptor descriptor = PluginManagerCore.getPlugin(PluginId.getId("org.jboss.tools.intellij.mta"));
         if (descriptor != null) {
-            this.router.route().handler(BodyHandler.create());
+            this.router.route().handler(BodyHandler.create().setUploadsDirectory(System.getProperty("java.io.tmpdir")));
             File webroot = new File(descriptor.getPluginPath().toFile(), "lib/webroot");
             String root = webroot.getAbsolutePath();
             this.router.route("/static/*").handler(StaticHandler.create().setAllowRootFileSystemAccess(true).setWebRoot(root));
