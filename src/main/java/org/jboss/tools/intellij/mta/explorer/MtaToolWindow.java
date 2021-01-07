@@ -48,10 +48,9 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
     }
 
     private void init() {
-        MtaExplorerTreeStructure treeStructure = new MtaExplorerTreeStructure(modelService);
-        StructureTreeModel structureTreeModel = new StructureTreeModel(treeStructure, modelService);
-        AsyncTreeModel asyncTreeModelModel = new AsyncTreeModel(structureTreeModel, true, project);
-        Tree mtaTree = this.createTree(asyncTreeModelModel, this.modelService.getModel(), structureTreeModel);
+        MtaExplorerTreeStructure treeStructure = new MtaExplorerTreeStructure(modelService, vertxService);
+        AsyncTreeModel asyncTreeModelModel = new AsyncTreeModel(treeStructure.getTreeModel(), true, project);
+        Tree mtaTree = this.createTree(asyncTreeModelModel, this.modelService.getModel(), treeStructure.getTreeModel(), this.vertxService);
         JScrollPane mtaTreePanel = ScrollPaneFactory.createScrollPane(mtaTree);
         NonOpaquePanel treePanelWrapper = new NonOpaquePanel();
         treePanelWrapper.setContent(mtaTreePanel);
@@ -59,30 +58,19 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
         super.setContent(treePanelWrapper);
     }
 
-    private Tree createTree(AsyncTreeModel asyncTreeModel, MtaModel model, StructureTreeModel treeModel) {
+    private Tree createTree(AsyncTreeModel asyncTreeModel, MtaModel model, StructureTreeModel treeModel, VertxService vertxService) {
         Tree mtaTree = new Tree(asyncTreeModel);
         TreeUIHelper.getInstance().installTreeSpeedSearch(mtaTree);
         mtaTree.setRootVisible(false);
         mtaTree.setAutoscrolls(true);
-        mtaTree.setCellRenderer(new MtaTreeCellRenderer(modelService, treeModel));
+        mtaTree.setCellRenderer(new MtaTreeCellRenderer(modelService, vertxService, treeModel));
         new DoubleClickListener() {
             @Override
             protected boolean onDoubleClick(MouseEvent event) {
                 TreePath path = mtaTree.getClosestPathForLocation(event.getX(), event.getY());
                 if (path != null && path.getLastPathComponent() instanceof DefaultMutableTreeNode) {
                     DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-                    if (treeNode.getUserObject() instanceof ConfigurationNode) {
-                        ConfigurationNode node = (ConfigurationNode)treeNode.getUserObject();
-                        MtaConfiguration configuration = node.getValue();
-                        try {
-                            FileEditorManager.getInstance(project).openTextEditor(new OpenFileDescriptor(project,
-                                    new ConfigurationFile(configuration, vertxService, modelService)), true);
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else if (treeNode.getUserObject() instanceof MtaExplorerNode) {
+                    if (treeNode.getUserObject() instanceof MtaExplorerNode) {
                         MtaExplorerNode mtaNode = (MtaExplorerNode) treeNode.getUserObject();
                         mtaNode.onDoubleClick(MtaToolWindow.this.project, treeModel);
                     }
