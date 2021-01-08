@@ -3,12 +3,7 @@ package org.jboss.tools.intellij.mta.editor.server;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.intellij.openapi.Disposable;
-import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Caret;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDialog;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -24,10 +19,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.services.ModelService;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import javax.swing.tree.TreePath;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +48,7 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
         this.setupRouterHeaders();
         this.createRoutes();
         this.vertxService.getVertx().deployVerticle(this);
+        System.out.print("Configuration Editor verticle started");
     }
 
     private void setupRouterHeaders() {
@@ -78,9 +71,15 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
         this.createGETRoute("options", this::handleGetOptions);
         this.createGETRoute("help", this::handleGetHelp);
         this.createPOSTRoute("updateOption", this::updateOption);
-        this.createPOSTRoute("promptWorkspaceFileOrFolder", this::promptWorkspaceFileOrFolder);
         this.createPOSTRoute("promptExternal", this::promptExternal);
         this.createPOSTRoute("addOptionValue", this::addOptionValue);
+        this.router.errorHandler(500, (RoutingContext ctx) -> {
+            System.err.println("Handling configuration editor failure");
+            Throwable failure = ctx.failure();
+            if (failure != null) {
+                failure.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -120,6 +119,7 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
     }
 
     private void handleGetOptions(RoutingContext ctx) {
+        System.out.println("handleGetOptions...");
         jsonHeader(ctx);
         end(ctx, JsonUtil.getOptions(this.configuration));
     }
@@ -131,38 +131,34 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
 
     private void updateOption(RoutingContext ctx) {
         System.out.println("updateOption... ");
-        JsonObject option = ctx.getBodyAsJson();
-        String name = option.getString("name");
-        Object value = option.getValue("value");
-        if (name.equals("name")) {
-            this.configuration.setName((String)value);
-        }
-        else if (value == null || value == "" || ((value instanceof Boolean && (Boolean)value == false))) {
-            this.configuration.getOptions().remove(name);
-        }
-        else {
-            if (value instanceof JsonArray) {
-                value = ((JsonArray)value).getList();
+        try {
+            JsonObject option = ctx.getBodyAsJson();
+            String name = option.getString("name");
+            Object value = option.getValue("value");
+            if (name.equals("name")) {
+                this.configuration.setName((String) value);
+            } else if (value == null || value == "" || ((value instanceof Boolean && !((Boolean) value)))) {
+                this.configuration.getOptions().remove(name);
+            } else {
+                if (value instanceof JsonArray) {
+                    value = ((JsonArray) value).getList();
+                } else if (value instanceof Boolean) {
+                    value = value.toString();
+                }
+                this.configuration.getOptions().put(name, value);
             }
-            else if (value instanceof Boolean) {
-                value = value.toString();
+            jsonHeader(ctx);
+            end(ctx, JsonUtil.getOptions(this.configuration));
+            if (name.equals("name")) {
+                this.modelService.getTreeModel().invalidate(this.configuration.getNode(), false);
             }
-            this.configuration.getOptions().put(name, value);
         }
-        jsonHeader(ctx);
-        end(ctx, JsonUtil.getOptions(this.configuration));
-        if (name.equals("name")) {
-            this.modelService.getTreeModel().invalidate(this.configuration.getNode(), false);
+        catch (Exception e) {
+            System.out.println("Error during updateOption: " + e.getMessage());
+            e.printStackTrace();
+            jsonHeader(ctx);
+            end(ctx, JsonUtil.getOptions(this.configuration));
         }
-    }
-
-    private void promptWorkspaceFileOrFolder(RoutingContext ctx) {
-        System.out.println("promptWorkspaceFileOrFolder... ");
-        JsonObject option = ctx.getBodyAsJson();
-        String name = option.getString("name");
-        Object value = option.getValue("value");
-
-        ctx.response().end();
     }
 
     private void promptExternal(RoutingContext ctx) {
