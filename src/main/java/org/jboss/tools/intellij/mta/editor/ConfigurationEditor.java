@@ -35,11 +35,6 @@ public class ConfigurationEditor extends JFXPanel implements Disposable {
         WebView webView = new WebView();
         WebEngine engine = webView.getEngine();
         engine.load("http://localhost:8077/static/configuration-editor/views/unified.html?id=" + configuration.getId());
-        webView.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.SLASH) {
-                engine.executeScript("smoothScrollToBottom()");
-            }
-        });
         Scene scene = new Scene(webView, Color.ALICEBLUE);
         super.setScene(scene);
     }
