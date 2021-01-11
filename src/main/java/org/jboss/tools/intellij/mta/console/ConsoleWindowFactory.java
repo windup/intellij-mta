@@ -54,11 +54,9 @@ public class ConsoleWindowFactory implements ToolWindowFactory, DumbAware {
     }
 
     public static synchronized void updateActionsNow() {
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ConsoleManager.getInstance(ConsoleWindowFactory.project).getLayoutUi(ConsoleWindowFactory.project).updateActionsNow();
-            }
+        ApplicationManager.getApplication().invokeLater(() -> {
+            ConsoleManager.getInstance(ConsoleWindowFactory.project).
+                    getLayoutUi(ConsoleWindowFactory.project).updateActionsNow();
         });
     }
 
@@ -84,8 +82,8 @@ public class ConsoleWindowFactory implements ToolWindowFactory, DumbAware {
         contentManager.addContent(content);
     }
 
-    private Content createConsoleContent(RunnerLayoutUi layoutUi) {
-        ConsoleView consoleView = ConsoleManager.getInstance(ConsoleWindowFactory.project).getConsoleWindow(ConsoleWindowFactory.project);
+    private Content createConsoleContent(RunnerLayoutUi layoutUi, Project project) {
+        ConsoleView consoleView = ConsoleManager.getInstance(project).getConsoleWindow(project);
         Content consoleWindowContent = layoutUi.createContent(
                 OUTPUT_WINDOW_CONTENT_ID, consoleView.getComponent(), "Output Logs", null, null);
         consoleWindowContent.setCloseable(false);
@@ -94,7 +92,6 @@ public class ConsoleWindowFactory implements ToolWindowFactory, DumbAware {
 
     public ActionGroup getLeftToolbarActions() {
         ActionManager actionManager = ActionManager.getInstance();
-
         DefaultActionGroup group = new DefaultActionGroup();
         group.add(actionManager.getAction("mta.ChooseConfiguration"));
         group.addSeparator();
