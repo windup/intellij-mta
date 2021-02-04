@@ -14,6 +14,8 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 
 public class ConfigurationEditor extends JFXPanel implements Disposable {
 
+    private static final String URL = "http://localhost:8077/static/configuration-editor/views/unified.html?id=";
+
     private ConfigurationFile configurationFile;
     private MtaConfiguration configuration;
     private VertxService vertxService;
@@ -34,7 +36,7 @@ public class ConfigurationEditor extends JFXPanel implements Disposable {
                 this.vertxService);
         WebView webView = new WebView();
         WebEngine engine = webView.getEngine();
-        engine.load("http://localhost:8077/static/configuration-editor/views/unified.html?id=" + configuration.getId());
+        engine.load(URL + configuration.getId());
         Scene scene = new Scene(webView, Color.ALICEBLUE);
         super.setScene(scene);
     }
