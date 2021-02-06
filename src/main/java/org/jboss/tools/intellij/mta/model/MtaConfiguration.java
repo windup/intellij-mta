@@ -35,17 +35,11 @@ public class MtaConfiguration {
     public void setSummary(AnalysisResultsSummary summary) {
         this.summary = summary;
     }
+
     public String getReportLocation() {
         String output = (String)this.options.get("output");
         if (output == null || output.isEmpty()) return null;
         Path location = Paths.get(output,"index.html");
-        return location.toAbsolutePath().toString();
-    }
-
-    public String getResultsLocation() {
-        String output = (String)this.options.get("output");
-        if (output == null || output.isEmpty()) return null;
-        Path location = Paths.get(output, "results.xml");
         return location.toAbsolutePath().toString();
     }
 
