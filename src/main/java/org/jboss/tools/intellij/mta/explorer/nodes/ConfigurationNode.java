@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
@@ -18,6 +19,7 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jboss.tools.intellij.mta.services.ModelService;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,12 +29,14 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
     private ModelService modelService;
     private VertxService vertxService;
     private StructureTreeModel treeModel;
+    private final ConfigurationFile file;
 
     public ConfigurationNode(MtaConfiguration configuration, ModelService modelService, VertxService vertxService, StructureTreeModel treeModel) {
         super(configuration);
         this.modelService = modelService;
         this.vertxService = vertxService;
         this.treeModel = treeModel;
+        this.file = new ConfigurationFile(configuration, vertxService, modelService);
     }
 
     @Override
@@ -65,27 +69,23 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
 
     @Override
     public void onDoubleClick(Project project, StructureTreeModel treeModel) {
-//        String currentOutput = (String)this.getValue().getOptions().get("output");
-//        currentOutput = currentOutput != null ? currentOutput : "";
-//        SetOutputLocationDialog dialog = new SetOutputLocationDialog(currentOutput);
-//        if (dialog.showAndGet()) {
-//            String output = dialog.getOutputLocation();
-//            this.getValue().getOptions().put("output", output);
-//            MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary(this.modelService);
-//            summary.outputLocation = output;
-//            this.getValue().setSummary(summary);
-//            MtaResultsParser.parseResults(this.getValue(),true);
-//            this.modelService.saveModel();
-//            treeModel.invalidate();
-//        }
-        ConfigurationNode.openConfigurationEditor(this.getValue(), modelService, vertxService);
+        this.openConfigurationEditor(this.modelService.getProject());
     }
 
-    public static void openConfigurationEditor(MtaConfiguration configuration, ModelService modelService, VertxService vertxService) {
+    public void openConfigurationEditor(Project project) {
         try {
-            Project project = modelService.getProject();
-            FileEditorManager.getInstance(project).openTextEditor(new OpenFileDescriptor(project,
-                    new ConfigurationFile(configuration, vertxService, modelService)), true);
+            FileEditorManager.getInstance(project).openTextEditor(
+                    new OpenFileDescriptor(project, this.file),true);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEditorName() {
+        String name = super.getValue().getName();
+        try {
+            this.file.rename(null, name);
         }
         catch (Exception e) {
             e.printStackTrace();
