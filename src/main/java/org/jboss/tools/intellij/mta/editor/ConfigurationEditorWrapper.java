@@ -7,6 +7,7 @@ import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorLocation;
 import com.intellij.openapi.fileEditor.FileEditorState;
 import com.intellij.openapi.fileEditor.FileEditorStateLevel;
+import com.intellij.openapi.fileEditor.impl.EditorTabTitleProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.UserDataHolderBase;
@@ -94,6 +95,7 @@ public class ConfigurationEditorWrapper extends UserDataHolderBase implements Fi
     }
 
     public void dispose() {
+        this.editor.dispose();
         Disposer.dispose(this);
     }
 }
