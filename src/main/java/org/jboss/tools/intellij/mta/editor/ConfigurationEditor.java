@@ -1,10 +1,10 @@
 package org.jboss.tools.intellij.mta.editor;
 
+import com.intellij.injected.editor.EditorWindowImpl;
 import com.intellij.openapi.Disposable;
 import com.sun.javafx.application.PlatformImpl;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -33,7 +33,8 @@ public class ConfigurationEditor extends JFXPanel implements Disposable {
         this.verticle = new ConfigurationEditorVerticle(
                 this.configurationFile.getModelService(),
                 this.configuration,
-                this.vertxService);
+                this.vertxService,
+                this.configurationFile);
         WebView webView = new WebView();
         WebEngine engine = webView.getEngine();
         engine.load(URL + configuration.getId());

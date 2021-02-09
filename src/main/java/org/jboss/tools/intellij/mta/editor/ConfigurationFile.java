@@ -31,7 +31,7 @@ public class ConfigurationFile extends LightVirtualFile {
 
     @Override
     public boolean isWritable() {
-        return false;
+        return true;
     }
 
     @Override
