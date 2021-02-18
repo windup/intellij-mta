@@ -167,7 +167,7 @@ public class ModelService implements Disposable {
     }
 
     public static String computeMtaCliLocation() {
-        return ModelService.getDefaultOutputLocation();
+        return "";
     }
 
     public static String getDefaultOutputLocation() {
