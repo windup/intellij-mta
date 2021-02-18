@@ -230,8 +230,14 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
     private void addOptionValue(String optionName, String newValue) {
         Map<String, Object> options = this.configuration.getOptions();
         if (options.containsKey(optionName)) {
-            List<String> optionList = (List<String>)options.get(optionName);
-            optionList.add(newValue);
+            Object oldValue = options.get(optionName);
+            if (oldValue instanceof List) {
+                List<String> optionList = (List<String>)oldValue;
+                optionList.add(newValue);
+            }
+            else {
+                options.put(optionName, newValue);
+            }
         }
         else {
             List<String> values = Lists.newArrayList();
