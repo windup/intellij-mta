@@ -30,6 +30,11 @@
                     text="Run Analysis"
                     icon="AllIcons.Actions.Execute">
             </action>
+            <action class="org.jboss.tools.intellij.mta.explorer.actions.PreviewQuickfixAction"
+                    id="org.jboss.tools.intellij.mta.explorer.actions.PreviewQuickfixAction"
+                    text="Preview Quickfix"
+                    icon="AllIcons.Diff.Compare3LeftMiddle">
+            </action>
         </group>
     </actions>
 </idea-plugin>
