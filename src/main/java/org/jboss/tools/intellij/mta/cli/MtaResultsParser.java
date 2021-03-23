@@ -3,6 +3,7 @@ package org.jboss.tools.intellij.mta.cli;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.jboss.tools.intellij.mta.model.FileUtil;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.w3c.dom.Document;
@@ -304,7 +305,7 @@ public class MtaResultsParser {
 
                 if (readQuickfixes) {
                     if (isTextMimeType(hint)) {
-                        hint.originalLineSource = MtaResultsParser.getLine(hint.file, hint.lineNumber-1);
+                        hint.originalLineSource = FileUtil.getLine(hint.file, hint.lineNumber-1);
                         if (quickfix.type == QuickFixType.REPLACE) {
                             String quickfixedLine = hint.originalLineSource.replace(
                                     quickfix.searchString,
@@ -346,18 +347,6 @@ public class MtaResultsParser {
                     " - Rule ID: " + hint.ruleId + " Hint: " + hint.hint);
             return false;
         }
-    }
-
-    public static String getLine(String file, int lineNumber) {
-        try {
-            String contents = FileUtils.readFileToString(new File(file));
-            IDocument document = new org.eclipse.jface.text.Document(contents);
-            IRegion region = document.getLineInformation(lineNumber);
-            return document.get(region.getOffset(), region.getLength());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     private static String getValue(Element parent, String tag) {
