@@ -36,10 +36,19 @@ public class FileUtil {
         try {
             String contents = org.apache.commons.io.FileUtils.readFileToString(file);
             IDocument document = new Document(contents);
+            return FileUtil.deleteLine(document, lineNumber);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static IDocument deleteLine(IDocument document, int lineNumber) {
+        try {
             IRegion info = document.getLineInformation(lineNumber);
             document.replace(info.getOffset(), info.getLength()+1, null);
             return document;
-        } catch (IOException | BadLocationException e) {
+        } catch (BadLocationException e) {
             e.printStackTrace();
         }
         return null;
