@@ -35,6 +35,11 @@
                     text="Preview Quickfix"
                     icon="AllIcons.Diff.Compare3LeftMiddle">
             </action>
+            <action class="org.jboss.tools.intellij.mta.explorer.actions.ApplyQuickfixAction"
+                    id="org.jboss.tools.intellij.mta.explorer.actions.ApplyQuickfixAction"
+                    text="Apply Quickfix"
+                    icon="AllIcons.Diff.ApplyNotConflicts">
+            </action>
         </group>
     </actions>
 </idea-plugin>
