@@ -1,9 +1,11 @@
 package org.jboss.tools.intellij.mta.model;
 
+import com.google.common.collect.Lists;
 import org.eclipse.jface.text.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class FileUtil {
 
@@ -52,5 +54,35 @@ public class FileUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static IDocument insertLine(IDocument document, int lineNumber, String newLine) throws Exception {
+        IRegion previousLine = document.getLineInformation(lineNumber);
+        List<String> indentChars = FileUtil.getLeadingChars(document, previousLine);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(System.lineSeparator());
+        for (String indentChar : indentChars) {
+            builder.append(indentChar);
+        }
+        builder.append(newLine);
+
+        int newLineOffset = previousLine.getOffset() + previousLine.getLength();
+        document.replace(newLineOffset, 0, builder.toString());
+        return document;
+    }
+
+    private static List<String> getLeadingChars(IDocument document, IRegion line) throws BadLocationException {
+        List<String> result = Lists.newArrayList();
+        int pos= line.getOffset();
+        int max= pos + line.getLength();
+        while (pos < max) {
+            char next = document.getChar(pos);
+            if (!Character.isWhitespace(next))
+                break;
+            result.add(String.valueOf(next));
+            pos++;
+        }
+        return result;
     }
 }
