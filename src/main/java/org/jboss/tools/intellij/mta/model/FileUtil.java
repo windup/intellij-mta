@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import org.eclipse.jface.text.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class FileUtil {
@@ -32,17 +31,6 @@ public class FileUtil {
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
-    }
-
-    public static IDocument deleteLine(File file, int lineNumber) {
-        try {
-            String contents = org.apache.commons.io.FileUtils.readFileToString(file);
-            IDocument document = new Document(contents);
-            return FileUtil.deleteLine(document, lineNumber);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static IDocument deleteLine(IDocument document, int lineNumber) {
