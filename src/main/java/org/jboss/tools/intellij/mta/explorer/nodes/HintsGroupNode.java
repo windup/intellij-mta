@@ -1,6 +1,6 @@
 package org.jboss.tools.intellij.mta.explorer.nodes;
 
-import gcom.google.common.collect.Collections2;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.intellij.icons.AllIcons;
