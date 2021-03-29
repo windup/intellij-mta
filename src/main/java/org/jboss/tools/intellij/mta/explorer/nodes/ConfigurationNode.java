@@ -42,10 +42,10 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
         List<MtaExplorerNode<?>> children = Lists.newArrayList();
         AnalysisResultsSummary summary = this.getValue().getSummary();
         if (summary != null) {
-            children.add(new AnalysisResultsNode(summary));
             if (!this.getValue().skippedReports()) {
                 children.add(new ReportNode(this.getValue()));
             }
+            children.add(new AnalysisResultsNode(summary));
         }
         return children;
     }
