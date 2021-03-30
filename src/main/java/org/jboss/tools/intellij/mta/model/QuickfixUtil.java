@@ -39,6 +39,7 @@ public class QuickfixUtil {
             String newLine = quickFix.replacementString;
             try {
                 FileUtil.insertLine(document, lineNumber, newLine);
+                return document.get();
             }
             catch (Exception e) {
                 e.printStackTrace();
