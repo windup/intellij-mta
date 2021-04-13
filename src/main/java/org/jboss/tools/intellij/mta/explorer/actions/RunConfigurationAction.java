@@ -2,28 +2,25 @@ package org.jboss.tools.intellij.mta.explorer.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.tree.StructureTreeModel;
-import com.intellij.ui.treeStructure.Tree;
-import org.jboss.tools.intellij.mta.cli.MtaCliParamBuilder;
-import org.jboss.tools.intellij.mta.cli.MtaCliRunner;
-import org.jboss.tools.intellij.mta.cli.MtaResultsParser;
-import org.jboss.tools.intellij.mta.cli.RunAnalysisCommandHandler;
+import org.jboss.tools.intellij.mta.cli.*;
 import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
 import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.services.ModelService;
 
 import javax.swing.tree.TreePath;
-import java.awt.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class RunConfigurationAction extends StructureTreeAction {
 
+    private MtaConsole console;
+
     public RunConfigurationAction() {
         super(ConfigurationNode.class);
+        this.console = new MtaConsole();
     }
 
     @Override
@@ -38,9 +35,9 @@ public class RunConfigurationAction extends StructureTreeAction {
                 List<String> params = MtaCliParamBuilder.buildParams(configuration, windupHome);
                 RunAnalysisCommandHandler handler = new RunAnalysisCommandHandler(
                         anActionEvent.getProject(),
-                        configuration,
                         executable,
                         params,
+                        console,
                         () -> this.loadAnalysisResults(configuration, modelService, node.getTreeModel()));
                 handler.runAnalysis();
             }

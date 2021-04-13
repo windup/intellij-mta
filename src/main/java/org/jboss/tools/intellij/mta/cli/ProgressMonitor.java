@@ -6,7 +6,11 @@ import com.google.gson.JsonSyntaxException;
 
 public class ProgressMonitor {
 
-    public static interface IProgressListener {
+    public static final String PROGRESS = ":progress:";
+
+    private static JsonParser jsonParser = new JsonParser();
+
+    public interface IProgressListener {
         void report(String message, int percentage, double fraction);
         void onComplete();
     }
@@ -139,8 +143,23 @@ public class ProgressMonitor {
         this.progressListener.onComplete();
     }
 
-    public static ProgressMessage parse(JsonParser jsonParser, String line) throws JsonSyntaxException {
-        JsonObject json = jsonParser.parse(line).getAsJsonObject();
+    public static JsonObject parseProgressMessage(String text) {
+        if (text.contains(PROGRESS)) {
+            String replaced = text.replace(PROGRESS, "").trim();
+            boolean isOp = replaced.contains("{\"op\":\"");
+            if (isOp && !replaced.contains("\"op\":\"logMessage\"")) {
+                try {
+                    return jsonParser.parse(replaced).getAsJsonObject();
+                }
+                catch (JsonSyntaxException e) {
+                    System.out.println("Error parsing mta-cli output: " + e.getMessage());
+                }
+            }
+        }
+        return null;
+    }
+
+    public static ProgressMessage parse(JsonObject json) throws JsonSyntaxException {
         ProgressMonitor.ProgressMessage msg = new ProgressMonitor.ProgressMessage();
         msg.op = json.get("op").getAsString();
         if (json.has("value")) {
@@ -153,5 +172,19 @@ public class ProgressMonitor {
             msg.totalWork = json.get("totalWork").getAsInt();
         }
         return msg;
+    }
+
+    public static JsonObject parseOperationMessage(String text) {
+        String replaced = text.replace(PROGRESS, "").trim();
+        boolean isOp = replaced.contains("{\"op\":\"");
+        if (isOp) {
+            try {
+                return jsonParser.parse(replaced).getAsJsonObject();
+            }
+            catch (JsonSyntaxException e) {
+                System.out.println("Error parsing mta-cli output: " + e.getMessage());
+            }
+        }
+        return null;
     }
 }
