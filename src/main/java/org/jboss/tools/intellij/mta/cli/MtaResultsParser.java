@@ -154,7 +154,7 @@ public class MtaResultsParser {
                     hint.hint = hintText;
                 }
 
-                String category = MtaResultsParser.getValue(eElement,"issue-category");
+                String category = MtaResultsParser.getValue(eElement,"categoryID");
                 if (category != null) {
                     hint.category = category;
                 }
@@ -177,6 +177,24 @@ public class MtaResultsParser {
                 String column = MtaResultsParser.getValue(eElement,"column");
                 if (column != null) {
                     hint.column = Integer.parseInt(column);
+                }
+
+                NodeList links = eElement.getElementsByTagName("link");
+                for (int temp1 = 0; temp1 < links.getLength(); temp1++) {
+                    Node linkNode = links.item(temp1);
+                    if (linkNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Link link = new Link();
+                        hint.links.add(link);
+                        link.id = MtaConfiguration.generateUniqueId();
+                        String linkDescription = MtaResultsParser.getValue((Element)linkNode, "description");
+                        if (linkDescription != null) {
+                            link.title = linkDescription;
+                        }
+                        String url = MtaResultsParser.getValue((Element)linkNode, "url");
+                        if (url != null) {
+                            link.url = url;
+                        }
+                    }
                 }
 
                 MtaResultsParser.computeQuickfixes(hint, eElement, configuration, readQuickfixes);
@@ -226,7 +244,7 @@ public class MtaResultsParser {
                     }
                 }
 
-                String category = MtaResultsParser.getValue(eElement,"issue-category");
+                String category = MtaResultsParser.getValue(eElement,"categoryID");
                 if (category != null) {
                     classification.category = category;
                 }
@@ -238,11 +256,11 @@ public class MtaResultsParser {
                         Link link = new Link();
                         classification.links.add(link);
                         link.id = MtaConfiguration.generateUniqueId();
-                        String linkDescription = MtaResultsParser.getValue(eElement,"description");
+                        String linkDescription = MtaResultsParser.getValue((Element)linkNode,"description");
                         if (linkDescription != null) {
                             link.title = linkDescription;
                         }
-                        String url = MtaResultsParser.getValue(eElement,"url");
+                        String url = MtaResultsParser.getValue((Element)linkNode,"url");
                         if (url != null) {
                             link.url = url;
                         }
