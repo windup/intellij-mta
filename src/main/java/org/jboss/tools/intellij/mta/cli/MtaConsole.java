@@ -11,10 +11,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
-import org.eclipse.core.runtime.Path;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
 
 public class MtaConsole {
 
@@ -23,7 +20,7 @@ public class MtaConsole {
     public void init(Project project, OSProcessHandler handler, String commandLine) {
         Runnable r = () -> {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            String name = "Migration Toolkit for Applications (MTA) Console";
+            String name = "Console (MTA)";
             ToolWindow window = manager.getToolWindow(name);
 
             if (window == null) {
