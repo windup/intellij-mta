@@ -10,6 +10,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
+
+import java.util.Arrays;
+
 import static org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 
 public class DetailsViewConsole {
@@ -71,7 +74,8 @@ public class DetailsViewConsole {
                 message = description;
             }
         }
-        console.print("\n"+message, valueType);
+        String[] lines = message.split("\\. ");
+        Arrays.stream(lines).forEach(line -> console.print("\n"+line, valueType));
         console.print("\n\n", valueType);
 
         // Category
@@ -108,7 +112,9 @@ public class DetailsViewConsole {
         }
         else {
             for (Link link : issue.links) {
-                console.printHyperlink(link.title, new BrowserHyperlinkInfo(link.url));
+                console.print(link.title + " - ", valueType);
+                console.printHyperlink(link.url, new BrowserHyperlinkInfo(link.url));
+                console.print("\n", valueType);
             }
         }
     }
