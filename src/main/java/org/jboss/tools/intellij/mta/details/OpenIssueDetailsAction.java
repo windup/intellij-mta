@@ -6,7 +6,6 @@ import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
 import org.jboss.tools.intellij.mta.explorer.actions.StructureTreeAction;
 import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
-import org.jboss.tools.intellij.mta.explorer.nodes.HintNode;
 import org.jboss.tools.intellij.mta.explorer.nodes.IssueNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 
@@ -31,7 +30,6 @@ public class OpenIssueDetailsAction extends StructureTreeAction {
         IssueNode node = (IssueNode)super.adjust(selected);
         MtaConfiguration.Issue issue = (MtaConfiguration.Issue)node.getValue();
         try {
-//            IssueDetailsView.showIssueDetailsView(issue, project);
             this.detailsView.open(issue);
         }
         catch (Exception e) {
