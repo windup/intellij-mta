@@ -5,9 +5,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.ui.components.JBScrollPane;
+
 import static org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class DetailsView {
 
@@ -42,51 +45,86 @@ public class DetailsView {
     }
 
     private JComponent createComponent() {
+        Font font = new Font("Courier", Font.BOLD,16);
+
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        BoxLayout layout = new BoxLayout(panel, BoxLayout.PAGE_AXIS);
+        panel.setLayout(layout);
+        panel.add(Box.createRigidArea(new Dimension(10, 10)));
+
         // Title
         JLabel label = new JLabel("Title ");
+        label.setFont(font);
         panel.add(label);
         this.title = new JLabel("");
         panel.add(this.title);
 
+        panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        panel.add(Box.createRigidArea(new Dimension(10, 10)));
+
         // Message or Description
         this.messageLabel = new JLabel("");
+        this.messageLabel.setFont(font);
         panel.add(this.messageLabel);
         this.message = new JLabel("");
         panel.add(this.message);
 
+        panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        panel.add(Box.createRigidArea(new Dimension(10, 10)));
+
         // Effort
         label = new JLabel("Level of Effort ");
+        label.add(Box.createVerticalGlue());
+        label.setFont(font);
         panel.add(label);
         this.effort = new JLabel("");
         panel.add(this.effort);
 
+        panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        panel.add(Box.createRigidArea(new Dimension(10, 10)));
+
         // Category
         label = new JLabel("Category ID ");
+        label.setFont(font);
         panel.add(label);
         this.category = new JLabel("");
         panel.add(this.category);
 
+        panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        panel.add(Box.createRigidArea(new Dimension(10, 10)));
+
         // Rule
         label = new JLabel("Rule ID ");
+        label.setFont(font);
         panel.add(label);
         this.rule = new JLabel("");
         panel.add(this.rule);
 
+        panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        panel.add(Box.createRigidArea(new Dimension(10, 10)));
+
         // Source Snippet
         label = new JLabel("Source Snippet ");
+        label.setFont(font);
         panel.add(label);
         this.sourceSnippet = new JLabel();
         panel.add(this.sourceSnippet);
 
+        panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        panel.add(Box.createRigidArea(new Dimension(10, 10)));
+
         // More Info
         label = new JLabel("More Information ");
+        label.setFont(font);
         panel.add(label);
         this.moreInfoPanel = new JPanel();
         panel.add(this.moreInfoPanel);
 
-        return panel;
+        JBScrollPane pane = new JBScrollPane(panel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        return pane;
     }
 
     private void bindValues(Issue issue) {
