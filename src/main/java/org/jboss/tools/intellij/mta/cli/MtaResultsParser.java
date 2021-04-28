@@ -94,15 +94,14 @@ public class MtaResultsParser {
     }
 
     private static void parseReports(Document doc, MtaConfiguration configuration) {
-        NodeList reportLinks = doc.getElementsByTagName("report-links");
+        NodeList reportLinks = doc.getElementsByTagName("report-link");
         for (int temp = 0; temp < reportLinks.getLength(); temp++) {
             Node reportLink = reportLinks.item(temp);
             if (reportLink.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) reportLink;
-                configuration.getSummary().reports.put(
-                    MtaResultsParser.getValue(eElement,"input-file"),
-                    MtaResultsParser.getValue(eElement,"report-file")
-                );
+                String inputFile = MtaResultsParser.getValue(eElement,"input-file");
+                String reportFile = MtaResultsParser.getValue(eElement,"report-file");
+                configuration.getSummary().reports.put(inputFile, reportFile);
             }
         }
     }
