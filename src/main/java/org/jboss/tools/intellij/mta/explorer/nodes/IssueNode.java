@@ -26,6 +26,7 @@ public abstract class IssueNode<T extends Issue> extends MtaExplorerNode<T> {
             Collection<VirtualFile> vFiles = FilenameIndex.getVirtualFilesByName(project, name,
                     GlobalSearchScope.allScope(project));
             boolean found = false;
+            System.out.println(name + " vFiles.size() for : " + vFiles.size());
             for (VirtualFile vFile : vFiles) {
                 String vFilePath = vFile.getCanonicalPath();
                 if (vFilePath.equals(filePath)) {

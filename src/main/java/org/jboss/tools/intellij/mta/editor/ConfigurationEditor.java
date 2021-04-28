@@ -1,6 +1,5 @@
 package org.jboss.tools.intellij.mta.editor;
 
-import com.intellij.injected.editor.EditorWindowImpl;
 import com.intellij.openapi.Disposable;
 import com.sun.javafx.application.PlatformImpl;
 import javafx.embed.swing.JFXPanel;
