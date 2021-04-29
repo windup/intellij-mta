@@ -121,6 +121,9 @@ public class MtaResultsParser {
 
                 Hint hint = new Hint();
                 hint.id = eElement.getAttribute("id");
+                if ("".equals(hint.id)) {
+                    hint.id = MtaConfiguration.generateUniqueId();
+                }
                 hint.configuration = configuration;
                 configuration.getSummary().hints.add(hint);
 
@@ -216,6 +219,9 @@ public class MtaResultsParser {
 
                 Classification classification = new Classification();
                 classification.id = eElement.getAttribute("id");
+                if ("".equals(classification.id)) {
+                    classification.id = MtaConfiguration.generateUniqueId();
+                }
                 classification.configuration = configuration;
                 configuration.getSummary().classifications.add(classification);
 
