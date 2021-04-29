@@ -19,9 +19,14 @@ public class DetailsViewConsole {
 
     private Project project;
     private ConsoleView console;
+    private Issue activeIssue = null;
 
     public DetailsViewConsole(Project project) {
         this.project = project;
+    }
+
+    public void clear() {
+        this.console.clear();
     }
 
     public void open(Issue issue) {
@@ -35,8 +40,15 @@ public class DetailsViewConsole {
                 console = builder.getConsole();
                 window = manager.registerToolWindow(name, console.getComponent(), ToolWindowAnchor.BOTTOM);
             }
+            
+            if (this.activeIssue != null && this.activeIssue.id.equals(issue.id)) {
+                window.show();
+                return;
+            }
             console.clear();
+            this.activeIssue = issue;
             bindValues(issue);
+            console.scrollTo(0);
             window.show();
         };
         ApplicationManager.getApplication().invokeAndWait(r);
