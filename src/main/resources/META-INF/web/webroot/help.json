@@ -47,7 +47,8 @@
                 "linux",
                 "hibernate-search",
                 "resteasy",
-                "rhr"
+                "rhr",
+                "eapxp"
             ],
             "editable": true
         },
@@ -95,7 +96,8 @@
                 "sonicesb",
                 "jonas",
                 "resin",
-                "resteasy"
+                "resteasy",
+                "thorntail"
             ]
         },
         {
