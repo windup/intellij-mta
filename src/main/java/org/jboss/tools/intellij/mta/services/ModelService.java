@@ -166,7 +166,17 @@ public class ModelService implements Disposable {
                 + File.separator + "model.json";
     }
 
-    public static String computeMtaCliLocation() {
+    public String computeMtaCliLocation() {
+        if (this.getModel().getConfigurations().isEmpty()) {
+            return "";
+        }
+        MtaConfiguration configuration = Lists.reverse(this.getModel().getConfigurations()).stream().filter(config -> {
+            String cli = (String) config.getOptions().get("mta-cli");
+            return cli != null && !"".equals(cli);
+        }).findFirst().orElse(null);
+        if (configuration != null) {
+            return (String) configuration.getOptions().get("mta-cli");
+        }
         return "";
     }
 
