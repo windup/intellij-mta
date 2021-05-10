@@ -9,6 +9,7 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.jboss.tools.intellij.mta.model.MtaModel;
 import org.jboss.tools.intellij.mta.model.MtaModelParser;
+import org.jboss.tools.intellij.mta.model.NameUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -56,6 +57,18 @@ public class ModelService implements Disposable {
         }
         this.mtaModel = MtaModelParser.parseModel(STATE_LOCATION, this);
         return this.mtaModel;
+    }
+
+    public MtaConfiguration createConfiguration() {
+        MtaModel model = this.getModel();
+        MtaConfiguration configuration = new MtaConfiguration();
+        configuration.setId(MtaConfiguration.generateUniqueId());
+        configuration.setName(NameUtil.generateUniqueConfigurationName(model));
+        configuration.getOptions().put("mta-cli", this.computeMtaCliLocation());
+        configuration.getOptions().put("output", ModelService.getConfigurationOutputLocation(configuration));
+        configuration.getOptions().put("sourceMode", "true");
+        model.addConfiguration(configuration);
+        return configuration;
     }
 
     public void saveModel() {
