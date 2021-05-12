@@ -67,6 +67,12 @@ public class ModelService implements Disposable {
         configuration.getOptions().put("mta-cli", this.computeMtaCliLocation());
         configuration.getOptions().put("output", ModelService.getConfigurationOutputLocation(configuration));
         configuration.getOptions().put("sourceMode", "true");
+        List<String> target = (List<String>)configuration.getOptions().get("target");
+        if (target == null || target.isEmpty()) {
+            target = Lists.newArrayList();
+            target.add("eap7");
+        }
+        configuration.getOptions().put("target", target);
         model.addConfiguration(configuration);
         return configuration;
     }
