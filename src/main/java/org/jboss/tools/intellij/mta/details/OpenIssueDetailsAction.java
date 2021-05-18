@@ -46,7 +46,7 @@ public class OpenIssueDetailsAction extends StructureTreeAction {
         }
         catch (Exception e) {
             e.printStackTrace();
-            MtaNotifier.notifyError("Error opening issue details - " + node.getValue().toString());
+            MtaNotifier.notifyError("Error opening issue details - " + node.getValue());
             return;
         }
     }

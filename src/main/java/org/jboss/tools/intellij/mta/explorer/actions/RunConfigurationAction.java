@@ -17,6 +17,7 @@ import java.util.List;
 public class RunConfigurationAction extends StructureTreeAction {
 
     private MtaConsole console;
+    public static boolean running = false;
 
     public RunConfigurationAction() {
         super(ConfigurationNode.class);
@@ -39,9 +40,11 @@ public class RunConfigurationAction extends StructureTreeAction {
                         params,
                         console,
                         () -> this.loadAnalysisResults(configuration, modelService, node.getTreeModel()));
+                RunConfigurationAction.running = true;
                 handler.runAnalysis();
             }
             catch (Exception e) {
+                RunConfigurationAction.running = false;
                 System.out.println("Error building mta-cli params");
                 e.printStackTrace();
             }
@@ -49,6 +52,7 @@ public class RunConfigurationAction extends StructureTreeAction {
     }
 
     private void loadAnalysisResults(MtaConfiguration configuration, ModelService modelService, StructureTreeModel treeModel) {
+        RunConfigurationAction.running = false;
         MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary(modelService);
         summary.outputLocation = (String)configuration.getOptions().get("output");
         configuration.setSummary(summary);
@@ -89,6 +93,7 @@ public class RunConfigurationAction extends StructureTreeAction {
     @Override
     public boolean isVisible(Object[] selected) {
         if (selected.length == 0) return false;
+        if (RunConfigurationAction.running) return false;
         return super.isVisible(selected);
     }
 }

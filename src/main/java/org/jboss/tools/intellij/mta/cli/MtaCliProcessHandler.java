@@ -7,6 +7,7 @@ import com.intellij.execution.ui.ConsoleViewContentType;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.CharsetToolkit;
+import org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.Charset;
@@ -38,6 +39,7 @@ public class MtaCliProcessHandler extends OSProcessHandler {
     public final void notifyTextAvailable(@NotNull String text, @NotNull final Key outputType) {
         if (progressIndicator.isCanceled()) {
             destroyProcess();
+            RunConfigurationAction.running = false;
             if (!isCancelled){
                 isCancelled = true;
                 console.print("analysis cancelled", ConsoleViewContentType.LOG_INFO_OUTPUT);

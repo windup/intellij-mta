@@ -6,6 +6,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
+import org.jboss.tools.intellij.mta.explorer.actions.RunConfigurationAction;
 import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
 
 import java.util.List;
@@ -80,6 +81,7 @@ public class RunAnalysisCommandHandler {
                 }
                 catch (Exception e) {
                     e.printStackTrace();
+                    RunConfigurationAction.running = false;
                     MtaNotifier.notifyError("Error while running analysis: " + e.getMessage());
                 }
             }

@@ -58,7 +58,6 @@ public class ModelService implements Disposable {
         this.mtaModel = MtaModelParser.parseModel(STATE_LOCATION, this);
         return this.mtaModel;
     }
-
     public MtaConfiguration createConfiguration() {
         MtaModel model = this.getModel();
         MtaConfiguration configuration = new MtaConfiguration();
