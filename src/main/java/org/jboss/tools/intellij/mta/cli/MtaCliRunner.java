@@ -1,6 +1,7 @@
 package org.jboss.tools.intellij.mta.cli;
 
 import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import org.apache.commons.exec.*;
@@ -9,6 +10,8 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static org.jboss.tools.intellij.mta.cli.ProgressMonitor.PROGRESS;
 
 public class MtaCliRunner {
 
@@ -59,14 +62,9 @@ public class MtaCliRunner {
             protected void processLine(String line, int logLevel) {
                 System.out.println("Message from mta-cli: " + line);
                 if (line.contains(PROGRESS)) {
-                    line = line.replace(PROGRESS, "").trim();
-                    if (line.contains("{\"op\":\"") && !line.contains("\"op\":\"logMessage\"")) {
-                        try {
-                            progressMonitor.handleMessage(ProgressMonitor.parse(jsonParser, line));
-                        }
-                        catch (JsonSyntaxException e) {
-                            System.out.println("Error parsing mta-cli output: " + e.getMessage());
-                        }
+                    JsonObject json = ProgressMonitor.parseProgressMessage(line);
+                    if (json != null) {
+                        progressMonitor.handleMessage(ProgressMonitor.parse(json));
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package org.jboss.tools.intellij.mta.explorer.nodes;
 
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.intellij.icons.AllIcons;
@@ -9,10 +10,7 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HintsGroupNode extends ResourceNode {
@@ -25,9 +23,11 @@ public class HintsGroupNode extends ResourceNode {
     }
 
     private void computeIssue() {
-        for (MtaConfiguration.Issue issue : super.getValue().getIssues()) {
-            if (issue.file.equals(this.file.getAbsolutePath()) && issue instanceof MtaConfiguration.Hint) {
-                this.hints.add((MtaConfiguration.Hint) issue);
+        List<MtaConfiguration.Hint> hints = super.getValue().hints;
+        hints.sort(Comparator.comparingInt(o -> o.lineNumber));
+        for (MtaConfiguration.Hint hint : hints) {
+            if (hint.file.equals(this.file.getAbsolutePath())) {
+                this.hints.add(hint);
             }
         }
     }

@@ -38,6 +38,8 @@ dependencies {
     compile files(new File(buildDir, 'resources/resources')) {
         builtBy 'copyResources'
     }
+
+    testCompile 'org.mockito:mockito-core:2.28.2'
 }
 
 publishPlugin {

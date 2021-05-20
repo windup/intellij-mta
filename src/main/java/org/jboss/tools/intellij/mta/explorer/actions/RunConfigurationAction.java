@@ -2,28 +2,26 @@ package org.jboss.tools.intellij.mta.explorer.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.tree.StructureTreeModel;
-import com.intellij.ui.treeStructure.Tree;
-import org.jboss.tools.intellij.mta.cli.MtaCliParamBuilder;
-import org.jboss.tools.intellij.mta.cli.MtaCliRunner;
-import org.jboss.tools.intellij.mta.cli.MtaResultsParser;
-import org.jboss.tools.intellij.mta.cli.RunAnalysisCommandHandler;
+import org.jboss.tools.intellij.mta.cli.*;
 import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
 import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.services.ModelService;
 
 import javax.swing.tree.TreePath;
-import java.awt.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class RunConfigurationAction extends StructureTreeAction {
 
+    private MtaConsole console;
+    public static boolean running = false;
+
     public RunConfigurationAction() {
         super(ConfigurationNode.class);
+        this.console = new MtaConsole();
     }
 
     @Override
@@ -38,13 +36,15 @@ public class RunConfigurationAction extends StructureTreeAction {
                 List<String> params = MtaCliParamBuilder.buildParams(configuration, windupHome);
                 RunAnalysisCommandHandler handler = new RunAnalysisCommandHandler(
                         anActionEvent.getProject(),
-                        configuration,
                         executable,
                         params,
+                        console,
                         () -> this.loadAnalysisResults(configuration, modelService, node.getTreeModel()));
+                RunConfigurationAction.running = true;
                 handler.runAnalysis();
             }
             catch (Exception e) {
+                RunConfigurationAction.running = false;
                 System.out.println("Error building mta-cli params");
                 e.printStackTrace();
             }
@@ -52,6 +52,7 @@ public class RunConfigurationAction extends StructureTreeAction {
     }
 
     private void loadAnalysisResults(MtaConfiguration configuration, ModelService modelService, StructureTreeModel treeModel) {
+        RunConfigurationAction.running = false;
         MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary(modelService);
         summary.outputLocation = (String)configuration.getOptions().get("output");
         configuration.setSummary(summary);
@@ -92,6 +93,7 @@ public class RunConfigurationAction extends StructureTreeAction {
     @Override
     public boolean isVisible(Object[] selected) {
         if (selected.length == 0) return false;
+        if (RunConfigurationAction.running) return false;
         return super.isVisible(selected);
     }
 }

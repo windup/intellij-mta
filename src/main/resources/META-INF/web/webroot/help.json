@@ -32,6 +32,7 @@
                 "cloud-readiness",
                 "jbpm",
                 "quarkus",
+                "quarkus1",
                 "drools",
                 "fsw",
                 "eap7",
@@ -46,7 +47,8 @@
                 "linux",
                 "hibernate-search",
                 "resteasy",
-                "rhr"
+                "rhr",
+                "eapxp"
             ],
             "editable": true
         },
@@ -94,7 +96,8 @@
                 "sonicesb",
                 "jonas",
                 "resin",
-                "resteasy"
+                "resteasy",
+                "thorntail"
             ]
         },
         {

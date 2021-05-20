@@ -36,6 +36,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
     private Project project;
     private ToolWindow toolWindow;
     private VertxService vertxService;
+    private Tree tree;
 
     public MtaToolWindow(ModelService modelService, Project project, ToolWindow toolWindow) {
         super(true, true);
@@ -50,7 +51,7 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
     private void init() {
         MtaExplorerTreeStructure treeStructure = new MtaExplorerTreeStructure(modelService, vertxService);
         AsyncTreeModel asyncTreeModelModel = new AsyncTreeModel(treeStructure.getTreeModel(), true, project);
-        Tree mtaTree = this.createTree(asyncTreeModelModel, this.modelService.getModel(), treeStructure.getTreeModel(), this.vertxService);
+        Tree mtaTree = (this.tree = this.createTree(asyncTreeModelModel, this.modelService.getModel(), treeStructure.getTreeModel(), this.vertxService));
         JScrollPane mtaTreePanel = ScrollPaneFactory.createScrollPane(mtaTree);
         NonOpaquePanel treePanelWrapper = new NonOpaquePanel();
         treePanelWrapper.setContent(mtaTreePanel);
@@ -95,5 +96,9 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
             }
         }.installOn(mtaTree);
         return mtaTree;
+    }
+
+    public Tree getTree() {
+        return this.tree;
     }
 }

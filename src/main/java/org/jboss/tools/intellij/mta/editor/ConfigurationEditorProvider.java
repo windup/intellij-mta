@@ -1,6 +1,8 @@
 package org.jboss.tools.intellij.mta.editor;
 
+import com.intellij.injected.editor.EditorWindow;
 import com.intellij.openapi.fileEditor.*;
+import com.intellij.openapi.fileEditor.impl.EditorTabTitleProvider;
 import com.intellij.openapi.project.PossiblyDumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;

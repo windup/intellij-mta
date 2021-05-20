@@ -21,14 +21,7 @@ public class NewConfigurationAction extends StructureTreeAction {
     public void actionPerformed(AnActionEvent anActionEvent, TreePath[] path, Object[] selected) {
         Tree tree = super.getTree(anActionEvent);
         MtaTreeCellRenderer renderer = (MtaTreeCellRenderer) tree.getCellRenderer();
-        MtaModel model = renderer.getModelService().getModel();
-        MtaConfiguration configuration = new MtaConfiguration();
-        configuration.setId(MtaConfiguration.generateUniqueId());
-        configuration.setName(NameUtil.generateUniqueConfigurationName(model));
-        configuration.getOptions().put("mta-cli", ModelService.computeMtaCliLocation());
-        configuration.getOptions().put("output", ModelService.getConfigurationOutputLocation(configuration));
-        configuration.getOptions().put("sourceMode", "true");
-        model.addConfiguration(configuration);
+        MtaConfiguration configuration = renderer.getModelService().createConfiguration();
         renderer.getModelService().saveModel();
         renderer.getTreeModel().invalidate();
         ConfigurationNode.openConfigurationEditor(configuration, renderer.getModelService(), renderer.getVertxService());

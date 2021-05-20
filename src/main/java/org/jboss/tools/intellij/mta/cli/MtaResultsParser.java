@@ -3,6 +3,7 @@ package org.jboss.tools.intellij.mta.cli;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.jboss.tools.intellij.mta.model.FileUtil;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.w3c.dom.Document;
@@ -93,15 +94,14 @@ public class MtaResultsParser {
     }
 
     private static void parseReports(Document doc, MtaConfiguration configuration) {
-        NodeList reportLinks = doc.getElementsByTagName("report-links");
+        NodeList reportLinks = doc.getElementsByTagName("report-link");
         for (int temp = 0; temp < reportLinks.getLength(); temp++) {
             Node reportLink = reportLinks.item(temp);
             if (reportLink.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) reportLink;
-                configuration.getSummary().reports.put(
-                    MtaResultsParser.getValue(eElement,"input-file"),
-                    MtaResultsParser.getValue(eElement,"report-file")
-                );
+                String inputFile = MtaResultsParser.getValue(eElement,"input-file");
+                String reportFile = MtaResultsParser.getValue(eElement,"report-file");
+                configuration.getSummary().reports.put(inputFile, reportFile);
             }
         }
     }
@@ -121,6 +121,9 @@ public class MtaResultsParser {
 
                 Hint hint = new Hint();
                 hint.id = eElement.getAttribute("id");
+                if ("".equals(hint.id)) {
+                    hint.id = MtaConfiguration.generateUniqueId();
+                }
                 hint.configuration = configuration;
                 configuration.getSummary().hints.add(hint);
 
@@ -153,7 +156,7 @@ public class MtaResultsParser {
                     hint.hint = hintText;
                 }
 
-                String category = MtaResultsParser.getValue(eElement,"issue-category");
+                String category = MtaResultsParser.getValue(eElement,"categoryID");
                 if (category != null) {
                     hint.category = category;
                 }
@@ -178,6 +181,24 @@ public class MtaResultsParser {
                     hint.column = Integer.parseInt(column);
                 }
 
+                NodeList links = eElement.getElementsByTagName("link");
+                for (int temp1 = 0; temp1 < links.getLength(); temp1++) {
+                    Node linkNode = links.item(temp1);
+                    if (linkNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Link link = new Link();
+                        hint.links.add(link);
+                        link.id = MtaConfiguration.generateUniqueId();
+                        String linkDescription = MtaResultsParser.getValue((Element)linkNode, "description");
+                        if (linkDescription != null) {
+                            link.title = linkDescription;
+                        }
+                        String url = MtaResultsParser.getValue((Element)linkNode, "url");
+                        if (url != null) {
+                            link.url = url;
+                        }
+                    }
+                }
+
                 MtaResultsParser.computeQuickfixes(hint, eElement, configuration, readQuickfixes);
             }
         }
@@ -198,6 +219,9 @@ public class MtaResultsParser {
 
                 Classification classification = new Classification();
                 classification.id = eElement.getAttribute("id");
+                if ("".equals(classification.id)) {
+                    classification.id = MtaConfiguration.generateUniqueId();
+                }
                 classification.configuration = configuration;
                 configuration.getSummary().classifications.add(classification);
 
@@ -225,7 +249,7 @@ public class MtaResultsParser {
                     }
                 }
 
-                String category = MtaResultsParser.getValue(eElement,"issue-category");
+                String category = MtaResultsParser.getValue(eElement,"categoryID");
                 if (category != null) {
                     classification.category = category;
                 }
@@ -237,11 +261,11 @@ public class MtaResultsParser {
                         Link link = new Link();
                         classification.links.add(link);
                         link.id = MtaConfiguration.generateUniqueId();
-                        String linkDescription = MtaResultsParser.getValue(eElement,"description");
+                        String linkDescription = MtaResultsParser.getValue((Element)linkNode,"description");
                         if (linkDescription != null) {
                             link.title = linkDescription;
                         }
-                        String url = MtaResultsParser.getValue(eElement,"url");
+                        String url = MtaResultsParser.getValue((Element)linkNode,"url");
                         if (url != null) {
                             link.url = url;
                         }
@@ -304,7 +328,7 @@ public class MtaResultsParser {
 
                 if (readQuickfixes) {
                     if (isTextMimeType(hint)) {
-                        hint.originalLineSource = MtaResultsParser.getLine(hint.file, hint.lineNumber-1);
+                        hint.originalLineSource = FileUtil.getLine(hint.file, hint.lineNumber-1);
                         if (quickfix.type == QuickFixType.REPLACE) {
                             String quickfixedLine = hint.originalLineSource.replace(
                                     quickfix.searchString,
@@ -346,18 +370,6 @@ public class MtaResultsParser {
                     " - Rule ID: " + hint.ruleId + " Hint: " + hint.hint);
             return false;
         }
-    }
-
-    public static String getLine(String file, int lineNumber) {
-        try {
-            String contents = FileUtils.readFileToString(new File(file));
-            IDocument document = new org.eclipse.jface.text.Document(contents);
-            IRegion region = document.getLineInformation(lineNumber);
-            return document.get(region.getOffset(), region.getLength());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     private static String getValue(Element parent, String tag) {

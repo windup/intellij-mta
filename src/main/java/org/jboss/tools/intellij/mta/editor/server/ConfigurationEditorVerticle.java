@@ -4,9 +4,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.CommandProcessor;
+import com.intellij.openapi.editor.DocumentRunnable;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDialog;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
+import com.intellij.openapi.fileEditor.FileEditor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Handler;
@@ -17,9 +23,12 @@ import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
+import org.jboss.tools.intellij.mta.editor.ConfigurationFile;
+import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.services.ModelService;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -35,16 +44,19 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
     private String editorPath;
     private String serverPath;
     private Router router;
+    private ConfigurationFile configurationFile;
     private Set<Route> routes = Sets.newHashSet();
 
     public ConfigurationEditorVerticle(
             ModelService modelService,
             MtaConfiguration configuration,
-            VertxService vertxService) {
+            VertxService vertxService,
+            ConfigurationFile configurationFile) {
         this.modelService = modelService;
         this.configuration = configuration;
         this.vertxService = vertxService;
         this.router = vertxService.getRouter();
+        this.configurationFile = configurationFile;
         this.setupRouterHeaders();
         this.createRoutes();
         this.vertxService.getVertx().deployVerticle(this);
@@ -136,7 +148,14 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
             String name = option.getString("name");
             Object value = option.getValue("value");
             if (name.equals("name")) {
+                if (value == null || value.equals("")) {
+                    value = "unknown";
+                }
                 this.configuration.setName((String) value);
+                this.configurationFile.rename(null, this.configuration.getName());
+                ApplicationManager.getApplication().invokeLater(() -> {
+                    ConfigurationNode.openConfigurationEditor(this.configurationFile, this.modelService.getProject());
+                });
             } else if (value == null || value == "" || ((value instanceof Boolean && !((Boolean) value)))) {
                 this.configuration.getOptions().remove(name);
             } else {
@@ -211,8 +230,14 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
     private void addOptionValue(String optionName, String newValue) {
         Map<String, Object> options = this.configuration.getOptions();
         if (options.containsKey(optionName)) {
-            List<String> optionList = (List<String>)options.get(optionName);
-            optionList.add(newValue);
+            Object oldValue = options.get(optionName);
+            if (oldValue instanceof List) {
+                List<String> optionList = (List<String>)oldValue;
+                optionList.add(newValue);
+            }
+            else {
+                options.put(optionName, newValue);
+            }
         }
         else {
             List<String> values = Lists.newArrayList();

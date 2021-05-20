@@ -4,7 +4,6 @@ import com.intellij.openapi.Disposable;
 import com.sun.javafx.application.PlatformImpl;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -13,6 +12,8 @@ import org.jboss.tools.intellij.mta.editor.server.VertxService;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 
 public class ConfigurationEditor extends JFXPanel implements Disposable {
+
+    private static final String URL = "http://localhost:8077/static/configuration-editor/views/unified.html?id=";
 
     private ConfigurationFile configurationFile;
     private MtaConfiguration configuration;
@@ -31,10 +32,11 @@ public class ConfigurationEditor extends JFXPanel implements Disposable {
         this.verticle = new ConfigurationEditorVerticle(
                 this.configurationFile.getModelService(),
                 this.configuration,
-                this.vertxService);
+                this.vertxService,
+                this.configurationFile);
         WebView webView = new WebView();
         WebEngine engine = webView.getEngine();
-        engine.load("http://localhost:8077/static/configuration-editor/views/unified.html?id=" + configuration.getId());
+        engine.load(URL + configuration.getId());
         Scene scene = new Scene(webView, Color.ALICEBLUE);
         super.setScene(scene);
     }
