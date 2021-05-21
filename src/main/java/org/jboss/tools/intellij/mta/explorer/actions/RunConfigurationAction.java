@@ -51,6 +51,20 @@ public class RunConfigurationAction extends StructureTreeAction {
         }
     }
 
+    private String resolveCliPath(String path) {
+        String resolved = path;
+        if (path.endsWith("bin/")) {
+            resolved += "mta-cli";
+        }
+        else if (path.endsWith("bin")) {
+            resolved += "/mta-cl";
+        }
+        else if (path.endsWith("-SNAPSHOT") || path.endsWith(".Final")) {
+            resolved += "/bin/mta-cli";
+        }
+        return resolved;
+    }
+
     private void loadAnalysisResults(MtaConfiguration configuration, ModelService modelService, StructureTreeModel treeModel) {
         RunConfigurationAction.running = false;
         MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary(modelService);
