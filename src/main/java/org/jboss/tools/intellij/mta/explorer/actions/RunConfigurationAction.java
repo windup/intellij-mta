@@ -83,6 +83,8 @@ public class RunConfigurationAction extends StructureTreeAction {
             MtaNotifier.notifyError("Path to mta-cli executable required.");
         }
         else if (cliLocation != null) {
+            cliLocation = this.resolveCliPath(cliLocation);
+            configuration.getOptions().set("mta-cli", cliLocation);
             if (!new File(cliLocation).exists()) {
                 valid = false;
                 MtaNotifier.notifyError("Path to mta-cli executable does not exist.");
