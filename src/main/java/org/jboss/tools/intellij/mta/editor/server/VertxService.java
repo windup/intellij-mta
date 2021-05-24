@@ -3,6 +3,7 @@ package org.jboss.tools.intellij.mta.editor.server;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.ide.plugins.PluginManagerCore;
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.extensions.PluginId;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -13,15 +14,17 @@ import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
+import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
 
 import java.io.File;
 
-public class VertxService {
+public class VertxService implements Disposable {
 
     private Vertx vertx;
     private EventBus eventBus;
     private HttpServer server;
     private Router router;
+    private int serverPort = 8077;
 
     public VertxService() {
         this.init();
@@ -41,8 +44,31 @@ public class VertxService {
             File webroot = new File(descriptor.getPluginPath().toFile(), "lib/webroot");
             String root = webroot.getAbsolutePath();
             this.router.route("/static/*").handler(StaticHandler.create().setAllowRootFileSystemAccess(true).setWebRoot(root));
-            this.server = this.vertx.createHttpServer().requestHandler(this.router).listen(8077);
+            this.server = this.vertx.createHttpServer().requestHandler(this.router);
+            if (!this.tryStartServer(serverPort)) {
+                for (int i = 0; i < 10; i++) {
+                    if (this.tryStartServer(++serverPort)) {
+                        return;
+                    }
+                }
+                MtaNotifier.notifyError("Error starting configuration server (ports). Try restarting IntelliJ");
+            }
         }
+    }
+
+    private boolean tryStartServer(int port) {
+        try {
+            this.server.listen(port);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error starting configuration server.");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public int getServerPort() {
+        return this.serverPort;
     }
 
     public Router getRouter() {
@@ -51,5 +77,10 @@ public class VertxService {
 
     public Vertx getVertx() {
         return this.vertx;
+    }
+
+    @Override
+    public void dispose() {
+        this.server.close();
     }
 }
