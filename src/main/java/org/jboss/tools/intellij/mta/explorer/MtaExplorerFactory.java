@@ -23,5 +23,6 @@ public class MtaExplorerFactory implements ToolWindowFactory {
         Content content = contentManager.getFactory().createContent(panel, null, false);
         contentManager.addContent(content);
         Disposer.register(content, modelService);
+        Disposer.register(content, panel);
     }
 }

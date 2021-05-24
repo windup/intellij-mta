@@ -1,5 +1,6 @@
 package org.jboss.tools.intellij.mta.explorer;
 
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
@@ -29,7 +30,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.event.MouseEvent;
 
-public class MtaToolWindow extends SimpleToolWindowPanel {
+public class MtaToolWindow extends SimpleToolWindowPanel implements Disposable {
 
     private ModelService modelService;
     private MtaCliRunner cliRunner;
@@ -100,5 +101,10 @@ public class MtaToolWindow extends SimpleToolWindowPanel {
 
     public Tree getTree() {
         return this.tree;
+    }
+
+    @Override
+    public void dispose() {
+        this.vertxService.dispose();
     }
 }
