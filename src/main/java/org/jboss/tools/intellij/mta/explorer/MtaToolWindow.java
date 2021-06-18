@@ -99,6 +99,10 @@ public class MtaToolWindow extends SimpleToolWindowPanel implements Disposable {
         return mtaTree;
     }
 
+    public VertxService getVertxService() {
+        return this.vertxService;
+    }
+
     public Tree getTree() {
         return this.tree;
     }

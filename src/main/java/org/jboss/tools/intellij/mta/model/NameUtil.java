@@ -12,8 +12,8 @@ public class NameUtil {
     private static Pattern namePattern = Pattern.compile("([a-zA-Z_]*)([0-9]+)");
 
     public static String generateUniqueConfigurationName(MtaModel model) {
-        Set<String> existinNames = getAllExistingNames(model);
-        String nextName = generateName(CONFIGURATION_ELEMENT_PREFIX, existinNames);
+        Set<String> existingNames = getAllExistingNames(model);
+        String nextName = generateName(CONFIGURATION_ELEMENT_PREFIX, existingNames);
         return nextName;
     }
 
