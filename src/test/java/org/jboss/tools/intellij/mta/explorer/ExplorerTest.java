@@ -27,11 +27,27 @@ public class ExplorerTest {
     }
 
     @Test
+    public void testConfigurationWithResults() {
+        MtaConfiguration config = this.modelService.createConfiguration();
+        config.getOptions().put("output", "tmp");
+        MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary(modelService);
+        summary.outputLocation = (String)config.getOptions().get("output");
+        config.setSummary(summary);
+        assertTrue(summary.getIssues().isEmpty());
+    }
+
+    @Test
     public void testConfigurationNodeWithoutResults() {
         MtaConfiguration config = this.modelService.createConfiguration();
         ConfigurationNode node = mock(ConfigurationNode.class);
         Collection children = NodeUtil.getConfigurationNodeChildren(config);
         when(node.getChildren()).thenReturn(children);
         assertTrue(node.getChildren().isEmpty());
+    }
+
+    @Test
+    public void testNotSkipReports() {
+        MtaConfiguration config = this.modelService.createConfiguration();
+        assertFalse(config.skippedReports());
     }
 }
