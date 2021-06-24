@@ -39,15 +39,7 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
 
     @Override
     public @NotNull Collection<? extends AbstractTreeNode<?>> getChildren() {
-        List<MtaExplorerNode<?>> children = Lists.newArrayList();
-        AnalysisResultsSummary summary = this.getValue().getSummary();
-        if (summary != null) {
-            if (!this.getValue().skippedReports()) {
-                children.add(new ReportNode(this.getValue()));
-            }
-            children.add(new AnalysisResultsNode(summary));
-        }
-        return children;
+        return NodeUtil.getConfigurationNodeChildren(this.getValue());
     }
 
     @Override
