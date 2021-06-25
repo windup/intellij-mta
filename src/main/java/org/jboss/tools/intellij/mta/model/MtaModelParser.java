@@ -62,7 +62,7 @@ public class MtaModelParser {
         return mtaConfiguration;
     }
 
-    private static void parseConfigurationOptionsObject(Map optionsObject, MtaConfiguration configuration) {
+    public static void parseConfigurationOptionsObject(Map optionsObject, MtaConfiguration configuration) {
         Iterator<Map.Entry> iterator = optionsObject.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry pair = iterator.next();
