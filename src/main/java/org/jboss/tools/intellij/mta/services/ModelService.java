@@ -62,6 +62,11 @@ public class ModelService implements Disposable {
         }
         return this.mtaModel;
     }
+
+    public boolean deleteConfiguration(MtaConfiguration configuration) {
+        return this.mtaModel.deleteConfiguration(configuration);
+    }
+
     public MtaConfiguration createConfiguration() {
         MtaModel model = this.getModel();
         MtaConfiguration configuration = new MtaConfiguration();

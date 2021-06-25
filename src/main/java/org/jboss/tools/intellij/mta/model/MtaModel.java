@@ -11,8 +11,8 @@ public class MtaModel {
         this.configurations.add(configuration);
     }
 
-    public void deleteConfiguration(MtaConfiguration configuration) {
-        this.configurations.remove(configuration);
+    public boolean deleteConfiguration(MtaConfiguration configuration) {
+        return this.configurations.remove(configuration);
     }
     
     public List<MtaConfiguration> getConfigurations() {
