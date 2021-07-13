@@ -7,7 +7,6 @@ package org.jboss.tools.intellij.mta.editor.server;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,10 +15,7 @@ import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.extensions.PluginId;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.jboss.tools.intellij.mta.cli.MtaResultsParser;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
-import org.jboss.tools.intellij.mta.model.MtaModelParser;
-import org.jboss.tools.intellij.mta.services.ModelService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
