@@ -16,9 +16,7 @@ public class MtaCliParamBuilder {
         // input
         params.add("--input");
         List<String> input = (List<String>)options.get("input");
-        List<String> inputPathStrings = Lists.newArrayList();
-        input.forEach(path -> inputPathStrings.add("\"" + path + "\""));
-        params.add(String.join(" ", inputPathStrings));
+        input.forEach(path -> params.add("\"" + path + "\""));
 
         // output
         params.add("--output");
