@@ -65,7 +65,13 @@ public class DetailsViewConsole {
 
         // Report
         console.print("Report\n", labelType);
-        console.printHyperlink("Open Report", new BrowserHyperlinkInfo(issue.report));
+        if (issue.report != null) {
+            console.printHyperlink("Open Report", new BrowserHyperlinkInfo(issue.report));
+        }
+        else {
+            console.print("Not available", valueType);
+        }
+
         console.print("\n\n", valueType);
 
         // Message or Description
