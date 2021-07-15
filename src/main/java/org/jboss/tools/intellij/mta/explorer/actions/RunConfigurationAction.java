@@ -94,7 +94,8 @@ public class RunConfigurationAction extends StructureTreeAction {
                 MtaNotifier.notifyError("Path to mta-cli executable is not executable.");
             }
         }
-        if (!configuration.getOptions().containsKey("input")) {
+        List<String> input = (List<String>)configuration.getOptions().get("input");
+        if (input == null || input.isEmpty()) {
             valid = false;
             MtaNotifier.notifyError("Path to input required.");
         }
