@@ -7,7 +7,7 @@ The IntelliJ plugin for the <b>Migration Toolkit for Applications</b> (MTA).
 
 Migration Toolkit for Applications (MTA) (the product of the downstream project [Windup](https://github.com/windup/windup)) is a command-line Application Migration and Modernization Assessment tool.
 
-> The documentation for MTA can be found [here](https://developers.redhat.com/products/rhamt/overview).
+> The documentation for MTA can be found [here](https://developers.redhat.com/products/mta/overview).
 
 ## Requirements
 
