@@ -46,6 +46,11 @@
                     text="Show More Details"
                     icon="AllIcons.Actions.PreviewDetails">
             </action>
+            <action class="org.jboss.tools.intellij.mta.explorer.actions.MarkIssueCompleteAction"
+                    id="org.jboss.tools.intellij.mta.details.MarkIssueCompleteAction"
+                    text="Mark as Complete"
+                    icon="AllIcons.Actions.Commit">
+            </action>
         </group>
     </actions>
 </idea-plugin>
