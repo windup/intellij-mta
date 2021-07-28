@@ -26,7 +26,10 @@ public class ClassificationNode extends IssueNode<Classification> {
     protected void update(PresentationData presentation) {
         presentation.setPresentableText(super.getValue().title);
         Classification classification = this.getValue();
-        if (classification.category == null || classification.category.equals("") ||
+        if (classification.complete) {
+            presentation.setIcon(AllIcons.Actions.Commit);
+        }
+        else if (classification.category == null || classification.category.equals("") ||
                 classification.category.contains("error") || classification.category.contains("mandatory")) {
             presentation.setIcon(AllIcons.General.BalloonError);
         }

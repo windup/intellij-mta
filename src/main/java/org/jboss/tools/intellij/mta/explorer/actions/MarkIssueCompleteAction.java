@@ -22,10 +22,11 @@ public class MarkIssueCompleteAction extends StructureTreeAction {
 
     @Override
     public void actionPerformed(AnActionEvent anActionEvent, TreePath path, Object selected) {
-//        Tree tree = super.getTree(anActionEvent);
-//        MtaTreeCellRenderer renderer = (MtaTreeCellRenderer) tree.getCellRenderer();
+        Tree tree = super.getTree(anActionEvent);
+        MtaTreeCellRenderer renderer = (MtaTreeCellRenderer) tree.getCellRenderer();
         IssueNode node = (IssueNode) super.adjust(selected);
-        System.out.println("mark complete... " + node.getName());
+        node.setComplete();
+        renderer.getTreeModel().invalidate(path, false);
     }
 
     @Override

@@ -64,6 +64,10 @@ public abstract class IssueNode<T extends Issue> extends MtaExplorerNode<T> {
         }
     }
 
+    public void setComplete() {
+        this.getValue().complete = true;
+    }
+
     @Override
     public boolean isAlwaysLeaf() {
         return true;

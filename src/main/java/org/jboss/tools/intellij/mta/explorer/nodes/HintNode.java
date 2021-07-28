@@ -27,7 +27,10 @@ public class HintNode extends IssueNode<Hint> {
     protected void update(PresentationData presentation) {
         presentation.setPresentableText(super.getValue().title);
         Hint hint = this.getValue();
-        if (hint.category == null || hint.category.equals("") ||
+        if (hint.complete) {
+            presentation.setIcon(AllIcons.Actions.Commit);
+        }
+        else if (hint.category == null || hint.category.equals("") ||
                 hint.category.contains("error") || hint.category.contains("mandatory")) {
             presentation.setIcon(AllIcons.General.BalloonError);
         }
