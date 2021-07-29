@@ -41,13 +41,14 @@ public class MtaResultsParser {
     }
 
     public static void loadAndPersistIDs(MtaConfiguration configuration, String outputLocation) {
+        String resultsLocation = outputLocation + File.separator + "results.xml";
         try {
-            Document doc = MtaResultsParser.openDocument(outputLocation + File.separator + "results.xml");
+            Document doc = MtaResultsParser.openDocument(resultsLocation);
             if (doc != null) {
                 MtaResultsParser.setElementIDs(doc, "hint");
                 MtaResultsParser.setElementIDs(doc, "classification");
                 Transformer transformer = TransformerFactory.newInstance().newTransformer();
-                Result output = new StreamResult(new File(outputLocation + File.separator + "results.xml"));
+                Result output = new StreamResult(new File(resultsLocation));
                 Source input = new DOMSource(doc);
                 transformer.transform(input, output);
             } else {
@@ -198,7 +199,6 @@ public class MtaResultsParser {
                         }
                     }
                 }
-
                 MtaResultsParser.computeQuickfixes(hint, eElement, configuration, readQuickfixes);
             }
         }
