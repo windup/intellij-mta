@@ -2,15 +2,13 @@ package org.jboss.tools.intellij.mta.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
 import org.jboss.tools.intellij.mta.services.ModelService;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class MtaConfiguration {
 
@@ -95,7 +93,6 @@ public class MtaConfiguration {
     public static class Issue extends UniqueElement {
         public String title;
         public ArrayList<QuickFix> quickfixes = Lists.newArrayList();
-        public Map<String, String> quickfixedLines = Maps.newHashMap();
         public String originalLineSource;
         public String file;
         public String severity;
@@ -127,7 +124,10 @@ public class MtaConfiguration {
         public String executable;
         public int hintCount;
         public int classificationCount;
-        public QuickfixData quickfixData;
+
+        public Set<String> completeIssues = Sets.newHashSet();
+        public Set<String> deletedIssues = Sets.newHashSet();
+
         public Map<String, String> reports = Maps.newHashMap();
 
         public List<Hint> hints = Lists.newArrayList();

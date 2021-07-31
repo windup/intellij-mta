@@ -3,6 +3,7 @@ package org.jboss.tools.intellij.mta.cli;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
 import org.jboss.tools.intellij.mta.model.FileUtil;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
@@ -115,8 +116,8 @@ public class MtaResultsParser {
                 Element eElement = (Element) hintNode;
                 if (eElement.getParentNode().getNodeName() != "hints") continue;
 
-                String deleted = eElement.getAttribute("deleted");
-                if (!"".equals(deleted)) {
+                String id = eElement.getAttribute("id");
+                if (configuration.getSummary().deletedIssues.contains(id)) {
                     continue;
                 }
 
@@ -125,6 +126,11 @@ public class MtaResultsParser {
                 if ("".equals(hint.id)) {
                     hint.id = MtaConfiguration.generateUniqueId();
                 }
+
+                if (configuration.getSummary().completeIssues.contains(id)) {
+                    hint.complete = true;
+                }
+
                 hint.configuration = configuration;
                 configuration.getSummary().hints.add(hint);
 
@@ -324,34 +330,6 @@ public class MtaResultsParser {
                 String type = MtaResultsParser.getValue(eElement,"type");
                 if (type != null) {
                     quickfix.type = QuickFixType.valueOf(type);
-                }
-
-                if (readQuickfixes) {
-                    if (isTextMimeType(hint)) {
-                        hint.originalLineSource = FileUtil.getLine(hint.file, hint.lineNumber-1);
-                        if (quickfix.type == QuickFixType.REPLACE) {
-                            String quickfixedLine = hint.originalLineSource.replace(
-                                    quickfix.searchString,
-                                    quickfix.replacementString);
-                            hint.quickfixedLines.put(quickfix.id, quickfixedLine);
-                        }
-                    }
-                    else {
-                        System.err.println("Unable to read mime type for file: " + hint.file);
-                    }
-                }
-                else {
-                    AnalysisResultsSummary summary = configuration.getSummary();
-                    if (summary != null && summary.quickfixData != null) {
-                        QuickfixEntry entry = summary.quickfixData.entries.get(hint.id);
-                        if (entry != null) {
-                            hint.originalLineSource = entry.originalLineSource;
-                            hint.quickfixedLines.put(quickfix.id, entry.quickfixes.get(quickfix.id));
-                        }
-                        else {
-                            System.err.println("No quickfix info mapped to issue with ID=" + hint.id);
-                        }
-                    }
                 }
             }
         }

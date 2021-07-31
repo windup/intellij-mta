@@ -66,6 +66,7 @@ public abstract class IssueNode<T extends Issue> extends MtaExplorerNode<T> {
 
     public void setComplete() {
         this.getValue().complete = true;
+        this.getValue().configuration.getSummary().completeIssues.add(this.getValue().id);
     }
 
     @Override

@@ -122,26 +122,13 @@ public class ModelService implements Disposable {
                 summary.put("classificationCount", resultsSummary.classifications.size());
                 List<Issue> issues = Lists.newArrayList(resultsSummary.hints);
                 issues.addAll(resultsSummary.classifications);
+                JSONArray completeIssues = new JSONArray();
+                summary.put("completeIssues", completeIssues);
                 for (Issue issue : issues) {
-                    if (!issue.quickfixes.isEmpty()) {
-                        JSONObject quickfixes = (JSONObject) summary.get("quickfixes");
-                        if (quickfixes == null) {
-                            quickfixes = new JSONObject();
-                            summary.put("quickfixes", quickfixes);
-                        }
-                        JSONObject quickfixObj = new JSONObject();
-                        quickfixes.put(issue.id, quickfixObj);
-                        quickfixObj.put("originalLineSource", issue.originalLineSource);
-
-                        JSONObject quickfixedLines = new JSONObject();
-                        quickfixObj.put("quickfixedLines", quickfixedLines);
-                        for (QuickFix quickfix : issue.quickfixes) {
-                            String fix = issue.quickfixedLines.get(quickfix.id);
-                            if (fix != null) {
-                                quickfixedLines.put(quickfix.id, fix);
-                            }
-                        }
+                    if (issue.complete) {
+                        completeIssues.add(issue.id);
                     }
+
                 }
             }
         }

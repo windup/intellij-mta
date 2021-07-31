@@ -108,42 +108,12 @@ public class MtaModelParser {
             else if ("classificationCount".equals(key)) {
                 summary.classificationCount = new Integer(String.valueOf(value));
             }
-            else if ("quickfixes".equals(key)) {
-                MtaModelParser.parseQuickfixesData((JSONObject)value, configuration);
+            else if ("completeIssues".equals(key)) {
+                summary.completeIssues.add(String.valueOf(value));
+            }
+            else if ("deletedIssues".equals(key)) {
+                summary.deletedIssues.add(String.valueOf(value));
             }
         }
     }
-
-    private static void parseQuickfixesData(JSONObject jsonObject, MtaConfiguration configuration) {
-        QuickfixData quickfixData = new QuickfixData();
-        configuration.getSummary().quickfixData = quickfixData;
-        Iterator<Map.Entry> iterator = jsonObject.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry pair = iterator.next();
-            Object key = pair.getKey();
-            JSONObject value = (JSONObject)pair.getValue();
-
-            QuickfixEntry entry = new QuickfixEntry();
-            quickfixData.entries.put((String)key, entry);
-
-            entry.originalLineSource = (String)value.get("originalLineSource");
-            JSONObject quickFixedLines = (JSONObject)value.get("quickfixedLines");
-
-            Iterator<Map.Entry> quickfixIterator = quickFixedLines.entrySet().iterator();
-            while (quickfixIterator.hasNext()) {
-                Map.Entry quickfixItem = quickfixIterator.next();
-                entry.quickfixes.put((String) quickfixItem.getKey(), (String)quickfixItem.getValue());
-            }
-        }
-    }
-//    public static void loadQuickfixData(MtaConfiguration configuration) {
-//        QuickfixData quickfixData = new QuickfixData();
-//        configuration.getSummary().hints.forEach(issue -> {
-//            QuickfixEntry entry = new QuickfixEntry();
-//            entry.originalLineSource = issue.originalLineSource;
-//            entry.quickfixes = issue.quickfixedLines;
-//            quickfixData.entries.put(issue.id, entry);
-//        });
-//        configuration.getSummary().quickfixData = quickfixData;
-//    }
 }
