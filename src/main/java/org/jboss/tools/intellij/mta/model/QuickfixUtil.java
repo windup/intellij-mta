@@ -1,5 +1,8 @@
 package org.jboss.tools.intellij.mta.model;
 
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -49,18 +52,29 @@ public class QuickfixUtil {
         return null;
     }
 
-    public static void applyQuickfix(QuickFix quickfix, Project project, String content) throws Exception {
-        VirtualFile file = LocalFileSystem.getInstance().findFileByPath(quickfix.file);
-        PsiFile importPsi = PsiManager.getInstance(project).findFile(file);
-        com.intellij.openapi.editor.Document doc = PsiDocumentManager.getInstance(project).getCachedDocument(importPsi);
-        if (doc == null) {
-            doc = PsiDocumentManager.getInstance(project).getDocument(importPsi);
-        }
+    public static void applyQuickfix(QuickFix quickfix, Project project, String content) {
+        final com.intellij.openapi.editor.Document doc = QuickfixUtil.findDocument(project, quickfix.file);
         if (doc != null) {
-            doc.setText(content);
+            ApplicationManager.getApplication().runWriteAction(() -> {
+                doc.setText(content);
+                PsiDocumentManager.getInstance(project).commitDocument(doc);
+                FileDocumentManager.getInstance().saveDocument(doc);
+            });
+
         }
         else {
             MtaNotifier.notifyError("Unable to find document for - " + quickfix.file);
         }
+    }
+
+    private static com.intellij.openapi.editor.Document findDocument(Project project, String path) {
+        VirtualFile file = LocalFileSystem.getInstance().findFileByPath(path);
+        PsiFile importPsi = PsiManager.getInstance(project).findFile(file);
+        com.intellij.openapi.editor.Document doc = null;
+        PsiDocumentManager.getInstance(project).getCachedDocument(importPsi);
+        if (doc == null) {
+            doc = PsiDocumentManager.getInstance(project).getDocument(importPsi);
+        }
+        return doc;
     }
 }
