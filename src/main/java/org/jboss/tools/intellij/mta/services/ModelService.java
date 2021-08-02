@@ -124,11 +124,12 @@ public class ModelService implements Disposable {
                 issues.addAll(resultsSummary.classifications);
                 JSONArray completeIssues = new JSONArray();
                 summary.put("completeIssues", completeIssues);
+                JSONArray deletedIssues = new JSONArray();
+                summary.put("deletedIssues", deletedIssues);
                 for (Issue issue : issues) {
                     if (issue.complete) {
                         completeIssues.add(issue.id);
                     }
-
                 }
             }
         }

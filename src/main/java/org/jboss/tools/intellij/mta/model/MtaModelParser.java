@@ -31,7 +31,7 @@ public class MtaModelParser {
                     JSONObject config = (JSONObject) iterator.next();
                     MtaConfiguration configuration = MtaModelParser.parseConfigurationObject(config, modelService);
                     mtaModel.addConfiguration(configuration);
-                    MtaResultsParser.parseResults(configuration, false);
+                    MtaResultsParser.parseResults(configuration);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -109,10 +109,20 @@ public class MtaModelParser {
                 summary.classificationCount = new Integer(String.valueOf(value));
             }
             else if ("completeIssues".equals(key)) {
-                summary.completeIssues.add(String.valueOf(value));
+                if (value instanceof JSONArray) {
+                    JSONArray optionValues = (JSONArray) value;
+                    for (Object v : optionValues) {
+                        summary.completeIssues.add(String.valueOf(v));
+                    }
+                }
             }
             else if ("deletedIssues".equals(key)) {
-                summary.deletedIssues.add(String.valueOf(value));
+                if (value instanceof JSONArray) {
+                    JSONArray optionValues = (JSONArray) value;
+                    for (Object v : optionValues) {
+                        summary.deletedIssues.add(String.valueOf(v));
+                    }
+                }
             }
         }
     }

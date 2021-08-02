@@ -70,7 +70,8 @@ public class RunConfigurationAction extends StructureTreeAction {
         MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary(modelService);
         summary.outputLocation = (String)configuration.getOptions().get("output");
         configuration.setSummary(summary);
-        MtaResultsParser.parseResults(configuration,true);
+        MtaResultsParser.loadAndPersistIDs(configuration, summary.outputLocation);
+        MtaResultsParser.parseResults(configuration);
         modelService.saveModel();
         treeModel.invalidate();
     }

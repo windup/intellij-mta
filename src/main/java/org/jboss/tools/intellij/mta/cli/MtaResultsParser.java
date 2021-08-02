@@ -1,10 +1,6 @@
 package org.jboss.tools.intellij.mta.cli;
 
-import org.apache.commons.io.FileUtils;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
-import org.jboss.tools.intellij.mta.model.FileUtil;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 import org.w3c.dom.Document;
@@ -26,13 +22,13 @@ import java.net.URLConnection;
 
 public class MtaResultsParser {
 
-    public static void parseResults(MtaConfiguration configuration, Boolean readQuickfixes) {
+    public static void parseResults(MtaConfiguration configuration) {
         MtaConfiguration.AnalysisResultsSummary summary = configuration.getSummary();
         if (summary != null) {
             Document doc = MtaResultsParser.openDocument(summary.outputLocation + File.separator + "results.xml");
             if (doc != null) {
                 MtaResultsParser.parseReports(doc, configuration);
-                MtaResultsParser.parseHints(doc, configuration, readQuickfixes);
+                MtaResultsParser.parseHints(doc, configuration);
                 MtaResultsParser.parseClassifications(doc, configuration);
             }
             else {
@@ -108,7 +104,7 @@ public class MtaResultsParser {
         }
     }
 
-    private static void parseHints(Document doc, MtaConfiguration configuration, Boolean readQuickfixes) {
+    private static void parseHints(Document doc, MtaConfiguration configuration) {
         NodeList hintList = doc.getElementsByTagName("hint");
         for (int temp = 0; temp < hintList.getLength(); temp++) {
             Node hintNode = hintList.item(temp);
@@ -125,6 +121,8 @@ public class MtaResultsParser {
                 hint.id = eElement.getAttribute("id");
                 if ("".equals(hint.id)) {
                     hint.id = MtaConfiguration.generateUniqueId();
+                    System.out.println("MTA results.xml not serialized with IDs");
+                    MtaNotifier.notifyError("MTA results.xml not serialized with IDs. Please try re-running the analysis with the latest version of the MTA plugin.");
                 }
 
                 if (configuration.getSummary().completeIssues.contains(id)) {
@@ -205,7 +203,7 @@ public class MtaResultsParser {
                         }
                     }
                 }
-                MtaResultsParser.computeQuickfixes(hint, eElement, configuration, readQuickfixes);
+                MtaResultsParser.computeQuickfixes(hint, eElement);
             }
         }
     }
@@ -218,8 +216,8 @@ public class MtaResultsParser {
                 Element eElement = (Element) classificationNode;
                 if (eElement.getParentNode().getNodeName() != "classifications") continue;
 
-                String deleted = eElement.getAttribute("deleted");
-                if (!"".equals(deleted)) {
+                String id = eElement.getAttribute("id");
+                if (configuration.getSummary().deletedIssues.contains(id)) {
                     continue;
                 }
 
@@ -227,7 +225,14 @@ public class MtaResultsParser {
                 classification.id = eElement.getAttribute("id");
                 if ("".equals(classification.id)) {
                     classification.id = MtaConfiguration.generateUniqueId();
+                    System.out.println("MTA results.xml not serialized with IDs");
+                    MtaNotifier.notifyError("MTA results.xml not serialized with IDs. Please try re-running the analysis with the latest version of the MTA plugin.");
                 }
+
+                if (configuration.getSummary().completeIssues.contains(id)) {
+                    classification.complete = true;
+                }
+
                 classification.configuration = configuration;
                 configuration.getSummary().classifications.add(classification);
 
@@ -286,9 +291,7 @@ public class MtaResultsParser {
     }
 
     private static void computeQuickfixes(Hint hint,
-                                          Element element,
-                                          MtaConfiguration configuration,
-                                          boolean readQuickfixes) {
+                                          Element element) {
         NodeList quickfixList = element.getElementsByTagName("quickfix");
         for (int temp = 0; temp < quickfixList.getLength(); temp++) {
             Node quickfixNode = quickfixList.item(temp);

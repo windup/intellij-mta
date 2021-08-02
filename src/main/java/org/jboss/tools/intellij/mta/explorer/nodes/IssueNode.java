@@ -69,6 +69,15 @@ public abstract class IssueNode<T extends Issue> extends MtaExplorerNode<T> {
         this.getValue().configuration.getSummary().completeIssues.add(this.getValue().id);
     }
 
+    public boolean isComplete() {
+        return this.getValue().complete;
+    }
+
+    public void deleteIssue() {
+        this.getValue().deleted = true;
+        this.getValue().configuration.getSummary().deletedIssues.add(this.getValue().id);
+    }
+
     @Override
     public boolean isAlwaysLeaf() {
         return true;

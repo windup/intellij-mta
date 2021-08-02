@@ -104,6 +104,7 @@ public class MtaConfiguration {
         public MtaConfiguration configuration;
         public Object dom;
         public boolean complete;
+        public boolean deleted;
     }
 
     public static class QuickFix extends UniqueElement {

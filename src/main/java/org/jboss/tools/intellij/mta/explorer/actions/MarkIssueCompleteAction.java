@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
 import org.jboss.tools.intellij.mta.explorer.nodes.IssueNode;
+import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 
 import javax.swing.tree.TreePath;
 
@@ -27,7 +28,11 @@ public class MarkIssueCompleteAction extends StructureTreeAction {
         if (selected.length != 1) return false;
         boolean valid = super.isVisible(selected);
         if (!valid) return false;
-        return true;
+        Object node = super.adjust(selected[0]);
+        if (node instanceof IssueNode) {
+            return !((IssueNode)node).isComplete();
+        }
+        return false;
     }
 
     protected Object getSelected(Tree tree) {
