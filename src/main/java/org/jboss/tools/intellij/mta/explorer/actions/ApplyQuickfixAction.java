@@ -38,6 +38,8 @@ public class ApplyQuickfixAction extends StructureTreeAction {
             MtaConfiguration.QuickFix quickfix = hint.quickfixes.size() > 1 ? hint.quickfixes.get(1) : hint.quickfixes.get(0);
             String newValue = QuickfixUtil.getQuickFixedContent(quickfix);
             QuickfixUtil.applyQuickfix(quickfix, project, newValue);
+            node.setComplete();
+            renderer.getTreeModel().invalidate(path, false);
         }
         catch (Exception e) {
             e.printStackTrace();
