@@ -6,6 +6,7 @@ plugins {
 }
 
 apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
 
 group 'org.jboss.tools.intellij'
@@ -20,6 +21,7 @@ intellij {
     version ideaVersion
     pluginName 'org.jboss.tools.intellij.mta'
     updateSinceUntilBuild false
+    plugins 'java'
 }
 
 task copyResources(type: Copy) {
