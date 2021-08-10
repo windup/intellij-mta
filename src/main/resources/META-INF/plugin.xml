@@ -6,10 +6,9 @@
     <description><![CDATA[
       <img src=" https://raw.githubusercontent.com/windup/intellij-mta/master/src/main/resources/META-INF/web/webroot/mta.png" width="32" height="32"/>
       <h2>Overview</h2>
-      <p>A plugin for migrating applications using the Red Hat Application Migration Toolkit (<a href="">MTA</a>).</p>
-      <p>The tooling marks migration issues in the source code, provides guidance to fix the issues, and offers automatic code replacement when possible.</p>
-      <p>Developers can use this plugin to migrate application directly from within the IDE.</p>
-      <p>Provides assistance directly into the IDE.</p>
+      <p>The Migration Toolkit for Applications (MTA) plugin for IntelliJ Platform-based IDEs.</p>
+      <p>Provides tooling to accelerate application migration by marking migration issues in the source code, provides guidance to fix the issues, and offers automatic code replacement when possible.</p>
+      <p>Read more about MTA <a href="https://developers.redhat.com/products/mta/overview">here</a>.</p>
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
