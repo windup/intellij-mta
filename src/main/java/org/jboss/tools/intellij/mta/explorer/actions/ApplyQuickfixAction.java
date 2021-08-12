@@ -38,6 +38,9 @@ public class ApplyQuickfixAction extends StructureTreeAction {
             MtaConfiguration.QuickFix quickfix = hint.quickfixes.size() > 1 ? hint.quickfixes.get(1) : hint.quickfixes.get(0);
             String newValue = QuickfixUtil.getQuickFixedContent(quickfix);
             QuickfixUtil.applyQuickfix(quickfix, project, newValue);
+            // TODO: Until quickfixes have their own tree nodes, we mark the hint as complete.
+            // Once we have quickfix nodes, we won't mark hint as complete,
+            // Instead, the quickfix node will have a checkmark if it has been applied.
             node.setComplete();
             renderer.getTreeModel().invalidate(path, false);
         }
