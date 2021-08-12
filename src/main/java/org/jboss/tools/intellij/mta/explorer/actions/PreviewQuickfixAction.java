@@ -64,6 +64,8 @@ public class PreviewQuickfixAction extends StructureTreeAction {
             diffBuilder.setTitle("Preview Quickfix");
             if (diffBuilder.show() == DialogWrapper.OK_EXIT_CODE) {
                 QuickfixUtil.applyQuickfix(quickfix, project, newValue);
+                node.setComplete();
+                renderer.getTreeModel().invalidate(path, false);
             }
         }
         catch (Exception e) {
