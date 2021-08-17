@@ -21,17 +21,16 @@ The IntelliJ plugin integrates with the MTA command-line tool, and provides assi
 This plugin expedites the process of analyzing your projects directly from within your IDE.
 The tooling marks migration issues in the source code, provides guidance to fix the issues, and offers automatic code replacement when possible.
 
-## Features
-
-#### Configuration Editor
+## Configuration Editor
 Use the configuration editor to setup the analysis.
 
 ![Configuration Editor](resources/configuration.gif)
 
 
-#### Code Refactor
+## Code Refactor
 Jump to code containing identified migration issues and perform automatic code refactoring.
 
+![Code Refactor](resources/quickfixes.gif)
 
 ## Requirements
 
