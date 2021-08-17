@@ -25,8 +25,8 @@ The tooling marks migration issues in the source code, provides guidance to fix 
 
 #### Configuration Editor
 Use the configuration editor to setup the analysis.
-  
-https://user-images.githubusercontent.com/407192/129666263-d9207f00-94dc-439b-9a65-64d0dbcbba70.mp4  
+
+![Configuration Editor](resources/configuration.gif)
 
 
 #### Code Refactor
