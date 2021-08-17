@@ -32,6 +32,11 @@ Jump to code containing identified migration issues and perform automatic code r
 
 ![Code Refactor](resources/quickfixes.gif)
 
+## Report
+Use the generated reports to better understand and assess the migration efforts.
+
+![Report](resources/report.gif)
+
 ## Requirements
 
 * Java Platform, `JDK version 11` with `JAVA_HOME` environment variable 
