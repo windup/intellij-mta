@@ -34,10 +34,10 @@ public class ClassificationNode extends IssueNode<Classification> {
             presentation.setIcon(AllIcons.General.BalloonError);
         }
         else if (classification.category.contains("potential")) {
-            presentation.setIcon(AllIcons.General.BalloonInformation);
+            presentation.setIcon(AllIcons.General.BalloonWarning);
         }
         else {
-            presentation.setIcon(AllIcons.General.BalloonWarning);
+            presentation.setIcon(AllIcons.General.BalloonInformation);
         }
     }
 

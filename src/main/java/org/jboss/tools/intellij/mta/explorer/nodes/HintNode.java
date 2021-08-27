@@ -35,10 +35,10 @@ public class HintNode extends IssueNode<Hint> {
             presentation.setIcon(AllIcons.General.BalloonError);
         }
         else if (hint.category.contains("potential")) {
-            presentation.setIcon(AllIcons.General.BalloonInformation);
+            presentation.setIcon(AllIcons.General.BalloonWarning);
         }
         else {
-            presentation.setIcon(AllIcons.General.BalloonWarning);
+            presentation.setIcon(AllIcons.General.BalloonInformation);
         }
     }
 
