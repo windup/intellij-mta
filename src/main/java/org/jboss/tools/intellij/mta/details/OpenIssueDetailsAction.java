@@ -64,15 +64,16 @@ public class OpenIssueDetailsAction extends StructureTreeAction {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
                 TreePath path = e.getNewLeadSelectionPath();
-                Object obj = path.getLastPathComponent();
-                if (obj instanceof DefaultMutableTreeNode) {
-                    Object userObj = ((DefaultMutableTreeNode) obj).getUserObject();
-                    if (userObj instanceof IssueNode) {
-                        IssueNode data = (IssueNode)userObj;
-                        showDetails(data);
-                    }
-                    else {
-                        showDetails(null);
+                if (path != null) {
+                    Object obj = path.getLastPathComponent();
+                    if (obj instanceof DefaultMutableTreeNode) {
+                        Object userObj = ((DefaultMutableTreeNode) obj).getUserObject();
+                        if (userObj instanceof IssueNode) {
+                            IssueNode data = (IssueNode) userObj;
+                            showDetails(data);
+                        } else {
+                            showDetails(null);
+                        }
                     }
                 }
             }
