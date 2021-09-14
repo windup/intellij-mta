@@ -20,7 +20,11 @@ public class HintNode extends IssueNode<Hint> {
     @NotNull
     @Override
     public Collection<MtaExplorerNode<?>> getChildren() {
-        return Lists.newArrayList();
+        List<MtaExplorerNode<?>> children = Lists.newArrayList();
+        if (!this.getValue().quickfixes.isEmpty()) {
+            children.add(new QuickfixGroupNode(this.getValue()));
+        }
+        return children;
     }
 
     @Override
@@ -45,5 +49,10 @@ public class HintNode extends IssueNode<Hint> {
     @Override
     protected boolean shouldUpdateData() {
         return true;
+    }
+
+    @Override
+    public boolean isAlwaysLeaf() {
+        return false;
     }
 }
