@@ -65,7 +65,8 @@ public class MtaToolWindow extends SimpleToolWindowPanel implements Disposable {
         TreeUIHelper.getInstance().installTreeSpeedSearch(mtaTree);
         mtaTree.setRootVisible(false);
         mtaTree.setAutoscrolls(true);
-        mtaTree.setCellRenderer(new MtaTreeCellRenderer(modelService, vertxService, treeModel));
+        MtaTreeCellRenderer renderer = new MtaTreeCellRenderer(modelService, vertxService, treeModel);
+        mtaTree.setCellRenderer(renderer);
         new DoubleClickListener() {
             @Override
             protected boolean onDoubleClick(MouseEvent event) {
@@ -90,6 +91,9 @@ public class MtaToolWindow extends SimpleToolWindowPanel implements Disposable {
                         MtaExplorerNode mtaNode = (MtaExplorerNode) treeNode.getUserObject();
                         if (mtaNode instanceof IssueNode || mtaNode instanceof ReportNode) {
                             mtaNode.onClick(MtaToolWindow.this.project);
+                        }
+                        else if (mtaNode instanceof QuickfixNode) {
+                            mtaNode.onClick(treeNode, path, renderer);
                         }
                     }
                 }
