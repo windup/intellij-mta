@@ -14,6 +14,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.Pair;
 import com.intellij.ui.tree.StructureTreeModel;
 import com.intellij.ui.treeStructure.Tree;
+import groovy.lang.Tuple;
 import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
 import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
 import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
@@ -37,23 +38,38 @@ public class PreviewQuickfixAction extends StructureTreeAction {
     public void actionPerformed(AnActionEvent anActionEvent, TreePath path, Object selected) {
         Tree tree = super.getTree(anActionEvent);
         MtaTreeCellRenderer renderer = (MtaTreeCellRenderer) tree.getCellRenderer();
-        Project project = renderer.getModelService().getProject();
+        HintNode hintNode = (HintNode)super.adjust(selected);
+        MtaConfiguration.Hint hint = hintNode.getValue();
+        MtaConfiguration.QuickFix quickfix = hintNode.getValue().quickfixes.size() > 1 ? hint.quickfixes.get(1) : hint.quickfixes.get(0);
+        PreviewQuickfixAction.openPreviewAndApply(quickfix, hintNode, path, renderer);
+    }
 
-        HintNode node = (HintNode)super.adjust(selected);
+    public static void openPreviewAndApply(MtaConfiguration.QuickFix quickfix, HintNode node, TreePath path, MtaTreeCellRenderer renderer) {
         MtaConfiguration.Hint hint = node.getValue();
         try {
+            Project project = renderer.getModelService().getProject();
             String oldValue = org.apache.commons.io.FileUtils.readFileToString(new File(hint.file));
-            MtaConfiguration.QuickFix quickfix = hint.quickfixes.size() > 1 ? hint.quickfixes.get(1) : hint.quickfixes.get(0);
             String newValue = QuickfixUtil.getQuickFixedContent(quickfix);
+            boolean apply = PreviewQuickfixAction.openPreview(hint, project, oldValue, newValue);
+            if (apply) {
+                QuickfixUtil.applyQuickfix(quickfix, project, newValue);
+                node.setComplete();
+                renderer.getTreeModel().invalidate(path, false);
+            }
+        }
+        catch (Exception e) {
+                e.printStackTrace();
+                MtaNotifier.notifyError("Error processing quickfix file - " + hint.file);
+        }
+    }
 
+    public static boolean openPreview(MtaConfiguration.Hint hint, Project project, String oldValue, String newValue) {
+        try {
             DocumentContent oldContent = DiffContentFactory.getInstance().create(oldValue);
             DocumentContent newContent = DiffContentFactory.getInstance().create(newValue);
-
             SimpleDiffRequest request = new SimpleDiffRequest("Diff", oldContent, newContent, "Original", "New Changes");
-
             request.putUserData(DiffUserDataKeys.SCROLL_TO_LINE, Pair.create(Side.RIGHT, 0));
             request.putUserData(DiffUserDataKeys.SCROLL_TO_LINE,Pair.create(Side.LEFT, 0));
-
             DialogBuilder diffBuilder = new DialogBuilder();
             DiffRequestPanel diffPanel = DiffManager.getInstance().createRequestPanel(project, diffBuilder, diffBuilder.getWindow());
             diffPanel.setRequest(request);
@@ -63,16 +79,14 @@ public class PreviewQuickfixAction extends StructureTreeAction {
             diffBuilder.addCancelAction();
             diffBuilder.setTitle("Preview Quickfix");
             if (diffBuilder.show() == DialogWrapper.OK_EXIT_CODE) {
-                QuickfixUtil.applyQuickfix(quickfix, project, newValue);
-                node.setComplete();
-                renderer.getTreeModel().invalidate(path, false);
+                return true;
             }
         }
         catch (Exception e) {
             e.printStackTrace();
             MtaNotifier.notifyError("Error processing quickfix file - " + hint.file);
-            return;
         }
+        return false;
     }
 
     @Override
@@ -80,7 +94,6 @@ public class PreviewQuickfixAction extends StructureTreeAction {
         if (selected.length != 1) return false;
         boolean valid = super.isVisible(selected);
         if (!valid) return false;
-
         HintNode node = (HintNode)super.adjust(selected[0]);
         if (node.getValue().quickfixes.isEmpty()) return false;
         return true;
