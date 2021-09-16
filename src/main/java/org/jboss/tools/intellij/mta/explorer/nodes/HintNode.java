@@ -22,7 +22,7 @@ public class HintNode extends IssueNode<Hint> {
     public Collection<MtaExplorerNode<?>> getChildren() {
         List<MtaExplorerNode<?>> children = Lists.newArrayList();
         if (!this.getValue().quickfixes.isEmpty()) {
-            children.add(new QuickfixGroupNode(this.getValue()));
+            children.add(new QuickfixGroupNode(this, this.getValue()));
         }
         return children;
     }

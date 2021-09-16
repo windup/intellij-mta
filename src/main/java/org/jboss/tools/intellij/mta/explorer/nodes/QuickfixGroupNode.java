@@ -15,15 +15,20 @@ import java.util.stream.Collectors;
 
 public class QuickfixGroupNode extends MtaExplorerNode<MtaConfiguration.Hint> {
 
-    public QuickfixGroupNode(MtaConfiguration.Hint hint) {
+    private HintNode hintNode;
+
+    public QuickfixGroupNode(HintNode hintNode, MtaConfiguration.Hint hint) {
         super(hint);
+        this.hintNode = hintNode;
     }
 
     @NotNull
     @Override
     public Collection<? extends AbstractTreeNode<?>> getChildren() {
         List<MtaExplorerNode<?>> children = Lists.newArrayList();
-        children.addAll(this.getValue().quickfixes.stream().map(QuickfixNode::new).collect(Collectors.toList()));
+        children.addAll(this.getValue().quickfixes.stream().map(quickFix -> {
+            return new QuickfixNode(quickFix, this.hintNode);
+        }).collect(Collectors.toList()));
         return children;
     }
 
