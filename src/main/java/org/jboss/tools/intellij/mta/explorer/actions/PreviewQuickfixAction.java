@@ -12,21 +12,15 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.Pair;
-import com.intellij.ui.tree.StructureTreeModel;
 import com.intellij.ui.treeStructure.Tree;
-import groovy.lang.Tuple;
 import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
 import org.jboss.tools.intellij.mta.explorer.dialog.MtaNotifier;
-import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
 import org.jboss.tools.intellij.mta.explorer.nodes.HintNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
-import org.jboss.tools.intellij.mta.model.MtaModel;
 import org.jboss.tools.intellij.mta.model.QuickfixUtil;
-import org.jboss.tools.intellij.mta.services.ModelService;
 
 import javax.swing.tree.TreePath;
 import java.io.File;
-import java.nio.charset.Charset;
 
 public class PreviewQuickfixAction extends StructureTreeAction {
 

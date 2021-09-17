@@ -1,15 +1,12 @@
 package org.jboss.tools.intellij.mta.explorer.nodes;
 
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
