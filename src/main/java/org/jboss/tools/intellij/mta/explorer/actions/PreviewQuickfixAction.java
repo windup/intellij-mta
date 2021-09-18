@@ -1,3 +1,6 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Red Hat. All rights reserved.
+ *--------------------------------------------------------------------------------------------*/
 package org.jboss.tools.intellij.mta.explorer.actions;
 
 import com.intellij.diff.DiffContentFactory;
