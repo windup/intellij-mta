@@ -48,7 +48,9 @@
                 "hibernate-search",
                 "resteasy",
                 "rhr",
-                "eapxp"
+                "eapxp",
+                "eap8",
+                "openjdk11"
             ],
             "editable": true
         },
