@@ -49,7 +49,6 @@
                 "resteasy",
                 "rhr",
                 "eapxp",
-                "eap8",
                 "openjdk11"
             ],
             "editable": true
