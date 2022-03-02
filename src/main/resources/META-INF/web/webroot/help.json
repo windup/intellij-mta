@@ -24,7 +24,7 @@
         },
         {
             "name": "target",
-            "description": "The target server/technology/framework to migrate to. This could include multiple items (eg, \"eap7\" and \"cloud-readiness\").",
+            "description": "The target server/technology/framework to migrate to. This could include multiple items (eg, \"eap7\" and \"cloud-readiness\"). NOTE: The analysis will fail if a custom target is added and cannot be found within custom rules.",
             "type": "String",
             "ui-type": ["select-many", "text"],
             "required": true,
@@ -49,7 +49,8 @@
                 "resteasy",
                 "rhr",
                 "eapxp",
-                "openjdk11"
+                "openjdk11",
+                "openliberty"
             ],
             "editable": true
         },
