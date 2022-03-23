@@ -28,7 +28,7 @@ public class ConfigurationNode extends MtaExplorerNode<MtaConfiguration> {
     private StructureTreeModel treeModel;
 
     public ConfigurationNode(MtaConfiguration configuration, ModelService modelService, VertxService vertxService, StructureTreeModel treeModel) {
-        super(configuration);
+        super(configuration, configuration.getSummary());
         this.modelService = modelService;
         this.vertxService = vertxService;
         this.treeModel = treeModel;

@@ -24,7 +24,7 @@ public class HintsGroupNode extends ResourceNode {
     }
 
     private void computeIssue() {
-        List<MtaConfiguration.Hint> hints = super.getValue().hints;
+        List<MtaConfiguration.Hint> hints = this.summary.hints;
         hints.sort(Comparator.comparingInt(o -> o.lineNumber));
         for (MtaConfiguration.Hint hint : hints) {
             if (hint.file.equals(this.file.getAbsolutePath())) {

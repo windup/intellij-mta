@@ -21,7 +21,7 @@ import java.util.List;
 public class ReportNode extends MtaExplorerNode<MtaConfiguration> {
 
     public ReportNode(MtaConfiguration configuration) {
-        super(configuration);
+        super(configuration, configuration.getSummary());
     }
 
     @NotNull

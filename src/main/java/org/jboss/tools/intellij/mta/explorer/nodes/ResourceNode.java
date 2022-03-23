@@ -7,12 +7,12 @@ import java.io.File;
 
 import static org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 
-public abstract class ResourceNode extends MtaExplorerNode<AnalysisResultsSummary> {
+public abstract class ResourceNode extends MtaExplorerNode<String> {
 
     public final File file;
 
     public ResourceNode(AnalysisResultsSummary summary, String resource) {
-        super(summary);
+        super(resource, summary);
         this.file = new File(resource);
     }
 }

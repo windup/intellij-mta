@@ -24,13 +24,13 @@ public class FolderNode extends ResourceNode {
     public @NotNull Collection<? extends AbstractTreeNode<?>> getChildren() {
         List<ResourceNode> children = Lists.newArrayList();
         Set<String> resolvedFiles = Sets.newHashSet();
-        for (Issue issue : super.getValue().getIssues()) {
+        for (Issue issue : this.summary.getIssues()) {
             File childFile = this.findChildFile(issue.file);
-            if (childFile != null && !resolvedFiles.contains(childFile.getName())) {
+            if (childFile != null && !resolvedFiles.contains(childFile.getAbsolutePath())) {
                 ResourceNode node = childFile.isDirectory() ?
-                        new FolderNode(this.getValue(), childFile.getAbsolutePath()) :
-                        new FileNode(this.getValue(), childFile.getAbsolutePath());
-                resolvedFiles.add(childFile.getName());
+                        new FolderNode(this.summary, childFile.getAbsolutePath()) :
+                        new FileNode(this.summary, childFile.getAbsolutePath());
+                resolvedFiles.add(childFile.getAbsolutePath());
                 children.add(node);
             }
         }

@@ -24,7 +24,7 @@ public class AnalysisResultsNode extends MtaExplorerNode<AnalysisResultsSummary>
     private Map<String, ? extends AbstractTreeNode<?>> resourceNodes = Maps.newHashMap();
 
     public AnalysisResultsNode(AnalysisResultsSummary summary) {
-        super(summary);
+        super(summary, summary);
     }
 
     @NotNull
@@ -50,4 +50,6 @@ public class AnalysisResultsNode extends MtaExplorerNode<AnalysisResultsSummary>
     protected boolean shouldUpdateData() {
         return true;
     }
+
+
 }

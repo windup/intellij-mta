@@ -18,7 +18,7 @@ import java.util.Collection;
 public abstract class IssueNode<T extends Issue> extends MtaExplorerNode<T> {
 
     public IssueNode(T issue) {
-        super(issue);
+        super(issue, issue.configuration.getSummary());
     }
 
     @Override

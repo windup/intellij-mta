@@ -27,7 +27,7 @@ public class FileNode extends ResourceNode {
     private void computeIssue() {
         boolean containsHints = false;
         boolean containsClassifications = false;
-        for (Issue issue : super.getValue().getIssues()) {
+        for (Issue issue : super.summary.getIssues()) {
             if (issue.file.equals(this.file.getAbsolutePath())) {
                 if (issue instanceof Hint) {
                     containsHints = true;
@@ -39,10 +39,10 @@ public class FileNode extends ResourceNode {
         }
         String file = this.getFile().getAbsolutePath();
         if (containsHints) {
-            this.hintsGroupNode = new HintsGroupNode(super.getValue(), file);
+            this.hintsGroupNode = new HintsGroupNode(this.summary, file);
         }
         if (containsClassifications) {
-            this.classificationsGroupNode = new ClassificationsGroupNode(this.getValue(), file);
+            this.classificationsGroupNode = new ClassificationsGroupNode(this.summary, file);
         }
     }
 

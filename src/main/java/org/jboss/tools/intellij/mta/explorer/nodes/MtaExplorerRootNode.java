@@ -13,7 +13,7 @@ import java.util.Collection;
 public class MtaExplorerRootNode extends MtaExplorerNode<MtaNodeModel> {
 
     public MtaExplorerRootNode(MtaNodeModel nodeModel) {
-        super(nodeModel);
+        super(nodeModel, null);
     }
 
     @NotNull

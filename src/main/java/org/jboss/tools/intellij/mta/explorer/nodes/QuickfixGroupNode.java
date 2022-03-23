@@ -12,30 +12,33 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import static org.jboss.tools.intellij.mta.model.MtaConfiguration.*;
 
-public class QuickfixGroupNode extends MtaExplorerNode<MtaConfiguration.Hint> {
+public class QuickfixGroupNode extends ResourceNode {
 
     private HintNode hintNode;
+    private Hint hint;
 
     public QuickfixGroupNode(HintNode hintNode, MtaConfiguration.Hint hint) {
-        super(hint);
+        super(hint.configuration.getSummary(), hint.file);
         this.hintNode = hintNode;
+        this.hint = this.hintNode.getValue();
     }
 
     @NotNull
     @Override
     public Collection<? extends AbstractTreeNode<?>> getChildren() {
         List<MtaExplorerNode<?>> children = Lists.newArrayList();
-        children.addAll(this.getValue().quickfixes.stream().map(quickFix -> {
-            return new QuickfixNode(quickFix, this.hintNode);
-        }).collect(Collectors.toList()));
+        children.addAll(this.hint.quickfixes.stream().
+                map(quickFix -> new QuickfixNode(quickFix, this.hintNode))
+                .collect(Collectors.toList()));
         return children;
     }
 
     @Override
     protected void update(PresentationData presentation) {
         presentation.setPresentableText("Quickfixes" +
-                " (" + (this.getValue().quickfixes.size()) + ")");
+                " (" + (this.hint.quickfixes.size()) + ")");
         presentation.setIcon(AllIcons.FileTypes.Any_type);
     }
 
@@ -47,5 +50,13 @@ public class QuickfixGroupNode extends MtaExplorerNode<MtaConfiguration.Hint> {
     @Override
     public boolean isAlwaysLeaf() {
         return false;
+    }
+
+    public HintNode getHintNode() {
+        return this.hintNode;
+    }
+
+    public Hint getHint() {
+        return this.hint;
     }
 }

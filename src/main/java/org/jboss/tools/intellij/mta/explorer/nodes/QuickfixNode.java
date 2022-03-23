@@ -7,14 +7,12 @@ import com.google.common.collect.Lists;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
-import com.intellij.openapi.project.Project;
 import org.jboss.tools.intellij.mta.explorer.MtaTreeCellRenderer;
 import org.jboss.tools.intellij.mta.explorer.actions.PreviewQuickfixAction;
 import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.util.Collection;
 
@@ -23,7 +21,7 @@ public class QuickfixNode extends MtaExplorerNode<MtaConfiguration.QuickFix> {
     private HintNode hintNode;
 
     public QuickfixNode(MtaConfiguration.QuickFix quickfix, HintNode hintNode) {
-        super(quickfix);
+        super(quickfix, hintNode.getSummary());
         this.hintNode = hintNode;
     }
 
@@ -52,5 +50,13 @@ public class QuickfixNode extends MtaExplorerNode<MtaConfiguration.QuickFix> {
     public void onClick(DefaultMutableTreeNode treeNode, TreePath path, MtaTreeCellRenderer renderer) {
         path = path.getParentPath().getParentPath();
         PreviewQuickfixAction.openPreviewAndApply(this.getValue(), this.hintNode, path, renderer);
+    }
+
+    public HintNode getHintNode() {
+        return this.hintNode;
+    }
+
+    public MtaConfiguration.Hint getHint() {
+        return this.hintNode.getValue();
     }
 }

@@ -28,7 +28,7 @@ public class ClassificationsGroupNode extends ResourceNode {
     }
 
     private void computeIssue() {
-        for (MtaConfiguration.Issue issue : super.getValue().getIssues()) {
+        for (MtaConfiguration.Issue issue : this.summary.getIssues()) {
             if (issue.file.equals(this.file.getAbsolutePath()) && issue instanceof MtaConfiguration.Classification) {
                 this.classifications.add((MtaConfiguration.Classification) issue);
             }
