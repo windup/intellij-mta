@@ -56,6 +56,11 @@
                     text="Apply Quickfix"
                     icon="AllIcons.Diff.ApplyNotConflicts">
             </action>
+            <action class="org.jboss.tools.intellij.mta.explorer.actions.ApplyAllQuickfixAction"
+                    id="org.jboss.tools.intellij.mta.explorer.actions.ApplyAllQuickfixAction"
+                    text="Apply All Quickfixes"
+                    icon="AllIcons.Diff.ApplyNotConflicts">
+            </action>
             <action class="org.jboss.tools.intellij.mta.details.OpenIssueDetailsAction"
                     id="org.jboss.tools.intellij.mta.details.OpenIssueDetailsAction"
                     text="Show More Details"
