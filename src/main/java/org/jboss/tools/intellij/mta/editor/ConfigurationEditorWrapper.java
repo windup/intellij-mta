@@ -101,4 +101,9 @@ public class ConfigurationEditorWrapper extends UserDataHolderBase implements Fi
         this.editor.dispose();
         Disposer.dispose(this);
     }
+
+    @Override
+    public VirtualFile getFile() {
+        return this.file;
+    }
 }
