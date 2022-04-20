@@ -100,9 +100,16 @@ public class RunConfigurationAction extends StructureTreeAction {
         }
         List<String> input = (List<String>)configuration.getOptions().get("input");
         if (input == null || input.isEmpty()) {
-            valid = false;
             MtaNotifier.notifyError("Path to input required.");
+            return false;
         }
+        for (String anInput : input) {
+            if (!Files.exists(Paths.get(anInput))) {
+                MtaNotifier.notifyError("Input location does not exist - " + anInput);
+                return false;
+            }
+        }
+
         String output = (String)configuration.getOptions().get("output");
         if (output == null || "".equals(output)) {
             valid = false;
