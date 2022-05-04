@@ -32,10 +32,8 @@ public class ChromiumConfigurationEditor implements Disposable {
         String url = this.init();
         try {
             if (!JBCefApp.isSupported()) {
-                System.out.println("MTA Configuration Editor NOT SUPPORTED!!!");
+                System.out.println("MTA Configuration Editor NOT SUPPORTED. Missing Java Chromium Embedded Library.");
                 return null;
-            } else {
-                System.out.println("MTA Configuration Editor SUPPORTED!!!");
             }
             JBCefBrowser myBrowser = new JBCefBrowser(url);
 //            CefBrowser myDevTools = myBrowser.getCefBrowser().getDevTools();

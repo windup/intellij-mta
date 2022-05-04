@@ -19,7 +19,6 @@ import com.intellij.ui.tree.AsyncTreeModel;
 import com.intellij.ui.tree.StructureTreeModel;
 import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.mta.cli.MtaCliRunner;
-import org.jboss.tools.intellij.mta.editor.ConfigurationEditor;
 import org.jboss.tools.intellij.mta.editor.ConfigurationFile;
 import org.jboss.tools.intellij.mta.editor.server.VertxService;
 import org.jboss.tools.intellij.mta.explorer.nodes.*;
