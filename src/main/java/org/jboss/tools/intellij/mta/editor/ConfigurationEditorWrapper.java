@@ -19,7 +19,6 @@ import org.jboss.tools.intellij.mta.model.MtaConfiguration;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
 
@@ -31,21 +30,20 @@ public class ConfigurationEditorWrapper extends UserDataHolderBase implements Fi
 
     protected final VirtualFile file;
 
-    private final ConfigurationEditor editor;
+    private final ChromiumConfigurationEditor editor;
 
     public ConfigurationEditorWrapper(@NotNull Project project, @NotNull VirtualFile file) {
         this.file = file;
-        this.editor = new ConfigurationEditor((ConfigurationFile) file);
+        this.editor = new ChromiumConfigurationEditor((ConfigurationFile) file);
     }
 
     @NotNull
     public JComponent getComponent() {
-        return this.editor;
+        return this.editor.getComponent();
     }
 
-    @Nullable
     public JComponent getPreferredFocusedComponent() {
-        return this.editor;
+        return this.editor.getComponent();
     }
 
     @NotNull
@@ -82,17 +80,14 @@ public class ConfigurationEditorWrapper extends UserDataHolderBase implements Fi
     public void removePropertyChangeListener(@NotNull PropertyChangeListener listener) {
     }
 
-    @Nullable
     public BackgroundEditorHighlighter getBackgroundHighlighter() {
         return null;
     }
 
-    @Nullable
     public FileEditorLocation getCurrentLocation() {
         return null;
     }
 
-    @Nullable
     public StructureViewBuilder getStructureViewBuilder() {
         return null;
     }

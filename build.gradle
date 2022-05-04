@@ -2,7 +2,6 @@ plugins {
     id "org.jetbrains.intellij" version "0.4.21"
     id 'java'
     id "idea"
-    id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
 apply plugin: 'idea'
@@ -11,11 +10,6 @@ apply plugin: 'java'
 
 group 'org.jboss.tools.intellij'
 version projectVersion
-
-javafx {
-    version = "11"
-    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.swing', 'javafx.base', 'javafx.web', 'javafx.fxml' ]
-}
 
 intellij {
     version ideaVersion
