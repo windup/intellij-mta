@@ -35,6 +35,7 @@
                 "drools",
                 "fsw",
                 "eap7",
+                "enableTransactionAnalysis",
                 "hibernate",
                 "java-ee",
                 "eap6",
