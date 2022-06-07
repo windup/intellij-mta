@@ -35,7 +35,6 @@
                 "drools",
                 "fsw",
                 "eap7",
-                "enableTransactionAnalysis",
                 "hibernate",
                 "java-ee",
                 "eap6",
@@ -272,6 +271,13 @@
         {
             "name": "enableClassNotFoundAnalysis",
             "description": "Enable analysis of Java files that are not available on the Classpath. This should be left off if some classes will be unavailable at analysis time.",
+            "type": "Boolean",
+            "ui-type": ["single"],
+            "required": false
+        },
+        {
+            "name": "enableTransactionAnalysis",
+            "description": "Generate Diva Report. This report contains details of Diva (Data-intensive Validity Analyzer) related resources that were found in the application.",
             "type": "Boolean",
             "ui-type": ["single"],
             "required": false
