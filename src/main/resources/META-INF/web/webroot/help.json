@@ -29,6 +29,8 @@
             "ui-type": ["select-many", "text"],
             "required": true,
             "available-options": [
+                "azure-apservice",
+                "azure-aks",
                 "cloud-readiness",
                 "jbpm",
                 "quarkus",
@@ -49,6 +51,7 @@
                 "rhr",
                 "eapxp",
                 "openjdk11",
+                "openjdk17",
                 "openliberty"
             ],
             "editable": true
@@ -99,7 +102,8 @@
                 "resin",
                 "resteasy",
                 "thorntail",
-                "openjdk"
+                "openjdk",
+                "openjdk11"
             ]
         },
         {
