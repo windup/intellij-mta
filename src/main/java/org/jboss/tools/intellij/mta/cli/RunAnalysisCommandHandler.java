@@ -67,7 +67,7 @@ public class RunAnalysisCommandHandler {
 
     public void runAnalysis() {
         final ProgressManager manager = ProgressManager.getInstance();
-        manager.run(new Task.Backgroundable(this.project, "Migration Toolkit for Applications", true) {
+        manager.run(new Task.Backgroundable(this.project, "Migration Toolkit for Runtimes", true) {
             public void run(final ProgressIndicator indicator) {
                 try {
                     progressIndicator = indicator;
@@ -76,7 +76,7 @@ public class RunAnalysisCommandHandler {
                     handler = new MtaCliProcessHandler(process, commandLine, progressMonitor, progressIndicator, console);
                     console.init(project, handler, commandLine.toString());
                     handler.startNotify();
-                    progressIndicator.setText("Starting mta-cli process...");
+                    progressIndicator.setText("Starting mtr-cli process...");
                     progressIndicator.setIndeterminate(true);
                     progressIndicator.setFraction(0.01);
                     handler.waitFor();

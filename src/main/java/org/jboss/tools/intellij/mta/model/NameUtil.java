@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class NameUtil {
 
-    public static final String CONFIGURATION_ELEMENT_PREFIX = "mtaConfiguration";
+    public static final String CONFIGURATION_ELEMENT_PREFIX = "mtrConfiguration";
 
     private static Pattern namePattern = Pattern.compile("([a-zA-Z_]*)([0-9]+)");
 

@@ -23,7 +23,7 @@ public class MtaConsole {
     public void init(Project project, OSProcessHandler handler, String commandLine) {
         Runnable r = () -> {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            String name = "Console (MTA)";
+            String name = "Console (MTR)";
             ToolWindow window = manager.getToolWindow(name);
 
             if (window == null) {

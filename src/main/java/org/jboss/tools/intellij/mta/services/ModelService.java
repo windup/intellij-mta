@@ -75,7 +75,7 @@ public class ModelService implements Disposable {
         MtaConfiguration configuration = new MtaConfiguration();
         configuration.setId(MtaConfiguration.generateUniqueId());
         configuration.setName(NameUtil.generateUniqueConfigurationName(model));
-        configuration.getOptions().put("mta-cli", this.computeMtaCliLocation());
+        configuration.getOptions().put("mtr-cli", this.computeMtaCliLocation());
         configuration.getOptions().put("output", ModelService.getConfigurationOutputLocation(configuration));
         configuration.getOptions().put("sourceMode", "true");
         List<String> target = (List<String>)configuration.getOptions().get("target");
@@ -189,18 +189,18 @@ public class ModelService implements Disposable {
             return "";
         }
         MtaConfiguration configuration = Lists.reverse(this.getModel().getConfigurations()).stream().filter(config -> {
-            String cli = (String) config.getOptions().get("mta-cli");
+            String cli = (String) config.getOptions().get("mtr-cli");
             return cli != null && !"".equals(cli);
         }).findFirst().orElse(null);
         if (configuration != null) {
-            return (String) configuration.getOptions().get("mta-cli");
+            return (String) configuration.getOptions().get("mtr-cli");
         }
         return "";
     }
 
     public static String getDefaultOutputLocation() {
         return FileUtils.getUserDirectoryPath()
-                + File.separator + ".mta"
+                + File.separator + ".mtr"
                 + File.separator +  "tooling"
                 + File.separator + "intellij";
     }

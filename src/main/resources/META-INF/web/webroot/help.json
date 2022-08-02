@@ -7,8 +7,8 @@
             "required": true
         },
         {
-            "name": "mta-cli",
-            "description": "Path to mta-cli executable.",
+            "name": "mtr-cli",
+            "description": "Path to mtr-cli executable.",
             "type": "File",
             "ui-type": ["file"],
             "required": true
@@ -58,7 +58,7 @@
         },
         {
             "name": "userRulesDirectory",
-            "description": "User Rules Directory (Search pattern: *.windup.groovy, *.windup.xml, *.mta.groovy and *.mta.xml).",
+            "description": "User Rules Directory (Search pattern: *.windup.groovy, *.windup.xml, *.mtr.groovy and *.mtr.xml).",
             "type": "Path",
             "ui-type": ["many", "file_or_directory", "text"],
             "placeholder": "No Directories Specified",
@@ -108,7 +108,7 @@
         },
         {
             "name": "skipReports",
-            "description": "If set, MTA will not generate reports.",
+            "description": "If set, MTR will not generate reports.",
             "type": "Boolean",
             "ui-type": ["single"],
             "required": false
@@ -145,7 +145,7 @@
         },
         {
             "name": "mavenizeGroupId",
-            "description": "Used in conjunction with the `mavenize` option. All pom.xml files will use this value as their <groupId>. If the parameter is omitted, MTA tries to guess some value based on the application, but this guess may be wrong. Last resort default value is 'com.mycompany.mavenized'.",
+            "description": "Used in conjunction with the `mavenize` option. All pom.xml files will use this value as their <groupId>. If the parameter is omitted, MTR tries to guess some value based on the application, but this guess may be wrong. Last resort default value is 'com.mycompany.mavenized'.",
             "type": "String",
             "ui-type": ["single"],
             "required": false
@@ -221,7 +221,7 @@
         },
         {
             "name": "enableCompatibleFilesReport",
-            "description": "If set, MTA will generate a report of 'Compatible Files'. Keep in mind that generating this report may take a long time for large applications.",
+            "description": "If set, MTR will generate a report of 'Compatible Files'. Keep in mind that generating this report may take a long time for large applications.",
             "type": "Boolean",
             "ui-type": ["single"],
             "required": false
@@ -295,7 +295,7 @@
         },
         {
             "name": "keepWorkDirs",
-            "description": "If set, MTA will not delete the temporary working files, like graph database and unzipped archives. Debugging purposes.",
+            "description": "If set, MTR will not delete the temporary working files, like graph database and unzipped archives. Debugging purposes.",
             "type": "Boolean",
             "ui-type": ["single"],
             "required": false

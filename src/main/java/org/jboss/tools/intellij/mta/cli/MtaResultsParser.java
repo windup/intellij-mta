@@ -125,7 +125,7 @@ public class MtaResultsParser {
                 if ("".equals(hint.id)) {
                     hint.id = MtaConfiguration.generateUniqueId();
                     System.out.println("MTA results.xml not serialized with IDs");
-                    MtaNotifier.notifyError("MTA results.xml not serialized with IDs. Please try re-running the analysis with the latest version of the MTA plugin.");
+                    MtaNotifier.notifyError("MTR results.xml not serialized with IDs. Please try re-running the analysis with the latest version of the MTR plugin.");
                 }
 
                 if (configuration.getSummary().completeIssues.contains(id)) {
@@ -229,7 +229,7 @@ public class MtaResultsParser {
                 if ("".equals(classification.id)) {
                     classification.id = MtaConfiguration.generateUniqueId();
                     System.out.println("MTA results.xml not serialized with IDs");
-                    MtaNotifier.notifyError("MTA results.xml not serialized with IDs. Please try re-running the analysis with the latest version of the MTA plugin.");
+                    MtaNotifier.notifyError("MTR results.xml not serialized with IDs. Please try re-running the analysis with the latest version of the MTR plugin.");
                 }
 
                 if (configuration.getSummary().completeIssues.contains(id)) {

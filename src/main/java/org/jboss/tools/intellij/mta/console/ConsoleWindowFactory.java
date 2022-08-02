@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 public class ConsoleWindowFactory implements ToolWindowFactory, DumbAware {
 
     private static final String OUTPUT_WINDOW_CONTENT_ID = "MtaOutputWindowContent";
-    public static final String TOOL_WINDOW_ID = "MTA";
+    public static final String TOOL_WINDOW_ID = "R";
 
     public static Project project;
 

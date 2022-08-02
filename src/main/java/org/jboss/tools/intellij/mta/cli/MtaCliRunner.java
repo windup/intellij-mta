@@ -30,7 +30,7 @@ public class MtaCliRunner {
                            ProgressMonitor progressMonitor,
                            CliListener listener) {
         String javaHome = "";
-        String mtaCli = (String)configuration.getOptions().get("mta-cli");
+        String mtaCli = (String)configuration.getOptions().get("mtr-cli");
         List<String> params = MtaCliParamBuilder.buildParams(configuration, mtaCli);
         MtaCliRunner.executeAnalysis(mtaCli, javaHome, params, progressMonitor, listener);
     }
