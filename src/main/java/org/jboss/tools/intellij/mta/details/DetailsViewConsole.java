@@ -35,7 +35,7 @@ public class DetailsViewConsole {
     public void open(Issue issue) {
         Runnable r = () -> {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            String name = "Issue Details (MTR)";
+            String name = "Issue Details";
             ToolWindow window = manager.getToolWindow(name);
             if (window == null) {
                 TextConsoleBuilderFactory factory = TextConsoleBuilderFactory.getInstance();

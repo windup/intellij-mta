@@ -7,8 +7,8 @@
             "required": true
         },
         {
-            "name": "mtr-cli",
-            "description": "Path to mtr-cli executable.",
+            "name": "windup-cli",
+            "description": "Path to windup-cli executable.",
             "type": "File",
             "ui-type": ["file"],
             "required": true
@@ -58,7 +58,7 @@
         },
         {
             "name": "userRulesDirectory",
-            "description": "User Rules Directory (Search pattern: *.windup.groovy, *.windup.xml, *.mtr.groovy and *.mtr.xml).",
+            "description": "User Rules Directory (Search pattern: *.windup.groovy, *.windup.xml).",
             "type": "Path",
             "ui-type": ["many", "file_or_directory", "text"],
             "placeholder": "No Directories Specified",
@@ -122,7 +122,7 @@
         },
         {
             "name": "userIgnorePath",
-            "description": "A path to the list of path patterns to skip during execution. If it points to a directory, all contained files named '*mta-ignore.txt' or '*windup-ignore.txt' will be considered as such list.",
+            "description": "A path to the list of path patterns to skip during execution. If it points to a directory, all contained files named or '*windup-ignore.txt' will be considered as such list.",
             "type": "File",
             "ui-type": ["file_or_directory"],
             "placeholder": "No Files or Directories Specified",
@@ -295,7 +295,7 @@
         },
         {
             "name": "keepWorkDirs",
-            "description": "If set, MTR will not delete the temporary working files, like graph database and unzipped archives. Debugging purposes.",
+            "description": "If set, Windup will not delete the temporary working files, like graph database and unzipped archives. Debugging purposes.",
             "type": "Boolean",
             "ui-type": ["single"],
             "required": false

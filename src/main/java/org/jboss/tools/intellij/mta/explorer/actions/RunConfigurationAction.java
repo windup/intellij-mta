@@ -33,7 +33,7 @@ public class RunConfigurationAction extends StructureTreeAction {
         MtaConfiguration configuration = node.getValue();
         ModelService modelService = node.getModelService();
         if (this.validateConfiguration(configuration)) {
-            String executable = (String)configuration.getOptions().get("mtr-cli");
+            String executable = (String)configuration.getOptions().get("windup-cli");
             try {
                 String windupHome = new File(executable).getParentFile().getParent();
                 List<String> params = MtaCliParamBuilder.buildParams(configuration, windupHome);
@@ -81,21 +81,21 @@ public class RunConfigurationAction extends StructureTreeAction {
 
     private boolean validateConfiguration(MtaConfiguration configuration) {
         boolean valid = true;
-        String cliLocation = (String)configuration.getOptions().get("mtr-cli");
+        String cliLocation = (String)configuration.getOptions().get("windup-cli");
         if (cliLocation == null || "".equals(cliLocation)) {
             valid = false;
-            MtaNotifier.notifyError("Path to mtr-cli executable required.");
+            MtaNotifier.notifyError("Path to windup-cli executable required.");
         }
         else if (cliLocation != null) {
             cliLocation = this.resolveCliPath(cliLocation);
-            configuration.getOptions().put("mtr-cli", cliLocation);
+            configuration.getOptions().put("windup-cli", cliLocation);
             if (!new File(cliLocation).exists()) {
                 valid = false;
-                MtaNotifier.notifyError("Path to mtr-cli executable does not exist.");
+                MtaNotifier.notifyError("Path to windup-cli executable does not exist.");
             }
             else if (!Files.isExecutable(Paths.get(cliLocation))) {
                 valid = false;
-                MtaNotifier.notifyError("Path to mtr-cli executable is not executable.");
+                MtaNotifier.notifyError("Path to windup-cli executable is not executable.");
             }
         }
         List<String> input = (List<String>)configuration.getOptions().get("input");

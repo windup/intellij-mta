@@ -37,3 +37,8 @@ gradle-app.setting
 Thumbs.db
 .directory
 .DS_Store
+
+#################################
+# Dev related files            #
+#################################
+*.run.xml

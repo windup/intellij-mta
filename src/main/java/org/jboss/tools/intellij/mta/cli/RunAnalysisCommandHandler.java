@@ -76,7 +76,7 @@ public class RunAnalysisCommandHandler {
                     handler = new MtaCliProcessHandler(process, commandLine, progressMonitor, progressIndicator, console);
                     console.init(project, handler, commandLine.toString());
                     handler.startNotify();
-                    progressIndicator.setText("Starting mtr-cli process...");
+                    progressIndicator.setText("Starting windup-cli process...");
                     progressIndicator.setIndeterminate(true);
                     progressIndicator.setFraction(0.01);
                     handler.waitFor();
