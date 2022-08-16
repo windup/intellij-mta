@@ -1,13 +1,13 @@
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Red Hat. All rights reserved.
  *--------------------------------------------------------------------------------------------*/
-package org.jboss.tools.intellij.mta.explorer;
+package org.jboss.tools.intellij.windup.explorer;
 
 import com.intellij.openapi.project.Project;
-import org.jboss.tools.intellij.mta.explorer.nodes.ConfigurationNode;
-import org.jboss.tools.intellij.mta.explorer.nodes.NodeUtil;
-import org.jboss.tools.intellij.mta.model.MtaConfiguration;
-import org.jboss.tools.intellij.mta.services.ModelService;
+import org.jboss.tools.intellij.windup.explorer.nodes.ConfigurationNode;
+import org.jboss.tools.intellij.windup.explorer.nodes.NodeUtil;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
+import org.jboss.tools.intellij.windup.services.ModelService;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -31,9 +31,9 @@ public class ExplorerTest {
 
     @Test
     public void testConfigurationWithResults() {
-        MtaConfiguration config = this.modelService.createConfiguration();
+        WindupConfiguration config = this.modelService.createConfiguration();
         config.getOptions().put("output", "tmp");
-        MtaConfiguration.AnalysisResultsSummary summary = new MtaConfiguration.AnalysisResultsSummary(modelService);
+        WindupConfiguration.AnalysisResultsSummary summary = new WindupConfiguration.AnalysisResultsSummary(modelService);
         summary.outputLocation = (String)config.getOptions().get("output");
         config.setSummary(summary);
         assertTrue(summary.getIssues().isEmpty());
@@ -41,7 +41,7 @@ public class ExplorerTest {
 
     @Test
     public void testConfigurationNodeWithoutResults() {
-        MtaConfiguration config = this.modelService.createConfiguration();
+        WindupConfiguration config = this.modelService.createConfiguration();
         ConfigurationNode node = mock(ConfigurationNode.class);
         Collection children = NodeUtil.getConfigurationNodeChildren(config);
         when(node.getChildren()).thenReturn(children);
@@ -50,7 +50,7 @@ public class ExplorerTest {
 
     @Test
     public void testNotSkipReports() {
-        MtaConfiguration config = this.modelService.createConfiguration();
+        WindupConfiguration config = this.modelService.createConfiguration();
         assertFalse(config.skippedReports());
     }
 }

@@ -7,8 +7,6 @@ The IntelliJ plugin for the <b>Migration Toolkit for Runtimes</b> (MTR).
 
 Migration Toolkit for Runtimes (MTR) (the product of the downstream project [Windup](https://github.com/windup/windup)) is a command-line Application Migration and Modernization Assessment tool.
 
-> The documentation for MTR can be found [here](https://developers.redhat.com/products/mta/overview).
-
 ## What is Windup?
 Windup is an extensible and customizable rule-based tool that simplifies the migration and modernization of Java applications.
 

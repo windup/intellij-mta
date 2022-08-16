@@ -1,10 +1,10 @@
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Red Hat. All rights reserved.
  *--------------------------------------------------------------------------------------------*/
-package org.jboss.tools.intellij.mta.services;
+package org.jboss.tools.intellij.windup.services;
 
 import com.intellij.openapi.project.Project;
-import org.jboss.tools.intellij.mta.model.MtaConfiguration;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -29,14 +29,14 @@ public class ModelServiceTest {
 
     @Test
     public void testNewConfigurationAdded() {
-        MtaConfiguration configuration = this.modelService.createConfiguration();
+        WindupConfiguration configuration = this.modelService.createConfiguration();
         assertNotNull(configuration);
         assertNotNull(configuration.getName());
     }
 
     @Test
     public void testDefaultTargetTechnology() {
-        MtaConfiguration configuration = this.modelService.createConfiguration();
+        WindupConfiguration configuration = this.modelService.createConfiguration();
         assertNotNull(configuration);
         assertNotNull(configuration.getOptions().get("target"));
     }

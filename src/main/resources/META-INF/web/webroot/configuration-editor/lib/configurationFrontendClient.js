@@ -15,7 +15,7 @@ class Services {
     getConfiguration() {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/options`,
+                url: `${window.location.protocol}//${this.store.host}/windup/${this.store.id}/options`,
                 method: 'GET',
                 dataType: 'json',
                 success: resolve,
@@ -48,7 +48,7 @@ class Services {
         console.log(data);
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/updateOption`,
+                url: `${window.location.protocol}//${this.store.host}/windup/${this.store.id}/updateOption`,
                 method: 'POST',
                 data: JSON.stringify(data),
                 success: resolve,
@@ -61,7 +61,7 @@ class Services {
         console.log(data);
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/promptWorkspaceFileOrFolder`,
+                url: `${window.location.protocol}//${this.store.host}/windup/${this.store.id}/promptWorkspaceFileOrFolder`,
                 method: 'POST',
                 data: JSON.stringify(data),
                 success: resolve,
@@ -74,7 +74,7 @@ class Services {
         console.log(data);
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/promptExternal`,
+                url: `${window.location.protocol}//${this.store.host}/windup/${this.store.id}/promptExternal`,
                 method: 'POST',
                 data: JSON.stringify(data),
                 success: resolve,
@@ -87,7 +87,7 @@ class Services {
         console.log(data);
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${window.location.protocol}//${this.store.host}/mta/${this.store.id}/addOptionValue`,
+                url: `${window.location.protocol}//${this.store.host}/windup/${this.store.id}/addOptionValue`,
                 method: 'POST',
                 data: JSON.stringify(data),
                 success: resolve,

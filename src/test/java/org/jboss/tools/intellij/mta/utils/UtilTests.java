@@ -1,10 +1,10 @@
-package org.jboss.tools.intellij.mta.utils;
+package org.jboss.tools.intellij.windup.utils;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.project.Project;
-import org.jboss.tools.intellij.mta.model.MtaConfiguration;
-import org.jboss.tools.intellij.mta.model.MtaModelParser;
-import org.jboss.tools.intellij.mta.services.ModelService;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
+import org.jboss.tools.intellij.windup.model.WindupModelParser;
+import org.jboss.tools.intellij.windup.services.ModelService;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -28,18 +28,18 @@ public class UtilTests {
 
     @Test
     public void testUniqueNames() {
-        MtaConfiguration config1 = this.modelService.createConfiguration();
-        MtaConfiguration config2 = this.modelService.createConfiguration();
+        WindupConfiguration config1 = this.modelService.createConfiguration();
+        WindupConfiguration config2 = this.modelService.createConfiguration();
         assertFalse(Objects.equals(config1.getName(), config2.getName()));
     }
 
     @Test
     public void testParseOptions() {
-        MtaConfiguration config = this.modelService.createConfiguration();
+        WindupConfiguration config = this.modelService.createConfiguration();
         String target = "eap7";
         Map<String, String> options = Maps.newHashMap();
         options.put("target", target);
-        MtaModelParser.parseConfigurationOptionsObject(options, config);
+        WindupModelParser.parseConfigurationOptionsObject(options, config);
         assertEquals(config.getOptions().get("target"), target);
     }
 }
