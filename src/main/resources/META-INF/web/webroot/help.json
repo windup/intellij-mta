@@ -107,7 +107,7 @@
         },
         {
             "name": "skipReports",
-            "description": "If set, MTA will not generate reports.",
+            "description": "If set, a report will not be generated",
             "type": "Boolean",
             "ui-type": ["single"],
             "required": false
@@ -144,7 +144,7 @@
         },
         {
             "name": "mavenizeGroupId",
-            "description": "Used in conjunction with the `mavenize` option. All pom.xml files will use this value as their <groupId>. If the parameter is omitted, MTA tries to guess some value based on the application, but this guess may be wrong. Last resort default value is 'com.mycompany.mavenized'.",
+            "description": "Used in conjunction with the `mavenize` option. All pom.xml files will use this value as their <groupId>. If the parameter is omitted, some value are guessed based on the application, but this guess may be wrong. Last resort default value is 'com.mycompany.mavenized'.",
             "type": "String",
             "ui-type": ["single"],
             "required": false
@@ -220,7 +220,7 @@
         },
         {
             "name": "enableCompatibleFilesReport",
-            "description": "If set, MTA will generate a report of 'Compatible Files'. Keep in mind that generating this report may take a long time for large applications.",
+            "description": "If set, a 'Compatible Files' report will be generated. Keep in mind that generating this report may take a long time for large applications.",
             "type": "Boolean",
             "ui-type": ["single"],
             "required": false
