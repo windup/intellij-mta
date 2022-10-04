@@ -150,6 +150,11 @@ public class WindupCliParamBuilder {
             params.add("--enableClassNotFoundAnalysis");
         }
 
+        // enableTransactionAnalysis
+        if (options.containsKey("enableTransactionAnalysis")) {
+            params.add("--enableTransactionAnalysis");
+        }
+
         // enableTattletal
         if (options.containsKey("enableTattletale")) {
             params.add("--enableTattletale");
