@@ -29,7 +29,7 @@
             "ui-type": ["select-many", "text"],
             "required": true,
             "available-options": [
-                "azure-appservic",
+                "azure-appservice",
                 "cloud-readiness",
                 "jbpm",
                 "quarkus",

@@ -58,7 +58,11 @@ public class WindupCliParamBuilder {
             target.add("eap7");
         }
         params.add("--target");
-        params.add(String.join(" ", target));
+
+        for (String aTarget : target) {
+            params.add(aTarget);
+        }
+//        params.add(String.join(",", target));
 
         // userRulesDirectory
         List<String> userRulesDirectory = (List<String>)options.get("userRulesDirectory");
