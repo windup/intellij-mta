@@ -13,7 +13,7 @@ version projectVersion
 
 intellij {
     version ideaVersion
-    pluginName 'org.jboss.tools.intellij.mta'
+    pluginName 'org.jboss.tools.intellij.mtr'
     updateSinceUntilBuild false
     plugins 'java'
 }
