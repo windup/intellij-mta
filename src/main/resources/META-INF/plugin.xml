@@ -28,13 +28,13 @@
         <fileEditorProvider implementation="org.jboss.tools.intellij.windup.editor.ConfigurationEditorProvider"/>
         <projectService serviceImplementation="org.jboss.tools.intellij.windup.details.IssueDetailsView"/>
     </extensions>
-
+<!--icon="AllIcons.Nodes.ResourceBundle"-->
     <actions>
         <group id="org.jboss.tools.intellij.windup.explorer" popup="true" compact="false">
             <action class="org.jboss.tools.intellij.windup.explorer.actions.NewConfigurationAction"
                     id="org.jboss.tools.intellij.windup.explorer.actions.NewConfigurationAction"
                     text="New Configuration"
-                    icon="AllIcons.Welcome.CreateNewProject">
+                    icon="AllIcons.Nodes.Editorconfig">
             </action>
             <action class="org.jboss.tools.intellij.windup.explorer.actions.DeleteConfigurationAction"
                     id="org.jboss.tools.intellij.windup.explorer.actions.DeleteConfigurationAction"
