@@ -122,7 +122,7 @@
         },
         {
             "name": "userIgnorePath",
-            "description": "A path to the list of path patterns to skip during execution. If it points to a directory, all contained files named or '*windup-ignore.txt' will be considered as such list.",
+            "description": "A path to the list of path patterns to skip during execution. If it points to a directory, all contained files named '*windup-ignore.txt' will be considered as such list.",
             "type": "File",
             "ui-type": ["file_or_directory"],
             "placeholder": "No Files or Directories Specified",
