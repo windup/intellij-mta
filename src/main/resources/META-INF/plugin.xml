@@ -21,7 +21,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Migration Toolkit for Runtimes"
                     anchor="left"
-                    icon="/META-INF/web/webroot/migration_toolkit.png"
+                    icon="/META-INF/web/webroot/migration_toolkit_tool_window_icon.png"
                     factoryClass="org.jboss.tools.intellij.windup.explorer.WindupExplorerFactory"/>
     </extensions>
 
