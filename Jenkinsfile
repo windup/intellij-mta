@@ -35,11 +35,10 @@ node('rhel7'){
     	}
 
     	def channel = isSnapshot?"nightly":"stable"
-
     	stage("Publish to Marketplace") {
             unstash 'zip'
             withCredentials([[$class: 'StringBinding', credentialsId: 'JetBrains marketplace token', variable: 'TOKEN']]) {
-                sh "./gradlew publishPlugin -PjetBrainsToken=${TOKEN} -PprojectVersion=${version} -PjetBrainsChannel=${channel}"
+                sh "./gradlew publishPlugin --stacktrace --debug -PjetBrainsToken=${TOKEN} -PprojectVersion=${version} -PjetBrainsChannel=${channel}"
             }
             archive includes:"**.zip"
 
