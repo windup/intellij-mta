@@ -1,14 +1,14 @@
 <idea-plugin>
-    <id>org.jboss.tools.intellij.mta</id>
-    <name>Migration Toolkit for Applications (MTA) by Red Hat</name>
+    <id>org.jboss.tools.intellij.mtr</id>
+    <name>Migration Toolkit for Runtimes (MTR) by Red Hat</name>
     <vendor email="developers@redhat.com" url="http://www.redhat.com">Red-Hat</vendor>
 
     <description><![CDATA[
       <img src="https://raw.githubusercontent.com/windup/intellij-mta/master/src/main/resources/META-INF/web/webroot/migration_toolkit.png" width="32" height="32"/>
       <h2>Overview</h2>
-      <p>The Migration Toolkit for Applications (MTA) plugin for IntelliJ Platform-based IDEs.</p>
+      <p>The Migration Toolkit for Runtimes (MTR) plugin for IntelliJ Platform-based IDEs.</p>
       <p>Provides tooling to accelerate application migration by marking migration issues in the source code, provides guidance to fix the issues, and offers automatic code replacement when possible.</p>
-      <p>Read more about MTA <a href="https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/6.0/html/intellij_idea_plugin_guide/index">here</a>.</p>
+      <p>Read more about MTR <a href="https://access.redhat.com/documentation/en-us/migration_toolkit_for_runtimes/1.0/html/intellij_idea_plugin_guide/index">here</a>.</p>
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
@@ -19,7 +19,7 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Migration Toolkit for Applications"
+        <toolWindow id="Migration Toolkit for Runtimes"
                     anchor="left"
                     icon="/META-INF/web/webroot/migration_toolkit_tool_window_icon.png"
                     factoryClass="org.jboss.tools.intellij.windup.explorer.WindupExplorerFactory"/>
