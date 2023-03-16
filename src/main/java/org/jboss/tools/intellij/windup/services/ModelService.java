@@ -185,7 +185,7 @@ public class ModelService implements Disposable {
     }
 
     public String computeWindupCliLocation() {
-        if (this.getModel().getConfigurations().isEmpty()) {
+        if (this.getModel() == null || this.getModel().getConfigurations().isEmpty()) {
             return "";
         }
         WindupConfiguration configuration = Lists.reverse(this.getModel().getConfigurations()).stream().filter(config -> {

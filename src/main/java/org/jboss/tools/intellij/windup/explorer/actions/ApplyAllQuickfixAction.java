@@ -105,9 +105,9 @@ public class ApplyAllQuickfixAction extends StructureTreeAction {
         if (explorerNode instanceof HintNode) {
             return this.getQuickfixes(((HintNode)explorerNode).getValue());
         }
-        if (explorerNode instanceof ConfigurationNode || explorerNode instanceof AnalysisResultsNode) {
-            return explorerNode.getSummary().getIssues()
-                    .stream()
+        if (explorerNode.getSummary() != null && (explorerNode instanceof ConfigurationNode || explorerNode instanceof AnalysisResultsNode)) {
+            List<Issue> issues = explorerNode.getSummary().getIssues();
+            return issues.stream()
                     .filter(issue -> issue instanceof Hint)
                     .map(issue -> (Hint)issue)
                     .map(hint -> this.getQuickfixes(hint))
