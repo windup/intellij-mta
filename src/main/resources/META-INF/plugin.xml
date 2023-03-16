@@ -72,6 +72,11 @@
                     text="Mark as Complete"
                     icon="AllIcons.Actions.Commit">
             </action>
+            <action class="org.jboss.tools.intellij.windup.explorer.actions.RefreshTreeAction"
+                    id="org.jboss.tools.intellij.windup.explorer.RefreshTreeAction"
+                    text="Refresh"
+                    icon="AllIcons.Actions.Refresh">
+            </action>
         </group>
     </actions>
 </idea-plugin>
