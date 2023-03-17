@@ -54,9 +54,9 @@ public class WindupModelParser {
         if (summary != null) {
             WindupModelParser.parseSummary(summary, windupConfiguration, modelService);
         }
-        String windupCli = (String)windupConfiguration.getOptions().get("windup-cli");
+        String windupCli = (String)windupConfiguration.getOptions().get("cli");
         if (windupCli == null || "".equals(windupCli)) {
-            windupConfiguration.getOptions().put("windup-cli", modelService.computeWindupCliLocation());
+            windupConfiguration.getOptions().put("cli", modelService.computeWindupCliLocation());
         }
         String output = (String)windupConfiguration.getOptions().get("output");
         if (output == null || "".equals(output)) {

@@ -7,8 +7,8 @@
             "required": true
         },
         {
-            "name": "windup-cli",
-            "description": "Path to windup-cli executable.",
+            "name": "cli",
+            "description": "Path to migration toolkit executable.",
             "type": "File",
             "ui-type": ["file"],
             "required": true

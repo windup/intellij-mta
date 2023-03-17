@@ -33,7 +33,7 @@ public class RunConfigurationAction extends StructureTreeAction {
         WindupConfiguration configuration = node.getValue();
         ModelService modelService = node.getModelService();
         if (this.validateConfiguration(configuration)) {
-            String executable = (String)configuration.getOptions().get("windup-cli");
+            String executable = (String)configuration.getOptions().get("cli");
             try {
                 String windupHome = new File(executable).getParentFile().getParent();
                 List<String> params = WindupCliParamBuilder.buildParams(configuration, windupHome);
@@ -48,7 +48,7 @@ public class RunConfigurationAction extends StructureTreeAction {
             }
             catch (Exception e) {
                 RunConfigurationAction.running = false;
-                System.out.println("Error building windup-cli params");
+                System.out.println("Error building CLI params");
                 e.printStackTrace();
             }
         }
@@ -81,21 +81,21 @@ public class RunConfigurationAction extends StructureTreeAction {
 
     private boolean validateConfiguration(WindupConfiguration configuration) {
         boolean valid = true;
-        String cliLocation = (String)configuration.getOptions().get("windup-cli");
+        String cliLocation = (String)configuration.getOptions().get("cli");
         if (cliLocation == null || "".equals(cliLocation)) {
             valid = false;
-            WindupNotifier.notifyError("Path to windup-cli executable required.");
+            WindupNotifier.notifyError("Path to CLI executable required.");
         }
         else if (cliLocation != null) {
             cliLocation = this.resolveCliPath(cliLocation);
-            configuration.getOptions().put("windup-cli", cliLocation);
+            configuration.getOptions().put("cli", cliLocation);
             if (!new File(cliLocation).exists()) {
                 valid = false;
-                WindupNotifier.notifyError("Path to windup-cli executable does not exist.");
+                WindupNotifier.notifyError("Path to CLI executable does not exist.");
             }
             else if (!Files.isExecutable(Paths.get(cliLocation))) {
                 valid = false;
-                WindupNotifier.notifyError("Path to windup-cli executable is not executable.");
+                WindupNotifier.notifyError("Path to CLI executable is not executable.");
             }
         }
         List<String> input = (List<String>)configuration.getOptions().get("input");

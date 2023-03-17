@@ -75,7 +75,7 @@ public class ModelService implements Disposable {
         WindupConfiguration configuration = new WindupConfiguration();
         configuration.setId(WindupConfiguration.generateUniqueId());
         configuration.setName(NameUtil.generateUniqueConfigurationName(model));
-        configuration.getOptions().put("windup-cli", this.computeWindupCliLocation());
+        configuration.getOptions().put("cli", this.computeWindupCliLocation());
         configuration.getOptions().put("output", ModelService.getConfigurationOutputLocation(configuration));
         configuration.getOptions().put("sourceMode", "true");
         List<String> target = (List<String>)configuration.getOptions().get("target");
@@ -189,11 +189,11 @@ public class ModelService implements Disposable {
             return "";
         }
         WindupConfiguration configuration = Lists.reverse(this.getModel().getConfigurations()).stream().filter(config -> {
-            String cli = (String) config.getOptions().get("windup-cli");
+            String cli = (String) config.getOptions().get("cli");
             return cli != null && !"".equals(cli);
         }).findFirst().orElse(null);
         if (configuration != null) {
-            return (String) configuration.getOptions().get("windup-cli");
+            return (String) configuration.getOptions().get("cli");
         }
         return "";
     }

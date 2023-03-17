@@ -155,7 +155,7 @@ public class ProgressMonitor {
                     return jsonParser.parse(replaced).getAsJsonObject();
                 }
                 catch (JsonSyntaxException e) {
-                    System.out.println("Error parsing windup-cli output: " + e.getMessage());
+                    System.out.println("Error parsing CLI output: " + e.getMessage());
                 }
             }
         }
@@ -185,7 +185,7 @@ public class ProgressMonitor {
                 return jsonParser.parse(replaced).getAsJsonObject();
             }
             catch (JsonSyntaxException e) {
-                System.out.println("Error parsing windup-cli output: " + e.getMessage());
+                System.out.println("Error parsing CLI output: " + e.getMessage());
             }
         }
         return null;

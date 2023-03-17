@@ -40,8 +40,6 @@ Use the generated reports to better understand and assess the migration efforts.
 * Java Platform, `JDK version 11` with `JAVA_HOME` environment variable 
 * A minimum of `4 GB RAM`; 8 GB recommended
 
-> Tip: The windup-cli can be installed from within IntelliJ once the plugin has been installed.
-
 =======
 
 ## License

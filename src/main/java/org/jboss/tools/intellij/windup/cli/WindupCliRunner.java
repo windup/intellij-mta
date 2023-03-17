@@ -30,13 +30,13 @@ public class WindupCliRunner {
                            ProgressMonitor progressMonitor,
                            CliListener listener) {
         String javaHome = "";
-        String windupCli = (String)configuration.getOptions().get("windup-cli");
+        String windupCli = (String)configuration.getOptions().get("cli");
         List<String> params = WindupCliParamBuilder.buildParams(configuration, windupCli);
         WindupCliRunner.executeAnalysis(windupCli, javaHome, params, progressMonitor, listener);
     }
 
     private static void executeAnalysis(String cli, String javaHome, List<String> params, ProgressMonitor progressMonitor, CliListener listener) {
-        System.out.println("execute windup-cli");
+        System.out.println("execute CLI");
         CommandLine cmdLine = CommandLine.parse(cli);
         Map<String, String> env = Maps.newHashMap();
         for (Map.Entry<String, String> entry : System.getenv().entrySet()) {
@@ -63,7 +63,7 @@ public class WindupCliRunner {
         executor.setStreamHandler(new PumpStreamHandler(new LogOutputStream() {
             @Override
             protected void processLine(String line, int logLevel) {
-                System.out.println("Message from windup-cli: " + line);
+                System.out.println("Message from CLI: " + line);
                 if (line.contains(PROGRESS)) {
                     JsonObject json = ProgressMonitor.parseProgressMessage(line);
                     if (json != null) {
@@ -77,7 +77,7 @@ public class WindupCliRunner {
         try {
             executor.execute(cmdLine, env, handler);
         } catch (IOException e) {
-            System.out.println("Error executing windup-cli" + e.getMessage());
+            System.out.println("Error executing CLI" + e.getMessage());
         }
     }
 }

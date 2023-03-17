@@ -76,7 +76,7 @@ public class RunAnalysisCommandHandler {
                     handler = new WindupCliProcessHandler(process, commandLine, progressMonitor, progressIndicator, console);
                     console.init(project, handler, commandLine.toString());
                     handler.startNotify();
-                    progressIndicator.setText("Starting windup-cli process...");
+                    progressIndicator.setText("Starting migration toolit...");
                     progressIndicator.setIndeterminate(true);
                     progressIndicator.setFraction(0.01);
                     handler.waitFor();
@@ -95,14 +95,14 @@ public class RunAnalysisCommandHandler {
         if (startTime > 0) {
             long time = System.currentTimeMillis() - startTime;
             if (time > LONG_TIME) {
-                System.out.println(String.format("windup-cli took %s ms. Command parameters: %n%s",
+                System.out.println(String.format("CLI took %s ms. Command parameters: %n%s",
                         time,
                         commandLine.getCommandLineString()));
             } else {
-                System.out.println(String.format("windup-cli took %s ms", time));
+                System.out.println(String.format("CLI took %s ms", time));
             }
         } else {
-            System.out.println(String.format("windup-cli finished."));
+            System.out.println(String.format("CLI finished."));
         }
     }
 }
