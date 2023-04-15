@@ -33,6 +33,7 @@
                 "cloud-readiness",
                 "jbpm",
                 "quarkus",
+                "discovery",
                 "drools",
                 "fsw",
                 "eap7",
