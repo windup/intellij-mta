@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>org.jboss.tools.intellij.windup</id>
+    <id>org.jboss.tools.intellij.mtr</id>
     <name>Migration Toolkit for Runtimes (MTR) by Red Hat</name>
     <vendor email="developers@redhat.com" url="http://www.redhat.com">Red-Hat</vendor>
 
