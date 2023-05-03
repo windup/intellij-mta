@@ -179,6 +179,11 @@ public class WindupCliParamBuilder {
             params.add("--mavenize");
         }
 
+        // legacyReports
+        if (options.containsKey("legacyReports")) {
+            params.add("--legacyReports");
+        }
+
         // inputApplicationName
         String inputApplicationName = (String)options.get("inputApplicationName");
         if (inputApplicationName != null && !inputApplicationName.isEmpty()) {
