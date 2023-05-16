@@ -23,6 +23,8 @@ import java.io.File;
 
 public class VertxService implements Disposable {
 
+    public static final String PLUGIN_ID = "org.jboss.tools.intellij.mtr";
+
     private Vertx vertx;
     private EventBus eventBus;
     private HttpServer server;
@@ -41,7 +43,7 @@ public class VertxService implements Disposable {
     }
 
     private void startServer() {
-        IdeaPluginDescriptor descriptor = PluginManagerCore.getPlugin(PluginId.getId("org.jboss.tools.intellij.windup"));
+        IdeaPluginDescriptor descriptor = PluginManagerCore.getPlugin(PluginId.getId(VertxService.PLUGIN_ID));
         if (descriptor != null) {
             this.router.route().handler(BodyHandler.create().setUploadsDirectory(System.getProperty("java.io.tmpdir")));
             File webroot = new File(descriptor.getPluginPath().toFile(), "lib/webroot");

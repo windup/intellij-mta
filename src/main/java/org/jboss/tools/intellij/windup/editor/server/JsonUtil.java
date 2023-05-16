@@ -49,7 +49,7 @@ public class JsonUtil {
 
     public static JsonObject getHelpData() {
 
-        IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId("org.jboss.tools.intellij.windup"));
+        IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.getId(VertxService.PLUGIN_ID));
         File helpFile = new File(descriptor.getPath(), "lib/webroot/help.json");
 
         JsonObject data = new JsonObject();
