@@ -5,6 +5,8 @@ package org.jboss.tools.intellij.windup.explorer.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.windup.explorer.WindupTreeCellRenderer;
 import org.jboss.tools.intellij.windup.explorer.dialog.WindupNotifier;
@@ -14,6 +16,7 @@ import org.jboss.tools.intellij.windup.model.WindupModel;
 import org.jboss.tools.intellij.windup.services.ModelService;
 
 import javax.swing.tree.TreePath;
+import java.util.Arrays;
 
 public class DeleteConfigurationAction extends StructureTreeAction {
 
@@ -33,6 +36,11 @@ public class DeleteConfigurationAction extends StructureTreeAction {
         Tree tree = getTree(anActionEvent);
         Object[] selectedNodes = getSelectedNodes(tree);
 
+        Project project = anActionEvent.getProject();
+
+        FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
+
+
         // Iterate through each selected node
         for (Object selectedNode : selectedNodes) {
             ConfigurationNode node = (ConfigurationNode) super.adjust(selectedNode);
@@ -43,9 +51,16 @@ public class DeleteConfigurationAction extends StructureTreeAction {
             ModelService.deleteOutput(configuration);
             renderer.getModelService().saveModel();
             renderer.getTreeModel().invalidate();
+
+            // Close the corresponding tab
+            Arrays.stream(fileEditorManager.getOpenFiles())
+                    .filter(file -> file.getName().equals(configuration.getName()))
+                    .findFirst()
+                    .ifPresent(fileEditorManager::closeFile);
+
         }
 
-        WindupNotifier.notifyError("Configurations have been deleted");
+        WindupNotifier.notifyInformation("Configurations have been deleted");
     }
 
     @Override
