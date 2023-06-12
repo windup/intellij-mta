@@ -81,7 +81,7 @@ public class WindupCliParamBuilder {
         }
 
         // overwrite
-        if (!options.containsKey("overwrite")) {
+        if (options.containsKey("overwrite")) {
             params.add("--overwrite");
         }
 

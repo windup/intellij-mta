@@ -60,7 +60,7 @@ public class RunConfigurationAction extends StructureTreeAction {
             resolved += "windup-cli";
         }
         else if (path.endsWith("bin")) {
-            resolved += "/windup-cl";
+            resolved += "/windup-cli";
         }
         else if (path.endsWith("-SNAPSHOT") || path.endsWith(".Final")) {
             resolved += "/bin/windup-cli";
