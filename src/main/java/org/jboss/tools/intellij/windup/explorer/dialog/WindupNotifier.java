@@ -16,4 +16,8 @@ public class WindupNotifier {
         NOTIFICATION_GROUP.createNotification(content, NotificationType.ERROR)
                 .notify(null);
     }
+    public static void notifyInformation(String content) {
+        NOTIFICATION_GROUP.createNotification(content, NotificationType.INFORMATION)
+                .notify(null);
+    }
 }
