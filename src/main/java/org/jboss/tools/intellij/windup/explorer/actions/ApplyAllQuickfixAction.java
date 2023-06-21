@@ -69,7 +69,17 @@ public class ApplyAllQuickfixAction extends StructureTreeAction {
         for (QuickFix quickfix : this.computeQuickfixes(explorerNode)) {
             try {
                 String newValue = QuickfixUtil.getQuickFixedContent(quickfix);
-                QuickfixUtil.applyQuickfix(quickfix, project, newValue);
+                if (newValue != null) {
+                    QuickfixUtil.applyQuickfix(quickfix, project, newValue);
+                }
+                else {
+                    Hint hint = (Hint)quickfix.issue;
+                    System.out.println("Quickfix could not be applied.");
+                    System.out.println("File: " + hint.file);
+                    System.out.println("Line: " + hint.lineNumber);
+                    System.out.println("Search: " + quickfix.searchString);
+                    System.out.println("Replace: " + quickfix.replacementString);
+                }
                 quickfix.issue.complete = true;
                 explorerNode.getSummary().completeIssues.add(quickfix.issue.id);
             }
@@ -84,9 +94,7 @@ public class ApplyAllQuickfixAction extends StructureTreeAction {
     private List<QuickFix> getQuickfixes(Hint hint) {
         List<QuickFix> quickfixes = Lists.newArrayList();
         if (!hint.quickfixes.isEmpty()) {
-            QuickFix quickfix = hint.quickfixes.size() > 1 ?
-                    hint.quickfixes.get(1) : hint.quickfixes.get(0);
-            quickfixes.add(quickfix);
+            quickfixes.addAll(hint.quickfixes);
         }
         return quickfixes;
     }

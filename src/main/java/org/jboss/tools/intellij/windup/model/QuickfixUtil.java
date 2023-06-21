@@ -18,31 +18,92 @@ import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.intellij.windup.explorer.dialog.WindupNotifier;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 
 public class QuickfixUtil {
 
+    private static String replaceValue(String tag, String value, String content) {
+        String regex = "<(.*?)>(.*?)</(.*?)>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        if (matcher.find()) {
+            content = content.replaceAll(matcher.group(1), tag)
+                    .replaceAll(matcher.group(2), value)
+                    .replaceAll(matcher.group(3), tag);
+        }
+        return content;
+    }
+
     public static String getQuickFixedContent(QuickFix quickFix) throws Exception {
+        System.out.println("applyQuickfix...");
         String contents = FileUtils.readFileToString(new File(quickFix.file));
         IDocument document = new Document(contents);
+
+        String searchString = quickFix.searchString;
+        String replacementString = quickFix.replacementString;
+
         Hint hint = (Hint)quickFix.issue;
-        if (QuickFixType.REPLACE.toString().equals(quickFix.type.type)) {
+        String type = quickFix.type.type;
+        if (QuickFixType.REPLACE.toString().equals(type) && new File(quickFix.file).getName().equals("pom.xml")) {
+            int lineNumber = ((Hint) quickFix.issue).lineNumber-1;
+            String currentText = FileUtil.getLine(quickFix.file, lineNumber);
+            if (currentText.contains(searchString)) {
+                FileUtil.replace(document, lineNumber, searchString, replacementString);
+                return document.get();
+            }
+            else {
+                String line = FileUtil.getLine(quickFix.file, lineNumber);
+                int linesRead = 0; // let's not read forever. 10 lines for a <dependency> tag is more than reasonable.
+                System.out.println("start reading dependency entry");
+                System.out.println(line);
+                while (!line.contains("</dependency>") && linesRead < 10) {
+                    System.out.println("line: " + line);
+                    if (line.contains(searchString)) {
+                        /*
+                            We're opting not to replace the inner text of a tag because
+                            some quickfixes replace only part of the artifact or group ID instead of
+                            the entire ID.
+                         */
+                        if (line.contains("<groupId>")) {
+//                            String newLine = QuickfixUtil.replaceValue("groupId", replacementString, line);
+                            String newLine = line.replace(searchString, replacementString);
+                            System.out.println("newLine: " + newLine);
+                            FileUtil.replace(document, lineNumber, line, newLine);
+                        }
+                        else if (line.contains("<artifactId>")) {
+//                            String newLine = QuickfixUtil.replaceValue("artifactId", replacementString, line);
+                            String newLine = line.replace(searchString, replacementString);
+                            System.out.println("newLine: " + newLine);
+                            FileUtil.replace(document, lineNumber, line, newLine);
+                        }
+                        System.out.println("done apply quickfix");
+                        return document.get();
+                    }
+                    line = FileUtil.getLine(quickFix.file, ++lineNumber);
+                    linesRead++;
+                }
+                System.out.println("null!");
+            }
+            System.out.println("null!");
+            return null;
+        }
+        else if (QuickFixType.REPLACE.toString().equals(type)) {
             int lineNumber = hint.lineNumber-1;
-            String searchString = quickFix.searchString;
-            String replacement = quickFix.replacementString;
-            FileUtil.replace(document, lineNumber, searchString, replacement);
+            FileUtil.replace(document, lineNumber, searchString, replacementString);
             return document.get();
         }
-        else if (QuickFixType.DELETE_LINE.toString().equals(quickFix.type.type)) {
+        else if (QuickFixType.DELETE_LINE.toString().equals(type)) {
             int lineNumber = hint.lineNumber-1;
             FileUtil.deleteLine(document, lineNumber);
             return document.get();
         }
-        else if (QuickFixType.INSERT_LINE.toString().equals(quickFix.type.type)) {
+        else if (QuickFixType.INSERT_LINE.toString().equals(type)) {
             int lineNumber = hint.lineNumber;
             lineNumber = lineNumber > 1 ? lineNumber - 2 : lineNumber-1;
-            String newLine = quickFix.replacementString;
+            String newLine = replacementString;
             try {
                 FileUtil.insertLine(document, lineNumber, newLine);
                 return document.get();
@@ -57,6 +118,9 @@ public class QuickfixUtil {
 
     public static void applyQuickfix(QuickFix quickfix, Project project, String content) {
         final com.intellij.openapi.editor.Document doc = QuickfixUtil.findDocument(project, quickfix.file);
+        if (content == null) {
+            System.out.println("null!");
+        }
         if (doc != null) {
             ApplicationManager.getApplication().runWriteAction(() -> {
                 doc.setText(content);

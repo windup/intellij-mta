@@ -47,11 +47,21 @@ public class PreviewQuickfixAction extends StructureTreeAction {
             Project project = renderer.getModelService().getProject();
             String oldValue = org.apache.commons.io.FileUtils.readFileToString(new File(hint.file));
             String newValue = QuickfixUtil.getQuickFixedContent(quickfix);
-            boolean apply = PreviewQuickfixAction.openPreview(hint, project, oldValue, newValue);
-            if (apply) {
-                QuickfixUtil.applyQuickfix(quickfix, project, newValue);
-                node.setComplete();
-                renderer.getTreeModel().invalidate(path, false);
+            if (newValue != null) {
+                boolean apply = PreviewQuickfixAction.openPreview(hint, project, oldValue, newValue);
+                if (apply) {
+                    QuickfixUtil.applyQuickfix(quickfix, project, newValue);
+                    node.setComplete();
+                    renderer.getTreeModel().invalidate(path, false);
+                }
+            }
+            else {
+                System.out.println("Quickfix could not be applied.");
+                System.out.println("File: " + hint.file);
+                System.out.println("Line: " + hint.lineNumber);
+                System.out.println("Search: " + quickfix.searchString);
+                System.out.println("Replace: " + quickfix.replacementString);
+                WindupNotifier.notifyError("Cannot apply quickfix");
             }
         }
         catch (Exception e) {
