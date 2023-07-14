@@ -78,6 +78,7 @@ public class ModelService implements Disposable {
         configuration.getOptions().put("cli", this.computeWindupCliLocation());
         configuration.getOptions().put("output", ModelService.getConfigurationOutputLocation(configuration));
         configuration.getOptions().put("sourceMode", "true");
+        configuration.getOptions().put("legacyReports", "true");
         List<String> target = (List<String>)configuration.getOptions().get("target");
         if (target == null || target.isEmpty()) {
             target = Lists.newArrayList();
