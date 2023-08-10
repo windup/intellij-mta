@@ -67,7 +67,7 @@ public class RunAnalysisCommandHandler {
 
     public void runAnalysis() {
         final ProgressManager manager = ProgressManager.getInstance();
-        manager.run(new Task.Backgroundable(this.project, "Migration Toolkit for Applications", true) {
+        manager.run(new Task.Backgroundable(this.project, "Migration Toolkit for Runtimes", true) {
             public void run(final ProgressIndicator indicator) {
                 try {
                     progressIndicator = indicator;

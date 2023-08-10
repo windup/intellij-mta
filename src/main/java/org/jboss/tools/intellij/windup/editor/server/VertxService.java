@@ -23,7 +23,7 @@ import java.io.File;
 
 public class VertxService implements Disposable {
 
-    public static final String PLUGIN_ID = "org.jboss.tools.intellij.mta";
+    public static final String PLUGIN_ID = "org.jboss.tools.intellij.mtr";
 
     private Vertx vertx;
     private EventBus eventBus;
