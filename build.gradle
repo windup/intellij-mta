@@ -30,7 +30,10 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'io.vertx:vertx-core:3.9.4'
     implementation 'io.vertx:vertx-web:3.9.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.4'
+    implementation 'org.yaml:snakeyaml:1.28'
 
     compile files(new File(buildDir, 'resources/resources')) {
         builtBy 'copyResources'
@@ -47,6 +50,7 @@ publishPlugin {
 repositories {
     mavenLocal()
     mavenCentral()
+    jcenter()
     maven {
         url 'https://repository.jboss.org'
     }
