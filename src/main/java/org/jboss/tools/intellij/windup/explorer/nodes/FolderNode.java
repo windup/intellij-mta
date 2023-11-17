@@ -8,8 +8,8 @@ import com.google.common.collect.Sets;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
-import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 import org.jetbrains.annotations.NotNull;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 
 import java.io.File;
 import java.util.*;
@@ -18,6 +18,7 @@ public class FolderNode extends ResourceNode {
 
     public FolderNode(AnalysisResultsSummary summary, String file) {
         super(summary, file);
+        System.out.println ("<<<<<<<<<<<<< This is FolderNode >>>>>>>>>>>>");
     }
 
     @Override

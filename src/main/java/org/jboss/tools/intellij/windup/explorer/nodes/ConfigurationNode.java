@@ -3,7 +3,6 @@
  *--------------------------------------------------------------------------------------------*/
 package org.jboss.tools.intellij.windup.explorer.nodes;
 
-import com.google.common.collect.Lists;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -14,12 +13,10 @@ import com.intellij.ui.tree.StructureTreeModel;
 import org.jboss.tools.intellij.windup.editor.ConfigurationFile;
 import org.jboss.tools.intellij.windup.editor.server.VertxService;
 import org.jboss.tools.intellij.windup.model.WindupConfiguration;
-import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 import org.jboss.tools.intellij.windup.services.ModelService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.List;
 
 public class ConfigurationNode extends WindupExplorerNode<WindupConfiguration> {
 
@@ -32,6 +29,7 @@ public class ConfigurationNode extends WindupExplorerNode<WindupConfiguration> {
         this.modelService = modelService;
         this.vertxService = vertxService;
         this.treeModel = treeModel;
+        System.out.println ("<<<<<<<<<<<< This is ConfigurationNode >>>>>>>>>");
     }
 
     @Override

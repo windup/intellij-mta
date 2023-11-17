@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Red Hat. All rights reserved.
  *--------------------------------------------------------------------------------------------*/
-package org.jboss.tools.intellij.windup.explorer;
+package org.jboss.tools.intellij.mta.explorer;
 
 import com.intellij.openapi.project.Project;
 import org.jboss.tools.intellij.windup.explorer.nodes.ConfigurationNode;

@@ -8,6 +8,7 @@ import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.ui.ConsoleViewContentType;
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import org.jboss.tools.intellij.windup.explorer.actions.RunConfigurationAction;
@@ -25,6 +26,8 @@ public class WindupCliProcessHandler extends OSProcessHandler {
     private WindupConsole console;
     private boolean isCancelled = false;
 
+    int i = 0;
+
     public WindupCliProcessHandler(
             Process process,
             GeneralCommandLine commandLine,
@@ -40,6 +43,11 @@ public class WindupCliProcessHandler extends OSProcessHandler {
 
     @Override
     public final void notifyTextAvailable(@NotNull String text, @NotNull final Key outputType) {
+
+     if(i <= 10){
+         System.out.println ("This is output from Kantra -----------------------> " + text);
+     }
+     i++;
         if (progressIndicator.isCanceled()) {
             destroyProcess();
             RunConfigurationAction.running = false;
@@ -60,6 +68,28 @@ public class WindupCliProcessHandler extends OSProcessHandler {
         }
         else if (text.contains("Finished provider load")) {
             progressIndicator.setText("Loading transformation paths...");
+        }
+        else if (text.contains("rules parsed")) {
+            progressIndicator.setText("Parsing rules...");
+            progressIndicator.setFraction(0.10);
+        }
+        else if (text.contains("rule response received")) {
+            progressIndicator.setText("Running Analysis...");
+            progressIndicator.setFraction(0.25);
+        }
+        else if (text.contains("running dependency analysis")) {
+            progressIndicator.setText("Running Dependency Analysis...");
+            progressIndicator.setFraction(0.75);
+        }
+        else if (text.contains("generating static report")) {
+            progressIndicator.setText("Generating static report...");
+            progressIndicator.setFraction(0.95);
+        }
+        else if (text.contains("Static report created.")) {
+            System.out.println(text + "---------------------------------------: detected ");
+            ProgressMonitor.ProgressMessage msg = new ProgressMonitor.ProgressMessage("complete", "", 20, "");
+            progressMonitor.handleMessage(msg);
+            progressIndicator.setFraction(1);
         }
         else if (text.contains(PROGRESS)) {
             JsonObject json = ProgressMonitor.parseProgressMessage(text);

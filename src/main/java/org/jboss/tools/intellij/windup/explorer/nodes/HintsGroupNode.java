@@ -7,16 +7,15 @@ import com.google.common.collect.Lists;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
-import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 import org.jetbrains.annotations.NotNull;
-
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class HintsGroupNode extends ResourceNode {
 
-    private List<WindupConfiguration.Hint> hints = Lists.newArrayList();
+    private List<WindupConfiguration.Incident> hints = Lists.newArrayList();
 
     public HintsGroupNode(WindupConfiguration.AnalysisResultsSummary summary, String file) {
         super(summary, file);
@@ -24,9 +23,9 @@ public class HintsGroupNode extends ResourceNode {
     }
 
     private void computeIssue() {
-        List<WindupConfiguration.Hint> hints = this.summary.hints;
-        hints.sort(Comparator.comparingInt(o -> o.lineNumber));
-        for (WindupConfiguration.Hint hint : hints) {
+        List<WindupConfiguration.Incident> hints = this.summary.incidents;
+        hints.sort(Comparator.comparingInt(o -> o.getLineNumber()));
+        for (WindupConfiguration.Incident hint : hints) {
             if (hint.file.equals(this.file.getAbsolutePath())) {
                 this.hints.add(hint);
             }

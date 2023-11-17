@@ -73,10 +73,10 @@ public class ApplyAllQuickfixAction extends StructureTreeAction {
                     QuickfixUtil.applyQuickfix(quickfix, project, newValue);
                 }
                 else {
-                    Hint hint = (Hint)quickfix.issue;
+                    Incident hint = (Incident)quickfix.issue;
                     System.out.println("Quickfix could not be applied.");
                     System.out.println("File: " + hint.file);
-                    System.out.println("Line: " + hint.lineNumber);
+                    System.out.println("Line: " + hint.getLineNumber());
                     System.out.println("Search: " + quickfix.searchString);
                     System.out.println("Replace: " + quickfix.replacementString);
                 }
@@ -91,7 +91,7 @@ public class ApplyAllQuickfixAction extends StructureTreeAction {
         }
     }
 
-    private List<QuickFix> getQuickfixes(Hint hint) {
+    private List<QuickFix> getQuickfixes(Incident hint) {
         List<QuickFix> quickfixes = Lists.newArrayList();
         if (!hint.quickfixes.isEmpty()) {
             quickfixes.addAll(hint.quickfixes);
@@ -101,7 +101,7 @@ public class ApplyAllQuickfixAction extends StructureTreeAction {
 
     private List<QuickFix> computeQuickfixes(WindupExplorerNode explorerNode) {
         if (explorerNode instanceof QuickfixGroupNode) {
-            Hint hint = ((QuickfixGroupNode)explorerNode).getHint();
+            Incident hint = ((QuickfixGroupNode)explorerNode).getHint();
             return this.getQuickfixes(hint);
         }
         if (explorerNode instanceof QuickfixNode) {
@@ -116,8 +116,8 @@ public class ApplyAllQuickfixAction extends StructureTreeAction {
         if (explorerNode.getSummary() != null && (explorerNode instanceof ConfigurationNode || explorerNode instanceof AnalysisResultsNode)) {
             List<Issue> issues = explorerNode.getSummary().getIssues();
             return issues.stream()
-                    .filter(issue -> issue instanceof Hint)
-                    .map(issue -> (Hint)issue)
+                    .filter(issue -> issue instanceof Incident)
+                    .map(issue -> (Incident)issue)
                     .map(hint -> this.getQuickfixes(hint))
                     .flatMap(fixes -> fixes.stream())
                     .collect(Collectors.toList());
@@ -129,8 +129,8 @@ public class ApplyAllQuickfixAction extends StructureTreeAction {
             ResourceNode node = (ResourceNode)explorerNode;
             return explorerNode.getSummary().getIssues()
                     .stream()
-                    .filter(issue -> issue instanceof Hint)
-                    .map(issue -> (Hint)issue)
+                    .filter(issue -> issue instanceof Incident)
+                    .map(issue -> (Incident)issue)
                     .filter(hint -> this.isChildFile(node.file, hint.file))
                     .map(hint -> this.getQuickfixes(hint))
                     .flatMap(List::stream)

@@ -51,10 +51,12 @@ public class ModelService implements Disposable {
     }
 
     public void forceReload() {
+        System.out.println("------------ forceReload --------------");
         this.windupModel = WindupModelParser.parseModel(STATE_LOCATION, this);
     }
 
     public WindupModel loadModel() {
+        System.out.println("------------ loadModel --------------");
         if (this.windupModel != null) {
             return this.windupModel;
         }
@@ -90,6 +92,7 @@ public class ModelService implements Disposable {
     }
 
     public void saveModel() {
+        System.out.println("------------ saveModel --------------");
         JSONObject model = new JSONObject();
         JSONArray configurations = new JSONArray();
         model.put("configurations", configurations);
@@ -122,9 +125,9 @@ public class ModelService implements Disposable {
                 summary.put("outputLocation", resultsSummary.outputLocation);
                 summary.put("executedTimestamp", resultsSummary.executedTimestamp);
                 summary.put("executable", resultsSummary.executable);
-                summary.put("hintCount", resultsSummary.hints.size());
+                summary.put("hintCount", resultsSummary.incidents.size());
                 summary.put("classificationCount", resultsSummary.classifications.size());
-                List<Issue> issues = Lists.newArrayList(resultsSummary.hints);
+                List<Issue> issues = Lists.newArrayList(resultsSummary.incidents);
                 issues.addAll(resultsSummary.classifications);
                 JSONArray completeIssues = new JSONArray();
                 summary.put("completeIssues", completeIssues);

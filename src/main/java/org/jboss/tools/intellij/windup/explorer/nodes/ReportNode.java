@@ -11,12 +11,10 @@ import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.project.Project;
 import org.jboss.tools.intellij.windup.explorer.dialog.WindupNotifier;
 import org.jboss.tools.intellij.windup.model.WindupConfiguration;
-import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.List;
 
 public class ReportNode extends WindupExplorerNode<WindupConfiguration> {
 

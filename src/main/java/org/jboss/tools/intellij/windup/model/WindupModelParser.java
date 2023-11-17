@@ -4,20 +4,18 @@
 package org.jboss.tools.intellij.windup.model;
 
 import com.google.common.collect.Lists;
-import org.jboss.tools.intellij.windup.cli.WindupResultsParser;
+import org.jboss.tools.intellij.windup.cli.RulesetParser;
 import org.jboss.tools.intellij.windup.services.ModelService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-
-import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 
 public class WindupModelParser {
 
@@ -26,6 +24,7 @@ public class WindupModelParser {
         JSONParser parser = new JSONParser();
         if (new File(fileName).exists()) {
             try {
+                System.out.println("fILE NAME: " + fileName);
                 Object obj = parser.parse(new FileReader(fileName));
                 JSONObject jsonObject = (JSONObject) obj;
                 JSONArray configurations = (JSONArray) jsonObject.get("configurations");
@@ -34,7 +33,9 @@ public class WindupModelParser {
                     JSONObject config = (JSONObject) iterator.next();
                     WindupConfiguration configuration = WindupModelParser.parseConfigurationObject(config, modelService);
                     windupModel.addConfiguration(configuration);
-                    WindupResultsParser.parseResults(configuration);
+                   // WindupResultsParser.parseResults(configuration);
+                 //   System.out.println("This is in Parse Model ........ calls parseRulesetForKantraConfig");
+                    RulesetParser.parseRulesetForKantraConfig(configuration);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -44,6 +45,7 @@ public class WindupModelParser {
     }
 
     private static WindupConfiguration parseConfigurationObject(JSONObject configurationObjects, ModelService modelService) {
+       //System.out.println("This is parse configuration Object ...........");
         WindupConfiguration windupConfiguration = new WindupConfiguration();
         windupConfiguration.setId((String) configurationObjects.get("id"));
         windupConfiguration.setName((String) configurationObjects.get("name"));
@@ -51,7 +53,9 @@ public class WindupModelParser {
                 (Map) configurationObjects.get("options"),
                 windupConfiguration);
         Map summary = (Map) configurationObjects.get("summary");
+      //  System.out.println("Checking for Summery  ..........................");
         if (summary != null) {
+       //     System.out.println("Summery does not come null..........................");
             WindupModelParser.parseSummary(summary, windupConfiguration, modelService);
         }
         String windupCli = (String)windupConfiguration.getOptions().get("cli");

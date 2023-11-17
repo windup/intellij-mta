@@ -135,12 +135,12 @@ public class DetailsView {
         this.title.setText(issue.title);
 
         // Message or Description
-        boolean isHint = issue instanceof Hint;
+        boolean isHint = issue instanceof Incident;
         this.messageLabel.setText(isHint ? "Message" : "Description");
 
         String message = "---";
         if (isHint) {
-            String hint = ((Hint)issue).hint;
+            String hint = ((Incident)issue).getMessage();
             if (hint != null && !("".equals(hint))) {
                 message = hint;
             }
@@ -169,7 +169,7 @@ public class DetailsView {
         // Source Snippet
         if (isHint) {
             String snippet = "---";
-            String value = ((Hint)issue).sourceSnippet;
+            String value = ((Incident)issue).getCodeSnip();
             if (value != null && !("".equals(value))) {
                 snippet = value;
             }

@@ -36,11 +36,11 @@ public abstract class IssueNode<T extends Issue> extends WindupExplorerNode<T> {
                     found = true;
                     try {
                         Issue issue = super.getValue();
-                        if (issue instanceof Hint) {
-                            Hint hint = (Hint)issue;
-                            Editor editor = FileEditorManager.getInstance(project).openTextEditor(new OpenFileDescriptor(project, vFile, hint.lineNumber - 1, hint.column), true);
+                        if (issue instanceof Incident) {
+                            Incident hint = (Incident)issue;
+                            Editor editor = FileEditorManager.getInstance(project).openTextEditor(new OpenFileDescriptor(project, vFile, hint.getLineNumber() - 1, 0), true);
                             int offset1 = editor.getSelectionModel().getLeadSelectionOffset();
-                            editor.getSelectionModel().setSelection(offset1, offset1+hint.length);
+                            editor.getSelectionModel().setSelection(offset1, offset1+2);
                         }
                         else {
                             new OpenFileDescriptor(project, vFile, 0).navigate(true);

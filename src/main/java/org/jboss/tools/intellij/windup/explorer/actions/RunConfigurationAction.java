@@ -32,17 +32,21 @@ public class RunConfigurationAction extends StructureTreeAction {
         ConfigurationNode node = (ConfigurationNode)super.adjust(selected);
         WindupConfiguration configuration = node.getValue();
         ModelService modelService = node.getModelService();
+        System.out.println("********************* This is actionPerformed****************************");
         if (this.validateConfiguration(configuration)) {
             String executable = (String)configuration.getOptions().get("cli");
             try {
                 String windupHome = new File(executable).getParentFile().getParent();
-                List<String> params = WindupCliParamBuilder.buildParams(configuration, windupHome);
+                List<String> params = KantraCliParamBuilder.buildParams(configuration, windupHome);
                 RunAnalysisCommandHandler handler = new RunAnalysisCommandHandler(
                         anActionEvent.getProject(),
                         executable,
                         params,
                         console,
-                        () -> this.loadAnalysisResults(configuration, modelService, node.getTreeModel()));
+                        () ->{
+                            this.loadAnalysisResults(configuration, modelService, node.getTreeModel());
+                            System.out.println("********************This is an end of Action performed*********************");
+                        });
                 RunConfigurationAction.running = true;
                 handler.runAnalysis();
             }
@@ -73,8 +77,8 @@ public class RunConfigurationAction extends StructureTreeAction {
         WindupConfiguration.AnalysisResultsSummary summary = new WindupConfiguration.AnalysisResultsSummary(modelService);
         summary.outputLocation = (String)configuration.getOptions().get("output");
         configuration.setSummary(summary);
-        WindupResultsParser.loadAndPersistIDs(configuration, summary.outputLocation);
-        WindupResultsParser.parseResults(configuration);
+        RulesetParser.parseRulesetForKantraConfig(configuration);
+        System.out.println(configuration.getSummary().getIssues().size());
         modelService.saveModel();
         treeModel.invalidate();
     }

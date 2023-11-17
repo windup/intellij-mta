@@ -7,9 +7,8 @@ import com.google.common.collect.Lists;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
-import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 import org.jetbrains.annotations.NotNull;
-
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 import java.util.*;
 import java.util.stream.Collectors;
 import static org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
@@ -17,9 +16,9 @@ import static org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 public class QuickfixGroupNode extends ResourceNode {
 
     private HintNode hintNode;
-    private Hint hint;
+    private Incident hint;
 
-    public QuickfixGroupNode(HintNode hintNode, WindupConfiguration.Hint hint) {
+    public QuickfixGroupNode(HintNode hintNode, WindupConfiguration.Incident hint) {
         super(hint.configuration.getSummary(), hint.file);
         this.hintNode = hintNode;
         this.hint = this.hintNode.getValue();
@@ -56,7 +55,7 @@ public class QuickfixGroupNode extends ResourceNode {
         return this.hintNode;
     }
 
-    public Hint getHint() {
+    public Incident getHint() {
         return this.hint;
     }
 }

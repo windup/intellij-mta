@@ -4,14 +4,14 @@
 package org.jboss.tools.intellij.windup.cli;
 
 import com.google.common.collect.Lists;
-import org.jboss.tools.intellij.windup.model.KantraConfiguration;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 
 import java.util.List;
 import java.util.Map;
 
 public class KantraCliParamBuilder {
 
-    public static List<String> buildParams(KantraConfiguration config, String windupHome) {
+    public static List<String> buildParams(WindupConfiguration config, String windupHome) {
         List<String> params = Lists.newArrayList();
         Map<String, Object> options = config.getOptions();
         params.add("analyze");

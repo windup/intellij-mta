@@ -19,8 +19,8 @@ import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.windup.explorer.WindupTreeCellRenderer;
 import org.jboss.tools.intellij.windup.explorer.dialog.WindupNotifier;
 import org.jboss.tools.intellij.windup.explorer.nodes.HintNode;
-import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 import org.jboss.tools.intellij.windup.model.QuickfixUtil;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 
 import javax.swing.tree.TreePath;
 import java.io.File;
@@ -36,13 +36,13 @@ public class PreviewQuickfixAction extends StructureTreeAction {
         Tree tree = super.getTree(anActionEvent);
         WindupTreeCellRenderer renderer = (WindupTreeCellRenderer) tree.getCellRenderer();
         HintNode hintNode = (HintNode)super.adjust(selected);
-        WindupConfiguration.Hint hint = hintNode.getValue();
+        WindupConfiguration.Incident hint = hintNode.getValue();
         WindupConfiguration.QuickFix quickfix = hintNode.getValue().quickfixes.size() > 1 ? hint.quickfixes.get(1) : hint.quickfixes.get(0);
         PreviewQuickfixAction.openPreviewAndApply(quickfix, hintNode, path, renderer);
     }
 
     public static void openPreviewAndApply(WindupConfiguration.QuickFix quickfix, HintNode node, TreePath path, WindupTreeCellRenderer renderer) {
-        WindupConfiguration.Hint hint = node.getValue();
+        WindupConfiguration.Incident hint = node.getValue();
         try {
             Project project = renderer.getModelService().getProject();
             String oldValue = org.apache.commons.io.FileUtils.readFileToString(new File(hint.file));
@@ -58,7 +58,7 @@ public class PreviewQuickfixAction extends StructureTreeAction {
             else {
                 System.out.println("Quickfix could not be applied.");
                 System.out.println("File: " + hint.file);
-                System.out.println("Line: " + hint.lineNumber);
+                System.out.println("Line: " + hint.getLineNumber());
                 System.out.println("Search: " + quickfix.searchString);
                 System.out.println("Replace: " + quickfix.replacementString);
                 WindupNotifier.notifyError("Cannot apply quickfix");
@@ -70,7 +70,7 @@ public class PreviewQuickfixAction extends StructureTreeAction {
         }
     }
 
-    public static boolean openPreview(WindupConfiguration.Hint hint, Project project, String oldValue, String newValue) {
+    public static boolean openPreview(WindupConfiguration.Incident hint, Project project, String oldValue, String newValue) {
         try {
             DocumentContent oldContent = DiffContentFactory.getInstance().create(oldValue);
             DocumentContent newContent = DiffContentFactory.getInstance().create(newValue);

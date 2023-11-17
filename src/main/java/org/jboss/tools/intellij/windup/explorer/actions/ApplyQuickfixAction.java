@@ -3,24 +3,14 @@
  *--------------------------------------------------------------------------------------------*/
 package org.jboss.tools.intellij.windup.explorer.actions;
 
-import com.intellij.diff.DiffContentFactory;
-import com.intellij.diff.DiffManager;
-import com.intellij.diff.DiffRequestPanel;
-import com.intellij.diff.contents.DocumentContent;
-import com.intellij.diff.requests.SimpleDiffRequest;
-import com.intellij.diff.util.DiffUserDataKeys;
-import com.intellij.diff.util.Side;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogBuilder;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.util.Pair;
 import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.windup.explorer.WindupTreeCellRenderer;
 import org.jboss.tools.intellij.windup.explorer.dialog.WindupNotifier;
 import org.jboss.tools.intellij.windup.explorer.nodes.HintNode;
-import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 import org.jboss.tools.intellij.windup.model.QuickfixUtil;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 
 import javax.swing.tree.TreePath;
 
@@ -36,7 +26,7 @@ public class ApplyQuickfixAction extends StructureTreeAction {
         WindupTreeCellRenderer renderer = (WindupTreeCellRenderer) tree.getCellRenderer();
         Project project = renderer.getModelService().getProject();
         HintNode node = (HintNode)super.adjust(selected);
-        WindupConfiguration.Hint hint = node.getValue();
+        WindupConfiguration.Incident hint = node.getValue();
         try {
             WindupConfiguration.QuickFix quickfix = hint.quickfixes.size() > 1 ? hint.quickfixes.get(1) : hint.quickfixes.get(0);
             String newValue = QuickfixUtil.getQuickFixedContent(quickfix);

@@ -6,15 +6,12 @@ package org.jboss.tools.intellij.windup.cli;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import org.apache.commons.exec.*;
 import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import static org.jboss.tools.intellij.windup.cli.ProgressMonitor.PROGRESS;
 
 public class WindupCliRunner {
 
@@ -30,14 +27,14 @@ public class WindupCliRunner {
                            ProgressMonitor progressMonitor,
                            CliListener listener) {
         String javaHome = "";
-        String windupCli = (String)configuration.getOptions().get("cli");
-        List<String> params = WindupCliParamBuilder.buildParams(configuration, windupCli);
+        String windupCli = "kantra";
+        List<String> params = KantraCliParamBuilder.buildParams(configuration, windupCli);
         WindupCliRunner.executeAnalysis(windupCli, javaHome, params, progressMonitor, listener);
     }
 
     private static void executeAnalysis(String cli, String javaHome, List<String> params, ProgressMonitor progressMonitor, CliListener listener) {
         System.out.println("execute CLI");
-        CommandLine cmdLine = CommandLine.parse(cli);
+        CommandLine cmdLine = CommandLine.parse("kantra");
         Map<String, String> env = Maps.newHashMap();
         for (Map.Entry<String, String> entry : System.getenv().entrySet()) {
             env.put(entry.getKey(), entry.getValue());
