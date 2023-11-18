@@ -51,10 +51,10 @@ public class RulesetParser {
             if(configuration.getSummary() != null){
                 configuration.getSummary().setRulesets(parseRuleset(outputLocation));
                 parseIncidents(configuration.getRulesets(), configuration);
-                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ size of the Incident $$$$$$$$$$$$$$$");
+                System.out.println("size of the Incident: ");
                 System.out.println(configuration.getSummary().getIssues().size());
             }else {
-                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ configuration.getSummary() != null  $$$$$$$$$$$$$$");
+                System.out.println(" configuration.getSummary() is null");
             }
 
         }else{
@@ -68,7 +68,9 @@ public class RulesetParser {
             for (WindupConfiguration.Ruleset ruleset: rulesets){
                 Map<String, Violation> violations = ruleset.getViolations();
                 if (violations != null ){
-                    for(WindupConfiguration.Violation violation : violations.values()){
+                    for (Map.Entry<String, WindupConfiguration.Violation> entry : violations.entrySet()) {
+                    //for(WindupConfiguration.Violation violation : violations.values()){
+                        WindupConfiguration.Violation violation = entry.getValue();
                         List<WindupConfiguration.Incident> incidents = violation.getIncidents();
                         for (WindupConfiguration.Incident incident : incidents ) {
                             incident.id = WindupConfiguration.generateUniqueId();
@@ -76,6 +78,7 @@ public class RulesetParser {
                             ArrayList<String> inputs = (ArrayList<String>) configuration.getOptions().get("input");
                             String input = inputs.get(0);
                             String filePath =  incident.getUri();;
+                            incident.ruleId = entry.getKey();
                             String absolutePath = filePath.substring(filePath.indexOf("/source") + "/source".length());
                             System.out.println("input:  " + input);
                             System.out.println("File path of the incidents:  " + incident.file);

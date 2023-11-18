@@ -28,7 +28,7 @@ public class WindupCliRunner {
                            CliListener listener) {
         String javaHome = "";
         String windupCli = "kantra";
-        List<String> params = KantraCliParamBuilder.buildParams(configuration, windupCli);
+        List<String> params = KantraCliParamBuilder.buildParams(configuration);
         WindupCliRunner.executeAnalysis(windupCli, javaHome, params, progressMonitor, listener);
     }
 

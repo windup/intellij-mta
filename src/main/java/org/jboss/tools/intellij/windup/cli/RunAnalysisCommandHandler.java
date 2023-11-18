@@ -37,7 +37,6 @@ public class RunAnalysisCommandHandler {
     private WindupConsole console;
 
     public RunAnalysisCommandHandler(Project project,
-                                     String executable,
                                      List<String> params,
                                      WindupConsole console,
                                      Runnable onComplete) {
@@ -46,7 +45,7 @@ public class RunAnalysisCommandHandler {
         commandLine = new GeneralCommandLine();
         commandLine.setExePath("kantra");
         commandLine.addParameters(params);
-        System.out.println("This is RunAnalysis Command handler............. constructor");
+      //  System.out.println("This is RunAnalysis Command handler............. constructor");
         System.out.println(onComplete.toString());
         this.progressMonitor = new ProgressMonitor(this.createProgressListener(onComplete));
     }

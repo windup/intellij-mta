@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class KantraCliParamBuilder {
 
-    public static List<String> buildParams(WindupConfiguration config, String windupHome) {
+    public static List<String> buildParams(WindupConfiguration config) {
         List<String> params = Lists.newArrayList();
         Map<String, Object> options = config.getOptions();
         params.add("analyze");

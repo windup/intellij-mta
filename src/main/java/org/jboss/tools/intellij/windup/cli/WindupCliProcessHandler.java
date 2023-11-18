@@ -26,7 +26,7 @@ public class WindupCliProcessHandler extends OSProcessHandler {
     private WindupConsole console;
     private boolean isCancelled = false;
 
-    int i = 0;
+  //  int i = 0;
 
     public WindupCliProcessHandler(
             Process process,
@@ -44,10 +44,10 @@ public class WindupCliProcessHandler extends OSProcessHandler {
     @Override
     public final void notifyTextAvailable(@NotNull String text, @NotNull final Key outputType) {
 
-     if(i <= 10){
-         System.out.println ("This is output from Kantra -----------------------> " + text);
-     }
-     i++;
+//     if(i <= 10){
+//         System.out.println ("This is output from Kantra -----------------------> " + text);
+//     }
+//     i++;
         if (progressIndicator.isCanceled()) {
             destroyProcess();
             RunConfigurationAction.running = false;
