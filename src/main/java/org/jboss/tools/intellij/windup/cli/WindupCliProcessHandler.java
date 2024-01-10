@@ -8,14 +8,14 @@ import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.ui.ConsoleViewContentType;
 import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import org.jboss.tools.intellij.windup.explorer.actions.RunConfigurationAction;
 import org.jetbrains.annotations.NotNull;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.nio.charset.Charset;
-import java.util.Arrays;
+
 
 import static org.jboss.tools.intellij.windup.cli.ProgressMonitor.PROGRESS;
 
@@ -74,7 +74,8 @@ public class WindupCliProcessHandler extends OSProcessHandler {
             progressIndicator.setFraction(0.10);
         }
         else if (text.contains("rule response received")) {
-            progressIndicator.setText("Running Analysis...");
+            int progress = calculateWorkDonePercentage(text);
+            progressIndicator.setText("Running Analysis (" + progress + "%)");
             progressIndicator.setFraction(0.25);
         }
         else if (text.contains("running dependency analysis")) {
@@ -86,6 +87,12 @@ public class WindupCliProcessHandler extends OSProcessHandler {
             progressIndicator.setFraction(0.95);
         }
         else if (text.contains("Static report created.")) {
+            System.out.println(text + "---------------------------------------: detected ");
+            ProgressMonitor.ProgressMessage msg = new ProgressMonitor.ProgressMessage("complete", "", 20, "");
+            progressMonitor.handleMessage(msg);
+            progressIndicator.setFraction(1);
+        }
+        else if (text.contains("Error")) {
             System.out.println(text + "---------------------------------------: detected ");
             ProgressMonitor.ProgressMessage msg = new ProgressMonitor.ProgressMessage("complete", "", 20, "");
             progressMonitor.handleMessage(msg);
@@ -118,5 +125,27 @@ public class WindupCliProcessHandler extends OSProcessHandler {
     @Override
     public Charset getCharset() {
         return CharsetToolkit.UTF8_CHARSET;
+    }
+
+    public static int calculateWorkDonePercentage(String log) {
+        // Regex pattern to extract the relevant numbers from the log string
+        String pattern = "failed=(\\d+) matched=(\\d+) total=(\\d+) unmatched=(\\d+)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(log);
+
+        if (m.find()) {
+            // Parse numbers from the log string
+            int failed = Integer.parseInt(m.group(1));
+            int matched = Integer.parseInt(m.group(2));
+            int total = Integer.parseInt(m.group(3));
+            int unmatched = Integer.parseInt(m.group(4));
+
+            // Calculate the work done percentage
+            double workDone = (double) (failed + matched + unmatched) / total;
+            return (int) Math.round(workDone * 100);
+        } else {
+            // If the pattern does not match, return an error code or throw an exception
+            return -1; // Or you could throw an exception
+        }
     }
 }

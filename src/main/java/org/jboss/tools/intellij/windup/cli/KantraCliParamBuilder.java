@@ -32,9 +32,10 @@ public class KantraCliParamBuilder {
             target = Lists.newArrayList();
             target.add("eap7");
         }
-        params.add("--target");
+      //  params.add("--target");
 
         for (String aTarget : target) {
+            params.add("--target");
             params.add(aTarget);
         }
 //        params.add(String.join(",", target));
