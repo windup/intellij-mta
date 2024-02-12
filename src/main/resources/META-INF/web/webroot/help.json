@@ -52,6 +52,27 @@
             "editable": true
         },
         {
+            "name": "source-only",
+            "description": "Indicates whether analysis mode. Must be one of 'full' or 'source-only' (Default: full).",
+            "type": "Boolean",
+            "ui-type": ["single"],
+            "required": false
+        },
+        {
+            "name": "analyze-known-libraries",
+            "description": "Analyze known open-source libraries.",
+            "type": "Boolean",
+            "ui-type": ["single"],
+            "required": false
+        },
+        {
+            "name": "overwrite",
+            "description": "Force overwrite of the output directory, without prompting.",
+            "type": "Boolean",
+            "ui-type": ["single"],
+            "required": false
+        },
+        {
             "name": "output",
             "description": "The location of the generated analysis results.",
             "type": "String",

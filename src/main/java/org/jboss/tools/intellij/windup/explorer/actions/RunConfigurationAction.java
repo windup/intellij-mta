@@ -41,7 +41,7 @@ public class RunConfigurationAction extends StructureTreeAction {
                         console,
                         () ->{
                             this.loadAnalysisResults(configuration, modelService, node.getTreeModel());
-                            System.out.println("********************This is an end of Action performed*********************");
+                            //System.out.println("********************This is an end of Action performed*********************");
                         });
                 RunConfigurationAction.running = true;
                 handler.runAnalysis();
@@ -116,9 +116,26 @@ public class RunConfigurationAction extends StructureTreeAction {
             valid = false;
             WindupNotifier.notifyError("Output path is required.");
         }
+        if (!isDirectoryEmpty(output)) {
+            if (!configuration.getOptions().containsKey("overwrite")){
+                valid = false;
+                WindupNotifier.notifyError("Output already exists, --overwrite not set.");
+            }
+        }
+
         return valid;
     }
 
+    public static boolean isDirectoryEmpty(String path) {
+        File directory = new File(path);
+
+        if (!directory.exists() || !directory.isDirectory()) {
+            System.out.println("Error: Directory does not exist!");
+            return false;
+        }
+        String[] contents = directory.list();
+        return contents == null || contents.length == 0;
+    }
     @Override
     public boolean isVisible(Object[] selected) {
         if (selected.length == 0) return false;

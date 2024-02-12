@@ -79,12 +79,12 @@ public class RulesetParser {
                             String input = inputs.get(0);
                             String filePath =  incident.getUri();;
                             incident.ruleId = entry.getKey();
-                            String absolutePath = filePath.substring(filePath.indexOf("/source") + "/source".length());
+                            String absolutePath = filePath.substring(filePath.indexOf("/source-code") + "/source-code".length());
                             System.out.println("input:  " + input);
-                            System.out.println("File path of the incidents:  " + incident.file);
                             System.out.println("Absolute path:  "+input + absolutePath);
                             incident.file = input + absolutePath;
                             incident.setUri(input + absolutePath);
+                            System.out.println("File path of the incidents:  " + incident.file);
                             incident.effort = String.valueOf(violation.getEffort());
                             incident.links = violation.getLinks();
                             incident.category = violation.getCategory();
