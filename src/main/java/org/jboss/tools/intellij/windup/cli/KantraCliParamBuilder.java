@@ -26,6 +26,20 @@ public class KantraCliParamBuilder {
         String output = (String)options.get("output");
         params.add(output);
 
+        if (options.containsKey("analyze-known-libraries")) {
+            params.add("--analyze-known-libraries");
+        }
+
+        // overwrite
+        if (options.containsKey("overwrite")) {
+            params.add("--overwrite");
+        }
+
+        if (options.containsKey("source-only")) {
+            params.add("--mode");
+            params.add("source-only");
+        }
+
         // target
         List<String> target = (List<String>)options.get("target");
         if (target == null || target.isEmpty()) {

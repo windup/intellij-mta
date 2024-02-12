@@ -26,12 +26,13 @@ public class AnalysisResultsNode extends WindupExplorerNode<AnalysisResultsSumma
     @NotNull
     @Override
     public Collection<? extends AbstractTreeNode<?>> getChildren() {
-        List<FolderNode> children = Lists.newArrayList();
+        List<ResourceNode> children = Lists.newArrayList();
         ModelService modelService = super.getValue().getModelService();
         Project project = modelService.getProject();
         String root = project.getBasePath();
         if (root != null) {
             children.add(new FolderNode(super.getValue(), root));
+            children.add (new DependencyNode(super.getValue(), "Dependecies"));
         }
         return children;
     }
