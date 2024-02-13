@@ -15,7 +15,7 @@ public class HintNode extends IssueNode<Incident> {
 
     public HintNode(Incident hint) {
         super(hint);
-        System.out.println("<<<<<<<<<<<<<<<<This is hint node>>>>>>>>>>>>>>>>>  " + hint.file);
+        // System.out.println("<<<<<<<<<<<<<<<<This is hint node>>>>>>>>>>>>>>>>>  " + hint.file);
     }
 
     @NotNull

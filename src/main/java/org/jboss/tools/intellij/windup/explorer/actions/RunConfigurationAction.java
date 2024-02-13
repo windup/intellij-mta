@@ -131,7 +131,7 @@ public class RunConfigurationAction extends StructureTreeAction {
 
         if (!directory.exists() || !directory.isDirectory()) {
             System.out.println("Error: Directory does not exist!");
-            return false;
+            return true;
         }
         String[] contents = directory.list();
         return contents == null || contents.length == 0;

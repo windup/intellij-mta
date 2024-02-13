@@ -69,17 +69,22 @@ public class WindupCliProcessHandler extends OSProcessHandler {
         else if (text.contains("Finished provider load")) {
             progressIndicator.setText("Loading transformation paths...");
         }
-        else if (text.contains("rules parsed")) {
-            progressIndicator.setText("Parsing rules...");
+        else if (text.contains("running source code analysis")) {
+            progressIndicator.setText("Running source code analysis...");
             progressIndicator.setFraction(0.10);
         }
-        else if (text.contains("rule response received")) {
+        else if (text.contains("generating analysis log in file")) {
             int progress = calculateWorkDonePercentage(text);
-            progressIndicator.setText("Running Analysis (" + progress + "%)");
-            progressIndicator.setFraction(0.25);
+            progressIndicator.setText("Generating Analysis logs...");
+           // progressIndicator.setText("Generating Analysis logs (" + progress + "%)");
+            progressIndicator.setFraction(0.35);
         }
         else if (text.contains("running dependency analysis")) {
             progressIndicator.setText("Running Dependency Analysis...");
+            progressIndicator.setFraction(0.65);
+        }
+        else if (text.contains("generating dependency log in file")) {
+            progressIndicator.setText("Generating Dependency logs...");
             progressIndicator.setFraction(0.75);
         }
         else if (text.contains("generating static report")) {
