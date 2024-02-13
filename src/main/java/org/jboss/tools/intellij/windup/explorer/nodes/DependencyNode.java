@@ -34,13 +34,11 @@ public class DependencyNode extends ResourceNode {
         for (Issue issue : super.summary.getIssues()) {
             Path path = Paths.get(issue.file);
             if (!Files.exists(path)) {
-                System.out.println("************** this is the dependency issue : "+ issue.file);
-
+               // System.out.println("************** this is the dependency issue : "+ issue.file);
                 issue.file = this.getFile().getAbsolutePath().toString();
-
-                System.out.println("************** this is the dependency issue : "+ issue.file);
+               // System.out.println("************** this is the dependency issue : "+ issue.file);
                 if (issue instanceof Incident) {
-                    System.out.println("issue is the instance of the Incident ");
+                  //  System.out.println("issue is the instance of the Incident ");
                     containsHints = true;
                 }
             }

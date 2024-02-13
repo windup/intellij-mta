@@ -18,7 +18,7 @@ public class FolderNode extends ResourceNode {
 
     public FolderNode(AnalysisResultsSummary summary, String file) {
         super(summary, file);
-        System.out.println ("<<<<<<<<<<<<< This is FolderNode >>>>>>>>>>>>");
+       // System.out.println ("<<<<<<<<<<<<< This is FolderNode >>>>>>>>>>>>");
     }
 
     @Override

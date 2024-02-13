@@ -27,14 +27,14 @@ public class RulesetParser {
                     yamlFile, new TypeReference<List<WindupConfiguration.Ruleset>>(){}
             );
             if (ruleSets != null) {
-                System.out.println("**************** In Parser --> Size of the ruleSet ***************" + ruleSets.size());
+                //System.out.println("**************** In Parser --> Size of the ruleSet ***************" + ruleSets.size());
                 ruleSets.removeIf(ruleset -> (ruleset.getViolations() == null || ruleset.getViolations().isEmpty()));
                 return ruleSets;
             } else {
                 System.out.println("YAML file is empty or invalid.");
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not found : this is the problem ----> " + resultFilePath);
+            System.err.println("File not found : " + resultFilePath);
         } catch (Exception e) {
             System.err.println("Error parsing YAML: " + e.getMessage());
         } finally {
@@ -51,12 +51,11 @@ public class RulesetParser {
             if(configuration.getSummary() != null){
                 configuration.getSummary().setRulesets(parseRuleset(outputLocation));
                 parseIncidents(configuration.getRulesets(), configuration);
-                System.out.println("size of the Incident: ");
-                System.out.println(configuration.getSummary().getIssues().size());
+                // System.out.println("size of the Incident: ");
+                // System.out.println(configuration.getSummary().getIssues().size());
             }else {
                 System.out.println(" configuration.getSummary() is null");
             }
-
         }else{
             System.out.println("Error parsing Ruleset at: " + configuration.getRulesetResultLocation());
         }
@@ -80,11 +79,11 @@ public class RulesetParser {
                             String filePath =  incident.getUri();;
                             incident.ruleId = entry.getKey();
                             String absolutePath = filePath.substring(filePath.indexOf("/source-code") + "/source-code".length());
-                            System.out.println("input:  " + input);
-                            System.out.println("Absolute path:  "+input + absolutePath);
+                           // System.out.println("input:  " + input);
+                           // System.out.println("Absolute path:  "+input + absolutePath);
                             incident.file = input + absolutePath;
                             incident.setUri(input + absolutePath);
-                            System.out.println("File path of the incidents:  " + incident.file);
+                           // System.out.println("File path of the incidents:  " + incident.file);
                             incident.effort = String.valueOf(violation.getEffort());
                             incident.links = violation.getLinks();
                             incident.category = violation.getCategory();

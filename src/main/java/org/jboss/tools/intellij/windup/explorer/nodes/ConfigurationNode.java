@@ -29,7 +29,6 @@ public class ConfigurationNode extends WindupExplorerNode<WindupConfiguration> {
         this.modelService = modelService;
         this.vertxService = vertxService;
         this.treeModel = treeModel;
-        System.out.println ("<<<<<<<<<<<< This is ConfigurationNode >>>>>>>>>");
     }
 
     @Override

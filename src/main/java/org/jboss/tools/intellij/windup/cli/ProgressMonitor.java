@@ -42,7 +42,7 @@ public class ProgressMonitor {
     private boolean done = false;
 
     public ProgressMonitor(IProgressListener progressListener) {
-        System.out.println("(((((( This is the progressMonitor ))))))");
+        //System.out.println("This is the progressMonitor.");
         this.progressListener = progressListener;
     }
 
