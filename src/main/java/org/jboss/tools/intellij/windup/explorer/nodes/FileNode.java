@@ -29,7 +29,7 @@ public class FileNode extends ResourceNode {
         boolean containsClassifications = false;
         for (Issue issue : super.summary.getIssues()) {
             if (issue.file.equals(this.file.getAbsolutePath())) {
-                if (issue instanceof Hint) {
+                if (issue instanceof Incident) {
                     containsHints = true;
                 }
                 else {

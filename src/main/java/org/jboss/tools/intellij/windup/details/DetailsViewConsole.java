@@ -78,13 +78,13 @@ public class DetailsViewConsole {
         console.print("\n\n", valueType);
 
         // Message or Description
-        boolean isHint = issue instanceof Hint;
+        boolean isHint = issue instanceof Incident;
         String msgLabel = isHint ? "Message" : "Description";
         console.print(msgLabel, labelType);
 
         String message = "---";
         if (isHint) {
-            String hint = ((Hint)issue).hint;
+            String hint = ((Incident)issue).getMessage();
             if (hint != null && !("".equals(hint))) {
                 message = hint;
             }
@@ -117,7 +117,7 @@ public class DetailsViewConsole {
         // Source Snippet
         String snippet = "---";
         if (isHint) {
-            String value = ((Hint)issue).sourceSnippet;
+            String value = ((Incident)issue).getCodeSnip();
             if (value != null && !("".equals(value))) {
                 snippet = value;
             }
@@ -133,8 +133,8 @@ public class DetailsViewConsole {
         }
         else {
             for (Link link : issue.links) {
-                console.print(link.title + " - ", valueType);
-                console.printHyperlink(link.url, new BrowserHyperlinkInfo(link.url));
+                console.print(link.getTitle() + " - ", valueType);
+                console.printHyperlink(link.getUrl(), new BrowserHyperlinkInfo(link.getUrl()));
                 console.print("\n", valueType);
             }
         }

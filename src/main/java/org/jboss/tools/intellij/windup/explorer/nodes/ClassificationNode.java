@@ -11,7 +11,6 @@ import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.List;
 
 public class ClassificationNode extends IssueNode<Classification> {
 

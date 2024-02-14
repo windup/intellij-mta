@@ -45,10 +45,10 @@ public class QuickfixUtil {
         String searchString = quickFix.searchString;
         String replacementString = quickFix.replacementString;
 
-        Hint hint = (Hint)quickFix.issue;
+        Incident hint = (Incident)quickFix.issue;
         String type = quickFix.type.type;
         if (QuickFixType.REPLACE.toString().equals(type) && new File(quickFix.file).getName().equals("pom.xml")) {
-            int lineNumber = ((Hint) quickFix.issue).lineNumber-1;
+            int lineNumber = ((Incident) quickFix.issue).getLineNumber()-1;
             String currentText = FileUtil.getLine(quickFix.file, lineNumber);
             if (currentText.contains(searchString)) {
                 FileUtil.replace(document, lineNumber, searchString, replacementString);
@@ -91,17 +91,17 @@ public class QuickfixUtil {
             return null;
         }
         else if (QuickFixType.REPLACE.toString().equals(type)) {
-            int lineNumber = hint.lineNumber-1;
+            int lineNumber = hint.getLineNumber()-1;
             FileUtil.replace(document, lineNumber, searchString, replacementString);
             return document.get();
         }
         else if (QuickFixType.DELETE_LINE.toString().equals(type)) {
-            int lineNumber = hint.lineNumber-1;
+            int lineNumber = hint.getLineNumber()-1;
             FileUtil.deleteLine(document, lineNumber);
             return document.get();
         }
         else if (QuickFixType.INSERT_LINE.toString().equals(type)) {
-            int lineNumber = hint.lineNumber;
+            int lineNumber = hint.getLineNumber();
             lineNumber = lineNumber > 1 ? lineNumber - 2 : lineNumber-1;
             String newLine = replacementString;
             try {

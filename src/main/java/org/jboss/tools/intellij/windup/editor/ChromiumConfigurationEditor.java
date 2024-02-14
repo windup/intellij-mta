@@ -6,10 +6,10 @@ package org.jboss.tools.intellij.windup.editor;
 import com.intellij.openapi.Disposable;
 import com.intellij.ui.jcef.JBCefApp;
 import com.intellij.ui.jcef.JBCefBrowser;
-import org.cef.browser.CefBrowser;
 import org.jboss.tools.intellij.windup.editor.server.ConfigurationEditorVerticle;
 import org.jboss.tools.intellij.windup.editor.server.VertxService;
 import org.jboss.tools.intellij.windup.model.WindupConfiguration;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
 
 import javax.swing.*;
 

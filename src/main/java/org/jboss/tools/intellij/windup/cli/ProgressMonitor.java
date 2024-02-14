@@ -23,6 +23,13 @@ public class ProgressMonitor {
         String task = "";
         int totalWork = 0;
         String value = "";
+
+        public ProgressMessage(String op, String task, int totalWork, String value) {
+            this.op = op;
+            this.task = task;
+            this.totalWork = totalWork;
+            this.value = value;
+        }
     }
 
     private IProgressListener progressListener;
@@ -35,6 +42,7 @@ public class ProgressMonitor {
     private boolean done = false;
 
     public ProgressMonitor(IProgressListener progressListener) {
+        //System.out.println("This is the progressMonitor.");
         this.progressListener = progressListener;
     }
 
@@ -163,7 +171,7 @@ public class ProgressMonitor {
     }
 
     public static ProgressMessage parse(JsonObject json) throws JsonSyntaxException {
-        ProgressMonitor.ProgressMessage msg = new ProgressMonitor.ProgressMessage();
+        ProgressMonitor.ProgressMessage msg = new ProgressMonitor.ProgressMessage("","",0,"");
         msg.op = json.get("op").getAsString();
         if (json.has("value")) {
             msg.value = json.get("value").getAsString();

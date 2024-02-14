@@ -1,9 +1,10 @@
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Red Hat. All rights reserved.
  *--------------------------------------------------------------------------------------------*/
-package org.jboss.tools.intellij.windup.model;
+package org.jboss.tools.intellij.mta.model;
 
 import com.intellij.openapi.project.Project;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 import org.jboss.tools.intellij.windup.services.ModelService;
 import org.junit.Test;
 import org.junit.Before;

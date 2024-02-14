@@ -33,16 +33,16 @@ public class RunConfigurationAction extends StructureTreeAction {
         WindupConfiguration configuration = node.getValue();
         ModelService modelService = node.getModelService();
         if (this.validateConfiguration(configuration)) {
-            String executable = (String)configuration.getOptions().get("cli");
             try {
-                String windupHome = new File(executable).getParentFile().getParent();
-                List<String> params = WindupCliParamBuilder.buildParams(configuration, windupHome);
+                List<String> params = KantraCliParamBuilder.buildParams(configuration);
                 RunAnalysisCommandHandler handler = new RunAnalysisCommandHandler(
                         anActionEvent.getProject(),
-                        executable,
                         params,
                         console,
-                        () -> this.loadAnalysisResults(configuration, modelService, node.getTreeModel()));
+                        () ->{
+                            this.loadAnalysisResults(configuration, modelService, node.getTreeModel());
+                            //System.out.println("********************This is an end of Action performed*********************");
+                        });
                 RunConfigurationAction.running = true;
                 handler.runAnalysis();
             }
@@ -73,31 +73,32 @@ public class RunConfigurationAction extends StructureTreeAction {
         WindupConfiguration.AnalysisResultsSummary summary = new WindupConfiguration.AnalysisResultsSummary(modelService);
         summary.outputLocation = (String)configuration.getOptions().get("output");
         configuration.setSummary(summary);
-        WindupResultsParser.loadAndPersistIDs(configuration, summary.outputLocation);
-        WindupResultsParser.parseResults(configuration);
+        RulesetParser.parseRulesetForKantraConfig(configuration);
+        System.out.println(configuration.getSummary().getIssues().size());
         modelService.saveModel();
         treeModel.invalidate();
     }
 
     private boolean validateConfiguration(WindupConfiguration configuration) {
         boolean valid = true;
-        String cliLocation = (String)configuration.getOptions().get("cli");
+       // String cliLocation = (String)configuration.getOptions().get("cli");
+        String cliLocation = "trying to avoid the cli ERROR";
         if (cliLocation == null || "".equals(cliLocation)) {
             valid = false;
             WindupNotifier.notifyError("Path to CLI executable required.");
         }
-        else if (cliLocation != null) {
-            cliLocation = this.resolveCliPath(cliLocation);
-            configuration.getOptions().put("cli", cliLocation);
-            if (!new File(cliLocation).exists()) {
-                valid = false;
-                WindupNotifier.notifyError("Path to CLI executable does not exist.");
-            }
-            else if (!Files.isExecutable(Paths.get(cliLocation))) {
-                valid = false;
-                WindupNotifier.notifyError("Path to CLI executable is not executable.");
-            }
-        }
+//        else if (cliLocation != null) {
+//            cliLocation = this.resolveCliPath(cliLocation);
+//            configuration.getOptions().put("cli", cliLocation);
+//            if (!new File(cliLocation).exists()) {
+//                valid = false;
+//                WindupNotifier.notifyError("Path to CLI executable does not exist.");
+//            }
+//            else if (!Files.isExecutable(Paths.get(cliLocation))) {
+//                valid = false;
+//                WindupNotifier.notifyError("Path to CLI executable is not executable.");
+//            }
+//        }
         List<String> input = (List<String>)configuration.getOptions().get("input");
         if (input == null || input.isEmpty()) {
             WindupNotifier.notifyError("Path to input required.");
@@ -115,9 +116,26 @@ public class RunConfigurationAction extends StructureTreeAction {
             valid = false;
             WindupNotifier.notifyError("Output path is required.");
         }
+        if (!isDirectoryEmpty(output)) {
+            if (!configuration.getOptions().containsKey("overwrite")){
+                valid = false;
+                WindupNotifier.notifyError("Output already exists, --overwrite not set.");
+            }
+        }
+
         return valid;
     }
 
+    public static boolean isDirectoryEmpty(String path) {
+        File directory = new File(path);
+
+        if (!directory.exists() || !directory.isDirectory()) {
+            System.out.println("Error: Directory does not exist!");
+            return true;
+        }
+        String[] contents = directory.list();
+        return contents == null || contents.length == 0;
+    }
     @Override
     public boolean isVisible(Object[] selected) {
         if (selected.length == 0) return false;

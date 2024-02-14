@@ -1,4 +1,4 @@
-package org.jboss.tools.intellij.windup.utils;
+package org.jboss.tools.intellij.mta.utils;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.project.Project;

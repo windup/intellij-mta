@@ -4,14 +4,14 @@
 package org.jboss.tools.intellij.windup.cli;
 
 import com.google.common.collect.Lists;
-import org.jboss.tools.intellij.windup.model.KantraConfiguration;
+import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 
 import java.util.List;
 import java.util.Map;
 
 public class KantraCliParamBuilder {
 
-    public static List<String> buildParams(KantraConfiguration config, String windupHome) {
+    public static List<String> buildParams(WindupConfiguration config) {
         List<String> params = Lists.newArrayList();
         Map<String, Object> options = config.getOptions();
         params.add("analyze");
@@ -26,15 +26,30 @@ public class KantraCliParamBuilder {
         String output = (String)options.get("output");
         params.add(output);
 
+        if (options.containsKey("analyze-known-libraries")) {
+            params.add("--analyze-known-libraries");
+        }
+
+        // overwrite
+        if (options.containsKey("overwrite")) {
+            params.add("--overwrite");
+        }
+
+        if (options.containsKey("source-only")) {
+            params.add("--mode");
+            params.add("source-only");
+        }
+
         // target
         List<String> target = (List<String>)options.get("target");
         if (target == null || target.isEmpty()) {
             target = Lists.newArrayList();
             target.add("eap7");
         }
-        params.add("--target");
+      //  params.add("--target");
 
         for (String aTarget : target) {
+            params.add("--target");
             params.add(aTarget);
         }
 //        params.add(String.join(",", target));

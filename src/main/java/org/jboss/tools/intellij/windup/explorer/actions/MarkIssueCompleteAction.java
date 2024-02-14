@@ -7,7 +7,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.treeStructure.Tree;
 import org.jboss.tools.intellij.windup.explorer.WindupTreeCellRenderer;
 import org.jboss.tools.intellij.windup.explorer.nodes.IssueNode;
-import org.jboss.tools.intellij.windup.model.WindupConfiguration;
 
 import javax.swing.tree.TreePath;
 

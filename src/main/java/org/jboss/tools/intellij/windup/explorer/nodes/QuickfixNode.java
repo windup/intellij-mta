@@ -56,7 +56,7 @@ public class QuickfixNode extends WindupExplorerNode<WindupConfiguration.QuickFi
         return this.hintNode;
     }
 
-    public WindupConfiguration.Hint getHint() {
+    public WindupConfiguration.Incident getHint() {
         return this.hintNode.getValue();
     }
 }

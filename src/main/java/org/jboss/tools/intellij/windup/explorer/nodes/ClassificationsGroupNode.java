@@ -4,7 +4,6 @@
 package org.jboss.tools.intellij.windup.explorer.nodes;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
@@ -13,9 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ClassificationsGroupNode extends ResourceNode {
