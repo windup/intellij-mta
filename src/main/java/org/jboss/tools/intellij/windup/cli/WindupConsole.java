@@ -23,7 +23,7 @@ public class WindupConsole {
     public void init(Project project, OSProcessHandler handler, String commandLine) {
         Runnable r = () -> {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            String name = "Console (MTR)";
+            String name = "Console (MTA)";
             ToolWindow window = manager.getToolWindow(name);
 
             if (window == null) {
