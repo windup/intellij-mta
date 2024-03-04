@@ -770,18 +770,23 @@ class ConfigClient {
     }
     promptExternal(option) {
         this._services.promptExternal(option).then(data => {
-            console.log(`SUCCESS promptExternal !!! ${data}`);
-            console.log(`SUCCESS promptExternal !!! ${data}`);
-            console.log('option:');
-            console.log(option);
-            this.store.config.options = data.options;
-            console.log('options:');
-            console.log(data.options);
-            const optionMeta = this.elementData.options.find((item) => {
-                return item.name === option.name;
-            });
-            console.log('new option:');
-            console.log(optionMeta);
+            console.log(`SUCCESS promptExternal !!!`, data);
+            console.log('option:', option);
+            console.log('this.store.config.options before update:', this.store.config.options);
+
+            if (option.name === 'input' && option['ui-type'].includes('many')) {
+                console.log('THE MAIN CONDITION');
+                let newInput = data.options.input[data.options.input.length - 1];
+                this.store.config.options.input = [newInput];
+            } else {
+                this.store.config.options[option.name] = data.options[option.name];
+            }
+
+            console.log('this.store.config.options after update:', this.store.config.options);
+
+            const optionMeta = this.elementData.options.find(item => item.name === option.name);
+            console.log('new option meta:', optionMeta);
+
             this.bindOption(optionMeta, this.store.config);
         }).catch(e => {
             console.log(`exception promptExternal - ${e}`);

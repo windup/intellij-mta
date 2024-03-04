@@ -8,7 +8,7 @@
         },
         {
             "name": "input",
-            "description": "Input files or directories (directories are required for source mode).",
+            "description": "Input file or directory (directory is required for source mode). Note: Select only one PATH at a time.",
             "type": "Path",
             "ui-type": ["many", "file_or_directory", "text"],
             "placeholder": "No Files or Directories Specified",
