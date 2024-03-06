@@ -358,11 +358,12 @@ class ConfigClient {
     }
 
     updateRulesetsOption() {
-        const option = 'userRulesDirectory';
+        const option = 'rules';
         let values = this.store.config.options[option] || [];
         $(`#recent-table .option-input:checkbox:checked`).each((index, value) => {
             values.push($(value).data('option-item'));
         });
+        console.log("value: ", values);
         this.updateOption({ name: option, value: values });
     }
 
@@ -656,21 +657,25 @@ class ConfigClient {
         const input = config.options[option.name];
         const table = $(`#${option.name}-table`);
         const placeholder = $(`#${option.name}-placeholder`);
-        const addButton = this.createAddButton();
+
+        if (option.name === 'input'){
+            const addButton = this.createAddButton();
 
 // Clear the placeholder content and set it up as a flex container
-        placeholder.empty().css({
-            'display': 'flex',
-            'flex-direction': 'column', // Stack children vertically
-            'align-items': 'center' // Center children horizontally
-        });
+            placeholder.empty().css({
+                'display': 'flex',
+                'flex-direction': 'column', // Stack children vertically
+                'align-items': 'center' // Center children horizontally
+            });
 
 // Append the text
-        placeholder.append($('<div>').text('No Files or Directories Specified'));
+            placeholder.append($('<div>').text('No Files or Directories Specified'));
 
 // Append the 'Add' button
-        placeholder.append(addButton);
-        this.bindAddButton(option, addButton);
+            placeholder.append(addButton);
+            this.bindAddButton(option, addButton);
+        }
+
         if (!input || input.length === 0) {
             placeholder.show();
         }

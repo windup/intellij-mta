@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ConfigurationEditorProvider implements FileEditorProvider, PossiblyDumbAware {
 
-    public static final String EDITOR_TYPE_ID = "Windup Configuration";
+    public static final String EDITOR_TYPE_ID = "Kantra Configuration";
 
     public boolean accept(@NotNull Project project, @NotNull VirtualFile file) {
         return file instanceof ConfigurationFile;
@@ -44,7 +44,7 @@ public class ConfigurationEditorProvider implements FileEditorProvider, Possibly
 
     @NotNull
     public FileEditorPolicy getPolicy() {
-        return FileEditorPolicy.PLACE_AFTER_DEFAULT_EDITOR;
+        return FileEditorPolicy.HIDE_DEFAULT_EDITOR;
     }
 
     @Override

@@ -124,9 +124,9 @@
           bindCommonElements();
 
           function bindOptions() {
-            $('#userRulesDirectory').keyup(function(e){
+            $('#rules').keyup(function(e){
               if (e.which !== 0) {
-                configClient.updateOption({name: 'userRulesDirectory', value: $(this).val()});
+                configClient.updateOption({name: 'rules', value: $(this).val()});
               }
             });
           }
@@ -217,8 +217,8 @@
                 case 'overwrite': {
                   break;
                 }       
-                case 'userRulesDirectory': {
-                  $('#userRulesDirectoryText').val(value);
+                case 'rules': {
+                  $('#rulesText').val(value);
                   break;
                 }
                 case 'userIgnorePath': {

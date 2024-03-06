@@ -60,7 +60,7 @@ public class WindupCliProcessHandler extends OSProcessHandler {
             }
             return;
         }
-        if (text.contains("userRulesDirectory")) {
+        if (text.contains("rules")) {
             progressIndicator.setText("Preparing analysis configuration...");
         }
         else if (text.contains("Reading tags definitions")) {
