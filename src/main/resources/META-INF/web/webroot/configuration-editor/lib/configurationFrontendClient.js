@@ -316,10 +316,12 @@ class ConfigClient {
         toolbar.style.justifyContent = 'flex-start';
         toolbar.style.marginTop = '10px';
         top.appendChild(toolbar);
-        const addButton = this.createAddButton();
-        toolbar.appendChild(addButton);
-        this.bindAddButton(option, addButton);
-        
+
+        if(!(option['ui-type'].includes('many') && option.name === 'input')){
+            const addButton = this.createAddButton();
+            toolbar.appendChild(addButton);
+            this.bindAddButton(option, addButton);
+        }
         if (option['ui-type'].includes('recent')) {
             const recentButton = this.createRecentButton();
             recentButton.style.marginLeft = '5px';
@@ -654,6 +656,21 @@ class ConfigClient {
         const input = config.options[option.name];
         const table = $(`#${option.name}-table`);
         const placeholder = $(`#${option.name}-placeholder`);
+        const addButton = this.createAddButton();
+
+// Clear the placeholder content and set it up as a flex container
+        placeholder.empty().css({
+            'display': 'flex',
+            'flex-direction': 'column', // Stack children vertically
+            'align-items': 'center' // Center children horizontally
+        });
+
+// Append the text
+        placeholder.append($('<div>').text('No Files or Directories Specified'));
+
+// Append the 'Add' button
+        placeholder.append(addButton);
+        this.bindAddButton(option, addButton);
         if (!input || input.length === 0) {
             placeholder.show();
         }
