@@ -54,6 +54,16 @@ public class KantraCliParamBuilder {
         }
 //        params.add(String.join(",", target));
 
+
+        // source
+        List<String> source = (List<String>)options.get("source");
+        if (source != null && !source.isEmpty()) {
+            for (String aSource : source) {
+                params.add("--source");
+                params.add(aSource);
+            }
+        }
+        //  params.add("--target");
         return params;
     }
 }
