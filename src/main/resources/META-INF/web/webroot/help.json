@@ -169,7 +169,7 @@
         },
         {
             "name": "rules",
-            "description": "User Rules Directory (Search pattern: *.windup.groovy, *.windup.xml).",
+            "description": "User Rules Directory or filename containing custom rules.",
             "type": "Path",
             "ui-type": ["many", "file_or_directory", "text"],
             "placeholder": "No Directories Specified",
