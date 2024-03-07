@@ -168,6 +168,15 @@
             "editable": true
         },
         {
+            "name": "rules",
+            "description": "User Rules Directory or filename containing custom rules.",
+            "type": "Path",
+            "ui-type": ["many", "file_or_directory", "text"],
+            "placeholder": "No Directories Specified",
+            "required": false,
+            "editable": true
+        },
+        {
             "name": "source-only",
             "description": "Indicates whether analysis mode. Must be one of 'full' or 'source-only' (Default: full).",
             "type": "Boolean",

@@ -24,7 +24,7 @@ public class ConfigurationEditorWrapper extends UserDataHolderBase implements Fi
 
     private static final Logger LOGGER = Logger.getInstance(ConfigurationEditorWrapper.class);
 
-    public static final String EDITOR_NAME = "Windup Configuration";
+    public static final String EDITOR_NAME = "Kantra Configuration";
 
     protected final VirtualFile file;
 

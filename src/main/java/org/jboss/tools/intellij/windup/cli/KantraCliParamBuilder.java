@@ -30,6 +30,20 @@ public class KantraCliParamBuilder {
             params.add("--analyze-known-libraries");
         }
 
+        // userRulesDirectory
+        List<String> rules = (List<String>)options.get("rules");
+        if (rules != null && !rules.isEmpty()) {
+           // params.add("--userRulesDirectory");
+//            List<String> pathStrings = Lists.newArrayList();
+//            rules.forEach(path -> pathStrings.add("\""+ path + "\""));
+            for (String aPathStrings : rules) {
+                params.add("--rules");
+                params.add(aPathStrings);
+            }
+           // params.add(String.join(" ", pathStrings));
+        }
+
+
         // overwrite
         if (options.containsKey("overwrite")) {
             params.add("--overwrite");

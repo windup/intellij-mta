@@ -180,10 +180,10 @@ public class ConfigurationEditorVerticle extends AbstractVerticle implements Han
         System.out.println("promptExternal begin");
         JsonObject option = ctx.getBodyAsJson();
         String optionName = option.getString("name");
-        boolean chooseFiles = !optionName.equals("userRulesDirectory");
+        //boolean chooseFiles = !optionName.equals("rules");
         boolean chooseMultiple = ((JsonArray)option.getValue("ui-type")).contains("many");
         FileChooserDescriptor descriptor = new FileChooserDescriptor(
-                chooseFiles,
+                true,
                 true,
                 false,
                 false,
