@@ -47,21 +47,6 @@
                     text="Run Analysis"
                     icon="AllIcons.Actions.Execute">
             </action>
-            <action class="org.jboss.tools.intellij.windup.explorer.actions.PreviewQuickfixAction"
-                    id="org.jboss.tools.intellij.windup.explorer.actions.PreviewQuickfixAction"
-                    text="Preview Quickfix"
-                    icon="AllIcons.Diff.Compare3LeftMiddle">
-            </action>
-            <action class="org.jboss.tools.intellij.windup.explorer.actions.ApplyQuickfixAction"
-                    id="org.jboss.tools.intellij.windup.explorer.actions.ApplyQuickfixAction"
-                    text="Apply Quickfix"
-                    icon="AllIcons.Diff.ApplyNotConflicts">
-            </action>
-            <action class="org.jboss.tools.intellij.windup.explorer.actions.ApplyAllQuickfixAction"
-                    id="org.jboss.tools.intellij.windup.explorer.actions.ApplyAllQuickfixAction"
-                    text="Apply All Quickfixes"
-                    icon="AllIcons.Diff.ApplyNotConflicts">
-            </action>
             <action class="org.jboss.tools.intellij.windup.details.OpenIssueDetailsAction"
                     id="org.jboss.tools.intellij.windup.details.OpenIssueDetailsAction"
                     text="Show More Details"
