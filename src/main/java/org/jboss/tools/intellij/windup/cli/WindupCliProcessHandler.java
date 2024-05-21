@@ -11,6 +11,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import org.jboss.tools.intellij.windup.explorer.actions.RunConfigurationAction;
+import org.jboss.tools.intellij.windup.explorer.dialog.WindupNotifier;
 import org.jetbrains.annotations.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -96,6 +97,9 @@ public class WindupCliProcessHandler extends OSProcessHandler {
             ProgressMonitor.ProgressMessage msg = new ProgressMonitor.ProgressMessage("complete", "", 20, "");
             progressMonitor.handleMessage(msg);
             progressIndicator.setFraction(1);
+            WindupNotifier.notifyInformation("Analysis is completed.");
+            console.print("Analysis completed successfully. \n", ConsoleViewContentType.LOG_INFO_OUTPUT);
+
         }
         else if (text.contains("Error")) {
             System.out.println(text + "---------------------------------------: detected ");
