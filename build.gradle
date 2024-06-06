@@ -1,21 +1,17 @@
 plugins {
-    id "org.jetbrains.intellij" version "0.4.21"
-    id 'java'
+    id "org.jetbrains.intellij" version "1.10.0"
+    id "java"
     id "idea"
 }
 
-apply plugin: 'idea'
-apply plugin: 'org.jetbrains.intellij'
-apply plugin: 'java'
-
 group 'org.jboss.tools.intellij'
-version projectVersion
+version project.hasProperty('projectVersion') ? project.property('projectVersion') : '1.0.0'
 
 intellij {
-    version ideaVersion
-    pluginName 'org.jboss.tools.intellij.mta'
-    updateSinceUntilBuild false
-    plugins 'java'
+    version = project.hasProperty('ideaVersion') ? project.property('ideaVersion') : '2021.2.3'
+    pluginName = 'org.jboss.tools.mta'
+    updateSinceUntilBuild = false
+    plugins = ['java']
 }
 
 task copyResources(type: Copy) {
@@ -34,17 +30,16 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.4'
 
-
     compile files(new File(buildDir, 'resources/resources')) {
         builtBy 'copyResources'
     }
 
-    testCompile 'org.mockito:mockito-core:2.28.2'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
 }
 
 publishPlugin {
-    token    jetBrainsToken
-    channels jetBrainsChannel
+    token = project.hasProperty('jetBrainsToken') ? project.property('jetBrainsToken') : ''
+    channels = project.hasProperty('jetBrainsChannel') ? [project.property('jetBrainsChannel')] : ['default']
 }
 
 repositories {
@@ -57,4 +52,15 @@ repositories {
     maven {
         url "https://mvnrepository.com"
     }
+}
+
+// Using the 'tasks' block to configure the runPluginVerifier task correctly
+tasks.withType(org.jetbrains.intellij.tasks.RunPluginVerifierTask) {
+    ideVersions = ['IC-2021.1', 'IC-2021.2', 'IC-2021.3'] // Adjusted IDE versions to available versions
+    downloadDir = "$buildDir/pluginVerifier/ides"
+    verificationReportsDir = "$buildDir/pluginVerifier/reports"
+    failureLevel = ['COMPATIBILITY_PROBLEMS', 'INVALID_PLUGIN'].collect {
+        org.jetbrains.intellij.tasks.RunPluginVerifierTask.FailureLevel.valueOf(it)
+    }
+
 }
