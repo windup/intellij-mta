@@ -1,14 +1,14 @@
 plugins {
-    id "org.jetbrains.intellij" version "1.10.0"
+    id "org.jetbrains.intellij" version "1.7.0"
     id "java"
     id "idea"
 }
 
 group 'org.jboss.tools.intellij'
-version project.hasProperty('projectVersion') ? project.property('projectVersion') : '1.0.0'
+version project.hasProperty('projectVersion') ? project.property('projectVersion') : '7.0.3'
 
 intellij {
-    version = project.hasProperty('ideaVersion') ? project.property('ideaVersion') : '2021.2.3'
+    version = project.hasProperty('ideaVersion') ? project.property('ideaVersion') : '2022.2'
     pluginName = 'org.jboss.tools.mta'
     updateSinceUntilBuild = false
     plugins = ['java']
@@ -56,7 +56,7 @@ repositories {
 
 // Using the 'tasks' block to configure the runPluginVerifier task correctly
 tasks.withType(org.jetbrains.intellij.tasks.RunPluginVerifierTask) {
-    ideVersions = ['IC-2021.1', 'IC-2021.2', 'IC-2021.3'] // Adjusted IDE versions to available versions
+    ideVersions = ['IC-2022.2', 'IC-2021.2', 'IC-2021.3'] // Adjusted IDE versions to available versions
     downloadDir = "$buildDir/pluginVerifier/ides"
     verificationReportsDir = "$buildDir/pluginVerifier/reports"
     failureLevel = ['COMPATIBILITY_PROBLEMS', 'INVALID_PLUGIN'].collect {
