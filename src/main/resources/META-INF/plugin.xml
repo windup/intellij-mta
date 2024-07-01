@@ -10,7 +10,7 @@
       <p>Read more about MTA <a href="https://developers.redhat.com/products/mtr/download">here</a>.</p>
     ]]></description>
 
-    <idea-version since-build="212"/>
+    <idea-version since-build="222"/>
 
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.java</depends>
