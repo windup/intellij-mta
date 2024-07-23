@@ -27,14 +27,14 @@ public class WindupCliRunner {
                            ProgressMonitor progressMonitor,
                            CliListener listener) {
         String javaHome = "";
-        String windupCli = "kantra";
-        List<String> params = KantraCliParamBuilder.buildParams(configuration);
+        String windupCli = (String)configuration.getOptions().get("cli");
+        List<String> params = KantraCliParamBuilder.buildParams(configuration, windupCli);
         WindupCliRunner.executeAnalysis(windupCli, javaHome, params, progressMonitor, listener);
     }
 
     private static void executeAnalysis(String cli, String javaHome, List<String> params, ProgressMonitor progressMonitor, CliListener listener) {
         System.out.println("execute CLI");
-        CommandLine cmdLine = CommandLine.parse("kantra");
+        CommandLine cmdLine = CommandLine.parse(cli);
         Map<String, String> env = Maps.newHashMap();
         for (Map.Entry<String, String> entry : System.getenv().entrySet()) {
             env.put(entry.getKey(), entry.getValue());
