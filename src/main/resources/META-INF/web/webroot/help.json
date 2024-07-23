@@ -7,6 +7,13 @@
             "required": true
         },
         {
+            "name": "cli",
+            "description": "Path to migration toolkit executable.",
+            "type": "File",
+            "ui-type": ["file"],
+            "required": true
+        },
+        {
             "name": "input",
             "description": "Input file or directory (a directory is required for source mode). Note: Please select only one path at a time. To change the input entry, use the cancel button.",
             "type": "Path",
