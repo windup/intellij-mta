@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.jboss.tools.intellij'
-version project.hasProperty('projectVersion') ? project.property('projectVersion') : '7.0.3'
+version project.hasProperty('projectVersion') ? project.property('projectVersion') : '7.1.0'
 
 intellij {
     version = project.hasProperty('ideaVersion') ? project.property('ideaVersion') : '2022.2'
