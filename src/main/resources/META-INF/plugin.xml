@@ -61,5 +61,9 @@
                     icon="AllIcons.Actions.Refresh">
             </action>
         </group>
+        <group id="org.jboss.tools.intellij.windup.abbreviations" popup="false">
+            <action id="FocusMTAConsoleAction" class="org.jboss.tools.intellij.windup.abbreviations.actions.FocusMTAConsoleAction" text="Focus MTA Console">
+            </action>
+        </group>
     </actions>
 </idea-plugin>
