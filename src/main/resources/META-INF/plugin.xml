@@ -61,5 +61,10 @@
                     icon="AllIcons.Actions.Refresh">
             </action>
         </group>
+        <group id="org.jboss.tools.intellij.windup.abbreviations" popup="false">
+            <action id="FocusMTATabAction" class="org.jboss.tools.intellij.windup.abbreviations.actions.FocusMTATabAction" text="Focus MTA Tab">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift alt M"/>
+            </action>
+        </group>
     </actions>
 </idea-plugin>
