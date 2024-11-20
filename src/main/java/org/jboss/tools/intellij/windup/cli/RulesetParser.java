@@ -1,6 +1,7 @@
 package org.jboss.tools.intellij.windup.cli;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.jboss.tools.intellij.windup.model.WindupConfiguration.*;
@@ -22,6 +23,9 @@ public class RulesetParser {
             currentThread.setContextClassLoader(jacksonClassLoader);
 
             ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+            // Configure to ignore unknown properties
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
             File yamlFile = new File(resultFilePath);
             List<WindupConfiguration.Ruleset> ruleSets = objectMapper.readValue(
                     yamlFile, new TypeReference<List<WindupConfiguration.Ruleset>>(){}
@@ -78,9 +82,9 @@ public class RulesetParser {
                             String input = inputs.get(0);
                             String filePath =  incident.getUri();;
                             incident.ruleId = entry.getKey();
-                            String absolutePath = filePath.substring(filePath.indexOf("/source-code") + "/source-code".length());
-                           // System.out.println("input:  " + input);
-                           // System.out.println("Absolute path:  "+input + absolutePath);
+                            //System.out.println("-----------filePath-------------:  " + filePath);
+                            String absolutePath = filePath.substring(filePath.indexOf("/opt/input/source") + "/opt/input/source".length());
+                           // System.out.println("------------------ Absolute path -------------:  " + input + absolutePath);
                             incident.file = input + absolutePath;
                             incident.setUri(input + absolutePath);
                            // System.out.println("File path of the incidents:  " + incident.file);
