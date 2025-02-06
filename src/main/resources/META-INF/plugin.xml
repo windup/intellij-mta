@@ -65,6 +65,8 @@
             <action id="FocusMTATabAction" class="org.jboss.tools.intellij.windup.abbreviations.actions.FocusMTATabAction" text="Focus MTA Tab">
                 <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift alt M"/>
             </action>
+            <action id="FocusMTAConsoleAction" class="org.jboss.tools.intellij.windup.abbreviations.actions.FocusMTAConsoleAction" text="Focus MTA Console">
+            </action>
         </group>
     </actions>
 </idea-plugin>
